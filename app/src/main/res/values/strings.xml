@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">UniCalendar</string>
+    <string name="email">Email</string>
+    <string name="hai_dimenticato_la_password">Hai dimenticato la password?</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="non_sei_reigistrato_registrati">Non sei reigistrato? Registrati!</string>
+    <string name="sign_up">Sign Up!</string>
 </resources>

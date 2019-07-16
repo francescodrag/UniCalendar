@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "408392535484",
+    "firebase_url": "https://unicalendar-92b53.firebaseio.com",
+    "project_id": "unicalendar-92b53",
+    "storage_bucket": "unicalendar-92b53.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408392535484:android:35fbe30d5f3094e4",
+        "android_client_info": {
+          "package_name": "com.example.fradra.unicalendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408392535484-hnavd29jjb52gb42cma9suc1jn10pkd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhuR50l1DJP7ZCXlm58GNYbO5Ir1Yz3ck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408392535484-hnavd29jjb52gb42cma9suc1jn10pkd1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408392535484:android:e21ef91364ef759b",
+        "android_client_info": {
+          "package_name": "com.fran.unicalendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408392535484-vpofgk71iqtnv03e2eiucb38cav8ste2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fran.unicalendar",
+            "certificate_hash": "c359c404723ceb07ef83c7771bf798d9a3aab036"
+          }
+        },
+        {
+          "client_id": "408392535484-hnavd29jjb52gb42cma9suc1jn10pkd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhuR50l1DJP7ZCXlm58GNYbO5Ir1Yz3ck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408392535484-hnavd29jjb52gb42cma9suc1jn10pkd1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
