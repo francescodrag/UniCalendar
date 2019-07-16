@@ -104,15 +104,21 @@ public class LoginActivity extends AppCompatActivity {
 
     //è un metodo che gestisce il login
     private void valida(String userEmail, String userPassword) {
-
+/*
         if (userEmail.equals("") && userPassword.equals("")) {
             checkCounter();
+
             Toast.makeText(LoginActivity.this, "Inserisci Email e Password", Toast.LENGTH_LONG).show();
-        } else if (userEmail.equals("")) {
+        } else */
+        if (userEmail.equals("")) {
             checkCounter();
+            Email.setError("Il campo email non puo' essere vuoto.\nInserisci l'email per favore.");
+            Email.requestFocus();
             Toast.makeText(LoginActivity.this, "Inserisci Email", Toast.LENGTH_LONG).show();
         } else if (userPassword.equals("")) {
             checkCounter();
+            Password.setError("Il campo password non puo' essere vuoto.\nInserisci la password per favore.");
+            Password.requestFocus();
             Toast.makeText(LoginActivity.this, "Inserisci Password", Toast.LENGTH_LONG).show();
         } else {
             progressDialog.setMessage("Login in corso...");
@@ -145,6 +151,7 @@ public class LoginActivity extends AppCompatActivity {
             Login.setEnabled(false); //disabilita il bottone del login
         }
     }
+
 
     private void checkEmailVerification() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
