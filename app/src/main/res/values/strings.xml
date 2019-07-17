@@ -6,4 +6,9 @@
     <string name="login">Login</string>
     <string name="non_sei_reigistrato_registrati">Non sei reigistrato? Registrati!</string>
     <string name="sign_up">Sign Up!</string>
+    <string name="nome">Nome:</string>
+    <string name="nome1">Nome</string>
+    <string name="cognome">Cognome:</string>
+    <string name="cognome1">Cognome</string>
+    <string name="name">Name</string>
 </resources>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="tipologies">
+        <item>Laurea Triennale</item>
+        <item>Laurea Magistrale</item>
+        <item>Laurea Magistrale a Ciclo Unico di 5 Anni</item>
+        <item>Laurea Magistrale a Ciclo Unico di 6 Anni</item>
+    </string-array>
+
+    <string-array name="Triennale">
+        <item>Primo Anno</item>
+        <item>Secondo Anno</item>
+        <item>Terzo Anno</item>
+    </string-array>
+
+    <string-array name="Magistrale">
+        <item>Primo Anno</item>
+        <item>Secondo Anno</item>
+    </string-array>
+
+    <string-array name="Magistrale_ciclo_unico_di_5_anni">
+        <item>Primo Anno</item>
+        <item>Secondo Anno</item>
+        <item>Terzo Anno</item>
+        <item>Quarto Anno</item>
+        <item>Quinto Anno</item>
+    </string-array>
+
+    <string-array name="Magistrale_ciclo_unico_di_6_anni">
+        <item>Primo Anno</item>
+        <item>Secondo Anno</item>
+        <item>Terzo Anno</item>
+        <item>Quarto Anno</item>
+        <item>Quinto Anno</item>
+        <item>Sesto Anno</item>
+    </string-array>
+
+    <string-array name="Universities">
+        <item>Universita\' degli Studi di Salerno</item>
+        <item>Universita\' degli Studi di Napoli - Federico II</item>
+        <item>Universita\' degli Studi di Napoli - L\'Orientale</item>
+        <item>Universita\' degli Studi di Napoli - Parthenope</item>
+        <item>Universita\' degli Studi di Napoli - Suor Orsola Benincasa</item>
+        <item>Universita\' degli Studi del Sannio</item>
+        <item>Universita\' degli Studi della Campania - Luigi Vanvitelli</item>
+        -->
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Salerno_Triennale">
+        <item>Informatica</item>
+        <item>Chimica</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Salerno_Magistrale">
+        <item>IoT</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_5_anni">
+        <item>Giurisprudenza</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_6_anni">
+        <item>Medicina</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Federico_Triennale">
+        <item>Informatica Federico</item>
+        <item>Chimica</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Federico_Magistrale">
+        <item>IoT Federico</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_5_anni">
+        <item>Giurisprudenza Federico</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_6_anni">
+        <item>Medicina Federico</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+</resources>
