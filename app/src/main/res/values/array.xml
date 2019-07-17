@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="tipologies">
+        <item>Laurea Triennale</item>
+        <item>Laurea Magistrale</item>
+        <item>Laurea Magistrale a Ciclo Unico di 5 Anni</item>
+        <item>Laurea Magistrale a Ciclo Unico di 6 Anni</item>
+    </string-array>
+
+    <string-array name="Triennale">
+        <item>Primo Anno</item>
+        <item>Secondo Anno</item>
+        <item>Terzo Anno</item>
+    </string-array>
+
+    <string-array name="Magistrale">
+        <item>Primo Anno</item>
+        <item>Secondo Anno</item>
+    </string-array>
+
+    <string-array name="Magistrale_ciclo_unico_di_5_anni">
+        <item>Primo Anno</item>
+        <item>Secondo Anno</item>
+        <item>Terzo Anno</item>
+        <item>Quarto Anno</item>
+        <item>Quinto Anno</item>
+    </string-array>
+
+    <string-array name="Magistrale_ciclo_unico_di_6_anni">
+        <item>Primo Anno</item>
+        <item>Secondo Anno</item>
+        <item>Terzo Anno</item>
+        <item>Quarto Anno</item>
+        <item>Quinto Anno</item>
+        <item>Sesto Anno</item>
+    </string-array>
+
+    <string-array name="Universities">
+        <item>Universita\' degli Studi di Salerno</item>
+        <item>Universita\' degli Studi di Napoli - Federico II</item>
+        <item>Universita\' degli Studi di Napoli - L\'Orientale</item>
+        <item>Universita\' degli Studi di Napoli - Parthenope</item>
+        <item>Universita\' degli Studi di Napoli - Suor Orsola Benincasa</item>
+        <item>Universita\' degli Studi del Sannio</item>
+        <item>Universita\' degli Studi della Campania - Luigi Vanvitelli</item>
+
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Salerno_Triennale">
+        <item>Chimica</item>
+        <item>Discipline delle Arti Visive, della Musica e dello Spettacolo</item>
+        <item>Economia Aziendale</item>
+        <item>Economia e Commercio</item>
+        <item>Economia e Management</item>
+        <item>Economia, Valorizzazione, Gestione del Patrimonio Turistico</item>
+        <item>Filosofia</item>
+        <item>Fisica</item>
+        <item>Fisioterapia</item>
+        <item>Gestione e Valorizzazione delle risorse Agrarie e delle Aree Protette</item>
+        <item>Inferimieristica</item>
+        <item>Informatica</item>
+        <item>Ingegneria Chimica</item>
+        <item>Ingegneria Civile</item>
+        <item>Ingegneria Civile per l\'Ambiente ed il Territorio</item>
+        <item>Ingegneria Elettronica</item>
+        <item>Ingegneria Gestionale</item>
+        <item>Ingegneria Informatica</item>
+        <item>Ingegneria Meccanica</item>
+        <item>Lettere</item>
+        <item>Lingue e Culture Straniere</item>
+        <item>Matematica</item>
+        <item>Ostetricia</item>
+        <item>Scienze Ambientali</item>
+        <item>Scienze Biologiche</item>
+        <item>Scienze dei Beni Culturali</item>
+        <item>Scienze dell\'Amministrazione e dell\'Organizzazione</item>
+        <item>Scienze dell\'Educazione</item>
+        <item>Scienze della Comunicazione</item>
+        <item>Scienze delle Attivita\' Motorie, Sportive e dell\'Educazione Psicomotoria</item>
+        <item>Scienze Politiche e delle Relazioni Internazionali</item>
+        <item>Sociologia</item>
+        <item>Statistica per i Big Data</item>
+        <item>Studi Diplomatici, Internazionali e sulla sicurezza Globale</item>
+        <item>Tecniche di Radiologia Medica, per immagini e Radioterapia</item>
+        <item>Tecniche Erboristiche</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Salerno_Magistrale">
+        <item>Archeologia e Culture Antiche</item>
+        <item>Biologia</item>
+        <item>Business Innovation and Informatics - Business, Innovazione ed Informatica</item>
+        <item>Chimica</item>
+        <item>Computer Science - Informatica</item>
+        <item>Consulenza e Management Aziendale</item>
+        <item>Corporate Communication e Media</item>
+        <item>Digital Health and Bioinformatic Engineering</item>
+        <item>Economia</item>
+        <item>Economia Governo e Amministrazione</item>
+        <item>Filologia Moderna</item>
+        <item>Filologia, Letterature e Storia dell\'Antichita\'</item>
+        <item>Filosofia</item>
+        <item>Fisica</item>
+        <item>Gestione e Conservazione del Patrimonio Archivistico e Librario</item>
+        <item>Global Studied and Eu</item>
+        <item>Food Engineering</item>
+        <item>Ingegneria Chimica</item>
+        <item>Ingegneria Civile</item>
+        <item>Ingegneria Elettronica</item>
+        <item>Ingegneria Gestionale</item>
+        <item>Ingegneria Informatica</item>
+        <item>Ingegneria Meccanica</item>
+        <item>Ingegneria per l\'Ambiente ed il Territorio</item>
+        <item>Innovazioni per le Produzioni Agrarie Mediterranee</item>
+        <item>Lingue e Letterature Moderne</item>
+        <item>Linguistica e didattica dell\'Italiano nel contesto internazionale</item>
+        <item>Matematica</item>
+        <item>Politiche Territoriali e Cooperazione internazionale</item>
+        <item>Scienze Ambientali</item>
+        <item>Scienze dell\'Educazione permanente e della formazione continua </item>
+        <item>Scienze della Valutazione Motorio - Sportiva e Tecniche di Analisi e Progettazione dello Sport per Disabili</item>
+        <item>Scienze dello Spettacolo e della Produzione Multimediale</item>
+        <item>Scienze Pedagogiche</item>
+        <item>Scienze Statistiche per la Finanza</item>
+        <item>Sociologia e Politiche per il Territorio</item>
+        <item>Storia e Ctitica d\'Arte</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_5_anni">
+        <item>Chimica e Tecnologia Farmaceutiche</item>
+        <item>Farmacia</item>
+        <item>Giurisprudenza</item>
+        <item>Ingengeria Edile - Architettura</item>
+        <item>Scienze della Formazione Primaria</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_6_anni">
+        <item>Medicina e Chirurgia</item>
+        <item>Odontoiatria e protesi Dentaria</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Federico_Triennale">
+        <item>Archeologia, Storia delle Arti e Scienze del Patrimonio Culturale</item>
+        <item>Biotecnologie Biomolecolari e Industriali</item>
+        <item>Biotecnologie per la Salute</item>
+        <item>Biologia Generale e Applicata</item>
+        <item>Chimica</item>
+        <item>Chimica industriale</item>
+        <item>Controllo di qualita\'</item>
+        <item>Cultura e Amministrazione dei Beni Culturali</item>
+        <item>Culture digitali e della comunicazione</item>
+        <item>Dietistica</item>
+        <item>Economia aziendale</item>
+        <item>Economia delle Imprese Finanziarie</item>
+        <item>Economia e Commercio</item>
+        <item>Filosofia</item>
+        <item>Fisica</item>
+        <item>Fisioterapia</item>
+        <item>Igiene dentale</item>
+        <item>Infermieristica</item>
+        <item>Infermieristica pediatrica</item>
+        <item>Informatica</item>
+        <item>Informazione scientifica sul farmaco e sui prodotti diagnostici</item>
+        <item>Ingegneria Aerospaziale</item>
+        <item>Ingegneria Biomedica</item>
+        <item>Ingegneria Chimica</item>
+        <item>Ingegneria Civile</item>
+        <item>Ingegneria dell\'Automazione</item>
+        <item>Ingegneria delle Telecomunicazioni</item>
+        <item>Ingegneria Edile</item>
+        <item>Ingegneria Elettrica</item>
+        <item>Ingegneria Elettronica</item>
+        <item>Ingegneria Gestionale dei Progetti e delle Infrastrutture</item>
+        <item>Ingegneria Gestionale della Logistica e della Produzione</item>
+        <item>Ingegneria Informatica</item>
+        <item>Ingegneria Meccatronica</item>
+        <item>Ingegneria Meccanica</item>
+        <item>Ingegneria Navale</item>
+        <item>Ingegneria per l\'ambiente e il territorio</item>
+        <item>Lettere classiche</item>
+        <item>Lettere moderne</item>
+        <item>Lingue, culture e letterature moderne europee</item>
+        <item>Logopedia</item>
+        <item>Matematica</item>
+        <item>Ortottica e assistenza oftalmologica</item>
+        <item>Ostetricia</item>
+        <item>Ottica e Optometria</item>
+        <item>Scienze Agrarie, Forestali ed Ambientali</item>
+        <item>Scienze aeronautiche</item>
+        <item>Scienze Biologiche</item>
+        <item>Scienze del turismo ad indirizzo manageriale</item>
+        <item>Scienze dell\'Amministrazione e dell\'Organizzazione</item>
+        <item>Scienze dell\'architettura</item>
+        <item>Scienza e Ingegneria dei Materiali</item>
+        <item>Scienze e Tecniche Psicologiche</item>
+        <item>Scienze e tecnologie per la Natura e per l\'Ambiente</item>
+        <item>Scienze Erboristiche</item>
+        <item>Scienze Gastronomiche Mediterranee </item>
+        <item>Scienze Geologiche</item>
+        <item>Scienze Nutraceutiche</item>
+        <item>Scienze Politiche</item>
+        <item>Servizio Sociale</item>
+        <item>Sociologia</item>
+        <item>Statistica per l\'Impresa e la Societa\'</item>
+        <item>Storia</item>
+        <item>Tecniche audiometriche</item>
+        <item>Tecniche audioprotesiche</item>
+        <item>Tecniche della prevenzione nell\'Ambiente e nei luoghi di lavoro</item>
+        <item>Tecniche di fisiopatologia cardiocircolatoria e perfusione cardiovascolare</item>
+        <item>Tecniche di laboratorio biomedico</item>
+        <item>Tecniche di neurofisiopatologia</item>
+        <item>Tecniche di radiologia medica, per immagini e radioterapia</item>
+        <item>Tecniche ortopediche</item>
+        <item>Tecnologie alimentari</item>
+        <item>Tecnologie delle produzioni animali</item>
+        <item>Urbanistica Paesaggio Territorio Ambiente</item>
+        <item>Viticoltura ed enologia</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Federico_Magistrale">
+        <item>Archeologia e Storia dell\'arte</item>
+        <item>Architettura - Progettazione architettonica</item>
+        <item>Biologia</item>
+        <item>Biologia delle produzioni marine</item>
+        <item>Biologia ed ecologia dell\'ambiente marino ed uso sostenibile delle sue risorse (in lingua inglese)</item>
+        <item>Biotecnologie agro-ambientali ed alimentari</item>
+        <item>Biotecnologie del Farmaco</item>
+        <item>Biotecnologie Mediche</item>
+        <item>Biotecnologie Molecolari e Industriali</item>
+        <item>Comunicazione pubblica, sociale e politica</item>
+        <item>Design per l\'ambiente costruito (in lingua inglese)</item>
+        <item>Economia aziendale</item>
+        <item>Economia e Commercio</item>
+        <item>Economia e Finanza (in lingua inglese)</item>
+        <item>Finanza</item>
+        <item>Filologia moderna</item>
+        <item>Filologia, letterature e civiltà del mondo antico</item>
+        <item>Filosofia</item>
+        <item>Fisica</item>
+        <item>Geologia e Geologia Applicata</item>
+        <item>Informatica</item>
+        <item>Ingegneria Aerospaziale</item>
+        <item>Ingegneria Biomedica</item>
+        <item>Ingegneria Chimica</item>
+        <item>Ingegneria dei materiali</item>
+        <item>Ingegneria dei sistemi idraulici e di trasporto ISIT</item>
+        <item>Ingegneria dell\'automazione</item>
+        <item>Ingegneria delle telecomunicazioni</item>
+        <item>Ingegneria Edile</item>
+        <item>Ingegneria elettrica</item>
+        <item>Ingegneria elettronica</item>
+        <item>Ingegneria gestionale</item>
+        <item>Ingegneria informatica</item>
+        <item>Ingegneria Meccanica</item>
+        <item>Ingegneria navale</item>
+        <item>Ingegneria per l\'ambiente ed il territorio</item>
+        <item>Ingegneria strutturale e geotecnica</item>
+        <item>Lingue e letterature moderne europee</item>
+        <item>Matematica</item>
+        <item>Management del patrimonio culturale</item>
+        <item>Pianificazione territoriale, urbanistica e paesaggistico-ambientale</item>
+        <item>Politiche sociali e del territorio</item>
+        <item>Progettazione e gestione dei sistemi turistici</item>
+        <item>Psicologia</item>
+        <item>Relazioni internazionali ed Analisi di Scenario</item>
+        <item>Scienze aeronautiche</item>
+        <item>Scienze Biologiche</item>
+        <item>Scienze Chimiche</item>
+        <item>Scienze della Nutrizione Umana</item>
+        <item>Scienze della Pubblica Amministrazione</item>
+        <item>Scienze delle Professioni sanitarie della prevenzione</item>
+        <item>Scienze delle professioni sanitarie
+            tecniche assistenziali</item>
+        <item>Scienze delle professioni sanitarie tecniche diagnostiche</item>
+        <item>Scienze e Tecnologie Agrarie</item>
+        <item>Scienze e Tecnologie Alimentari</item>
+        <item>Scienze e tecnologie della chimica industriale</item>
+        <item>Scienze e tecnologie delle produzioni animali</item>
+        <item>Scienze Enologiche</item>
+        <item>Scienze Forestali e Ambientali</item>
+        <item>Scienze infermieristiche ed ostetriche</item>
+        <item>Scienze Naturali</item>
+        <item>Scienze Politiche dell\'Europa e Strategie di Sviluppo</item>
+        <item>Scienze riabilitative delle professioni sanitarie</item>
+        <item>Servizio sociale e politiche sociali</item>
+        <item>Scienze Statistiche per le Decisioni</item>
+        <item>Storia</item>
+        <item>Tossicologia Chimica e Ambientale</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_5_anni">
+        <item>Architettura</item>
+        <item>Chimica e tecnologia farmaceutiche</item>
+        <item>Farmacia</item>
+        <item>Giurisprudenza</item>
+        <item>Ingegneria Edile - Architettura</item>
+        <item>Medicina Veterinaria</item>
+        <item>Odontoiatria e Protesi Dentaria</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_6_anni">
+        <item>Medicina e Chirurgia</item>
+        <item>Medicina e Chirurgia (in lingua inglese)</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Orientale_Triennale">
+        <item>Civilta\' antiche e archeologia: Oriente e Occidente</item>
+        <item>Lingue e Culture orientali e africane</item>
+        <item>Scienze Politiche e Relazioni Internazionali</item>
+        <item>Lingue e Culture Comparate</item>
+        <item>Lingue, Letterature e Culture dell\'Europa e delle Americhe</item>
+        <item>Mediazione Linguistica e Culturale</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale">
+        <item>Archeologia: Oriente e Occidente</item>
+        <item>Lingue e Culture dell\'Asia e dell\'Africa</item>
+        <item>Lingue e Civilta\' Orientali</item>
+        <item>Scienze delle Lingue, Storia e Culture del Mediterraneo e dei Paesi Islamici</item>
+        <item>Lingue e Comunicazione Interculturale in Area Euromediterranea</item>
+        <item>Relazioni e Istituzioni dell\'Asia e dell\'Africa</item>
+        <item>Studi Internazionali</item>
+        <item>Lingua e Cultura italiana per stranieri</item>
+        <item>Letterature e Culture Comparate</item>
+        <item>Lingue e letterature europee e americane</item>
+        <item>Traduzione Specialistica</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_5_anni">
+        <item>-</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_6_anni">
+        <item>-</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Parthenope_Triennale">
+        <item>Conduzione del Mezzo Navale</item>
+        <item>Economia Aziendale</item>
+        <item>Economia e Commercio</item>
+        <item>Informatica</item>
+        <item>Ingegneria Civile e Ambientale per la mitigazione dei rischi</item>
+        <item>Ingegneria Gestionale</item>
+        <item>Ingegneria Informatica, Biomedica, e delle Telecomunicazioni</item>
+        <item>Management delle imprese internazioniali</item>
+        <item>Management delle imprese turistiche</item>
+        <item>Scienze biologiche</item>
+        <item>Scienze dell\'amministrazione e dell\'organizzazione</item>
+        <item>Scienze motorie</item>
+        <item>Scienze Nautiche, Aeronautiche e Meteo-Oceanografiche</item>
+        <item>Statistica e Informatica per l\'azienda, la finanza e le assicurazioni</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale">
+        <item>Amministrazione, Finanza e Consulenza aziendale</item>
+        <item>Economia del mare</item>
+        <item>Informatica applicata (Machine Learning e Big Data)</item>
+        <item>Ingegneria Civile e per la tutele dell\'Ambiente Costiero</item>
+        <item>Ingegneria della sicurezza dei dati e delle comunicazioni</item>
+        <item>Ingegneria Gestionale</item>
+        <item>Management Pubblico</item>
+        <item>Marketing e Management internazionale</item>
+        <item>Metodi Quantitativi per le valutazioni Economiche e Finanziarie</item>
+        <item>Scienze e Management dello Sport e delle attivita\' motorie</item>
+        <item>Scienze e Tecnologie della Navigazione</item>
+        <item>Scienze Economiche Finanziarie e internazionali</item>
+        <item>Scienze Motorie per la prevenzione ed il benessere</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_5_anni">
+        <item>Giurisprudenza</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_6_anni">
+        <item>-</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Orsola_Triennale">
+        <item>Economia aziendale e Green Economy</item>
+        <item>Lingue e culture moderne</item>
+        <item>Scienze dei beni culturali: turismo, arte, archeologia</item>
+        <item>Scienze della comunicazione</item>
+        <item>Scienze dell\'educazione</item>
+        <item>Scienze e tecniche di psicologia cognitiva</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale">
+        <item>Archeologia e Storia dell\'arte</item>
+        <item>Comunicazione pubblica e d\'impresa</item>
+        <item>Consulenza pedagogica</item>
+        <item>Economia, Management e Sostenibilità</item>
+        <item>Lingue moderne per la comunicazione e la cooperazione internazionale</item>
+        <item>Programmazione, amministrazione egestione delle politiche e dei servizi sociali</item>
+        <item>Psicologia: risorse umane, ergonomiacognitiva, neuroscienze cognitive</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_5_anni">
+        <item>Conservazione e restauro dei beni culturali</item>
+        <item>Giurisprudenza</item>
+        <item>Scienze della formazione primaria</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_6_anni">
+        <item>-</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Del_Sannio_Triennale">
+        <item>-</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Del_Sannio_Magistrale">
+        <item>-</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_5_anni">
+        <item>-</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_6_anni">
+        <item>-</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Della_Campania_Triennale">
+        <item>-</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Della_Campania_Magistrale">
+        <item>-</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_5_anni">
+        <item>-</item>
+    </string-array>
+
+    <string-array name="Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_6_anni">
+        <item>-</item>
+    </string-array>
+</resources>
