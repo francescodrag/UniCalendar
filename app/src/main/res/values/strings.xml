@@ -11,4 +11,13 @@
     <string name="cognome">Cognome:</string>
     <string name="cognome1">Cognome</string>
     <string name="name">Name</string>
+    <string name="dipartimento">Dipartimento:</string>
+    <string name="universita">Universita\':</string>
+    <string name="anno_di_iscrizione">Anno di iscrizione:</string>
+    <string name="tipo_di_laurea">Tipo di Laurea:</string>
+    <string name="semestre">Semestre:</string>
+    <string name="primo_semestre">Primo Semestre</string>
+    <string name="secondo_semestre">Secondo Semestre</string>
+    <string name="go_back_button">Go Back Button</string>
+    <string name="sign_up_button">Sign Up Button</string>
 </resources>
