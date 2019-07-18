@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,8 @@ public class RegistrationActivity extends AppCompatActivity {
     Spinner spinnerAnno;
     Spinner spinnerUniversita;
     Spinner spinnerDipartimento;
-    String tipo = "Laurea Triennale", anno = "Primo Anno", universita = "Universita' degli Studi di Salerno", dipartimento = "Chimica";
+    RadioButton primoSemestre;
+    String tipo = "Laurea Triennale", anno = "Primo Anno", universita = "Universita' degli Studi di Salerno", dipartimento = "Chimica", semestre = "Primo Semestre";
     ArrayAdapter<CharSequence> adapterDipartimento, adapterAnno;
 
     @Override
@@ -40,6 +42,17 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
+        spinnerAnno.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                anno = adapterView.getSelectedItem().toString().trim();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         spinnerUniversita.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -47,6 +60,18 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 initUniversities(adapterView);
 
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spinnerDipartimento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                dipartimento = adapterView.getSelectedItem().toString().trim();
             }
 
             @Override
@@ -64,6 +89,15 @@ public class RegistrationActivity extends AppCompatActivity {
         spinnerAnno = findViewById(R.id.years_RegistrationActivity);
         spinnerUniversita = findViewById(R.id.univerisites_RegistrationActivity);
         spinnerDipartimento = findViewById(R.id.departments_RegistrationActivity);
+        primoSemestre = findViewById(R.id.primoSemestre_RegistrationActivity);
+    }
+
+    public void valida() {
+        if (primoSemestre.isChecked()) {
+            semestre = "Primo Semestre";
+        } else {
+            semestre = "Secondo Semestre";
+        }
     }
 
     public void initTipo(AdapterView<?> adapterView) {
