@@ -3,6 +3,9 @@ package com.fran.unicalendar;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class User implements Parcelable {
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -23,39 +26,13 @@ public class User implements Parcelable {
     private String password;
     private String university;
     private String department;
-    private String universityTipe;
+    private String universityType;
+    private String tipoSuddivisione;
     private String suddivisione;
     private String anno;
     private String semestre;
 
     public User() {
-    }
-
-    public User(String id, String nome, String cognome, String email, String password, String university, String department, String universityTipe, String suddivisione, String anno, String semestre) {
-        this.id = id;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.email = email;
-        this.password = password;
-        this.university = university;
-        this.department = department;
-        this.universityTipe = universityTipe;
-        this.suddivisione = suddivisione;
-        this.anno = anno;
-        this.semestre = semestre;
-    }
-
-    public User(String id, String nome, String cognome, String email, String password, String university, String department, String universityTipe, String anno, String semestre) {
-        this.id = id;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.email = email;
-        this.password = password;
-        this.university = university;
-        this.department = department;
-        this.universityTipe = universityTipe;
-        this.anno = anno;
-        this.semestre = semestre;
     }
 
     private User(Parcel in) {
@@ -66,7 +43,7 @@ public class User implements Parcelable {
         password = in.readString();
         university = in.readString();
         department = in.readString();
-        universityTipe = in.readString();
+        universityType = in.readString();
         suddivisione = in.readString();
         anno = in.readString();
         semestre = in.readString();
@@ -129,11 +106,19 @@ public class User implements Parcelable {
     }
 
     public String getUniversityTipe() {
-        return universityTipe;
+        return universityType;
     }
 
-    public void setUniversityTipe(String universityTipe) {
-        this.universityTipe = universityTipe;
+    public void setUniversityTipe(String universityType) {
+        this.universityType = universityType;
+    }
+
+    public String getTipoSuddivisione() {
+        return tipoSuddivisione;
+    }
+
+    public void setTipoSuddivisione(String tipoSuddivisione) {
+        this.tipoSuddivisione = tipoSuddivisione;
     }
 
     public String getSuddivisione() {
@@ -167,6 +152,7 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+
         dest.writeString(id);
         dest.writeString(nome);
         dest.writeString(cognome);
@@ -174,16 +160,36 @@ public class User implements Parcelable {
         dest.writeString(password);
         dest.writeString(university);
         dest.writeString(department);
-        dest.writeString(universityTipe);
+        dest.writeString(universityType);
         dest.writeString(suddivisione);
         dest.writeString(anno);
         dest.writeString(semestre);
+
+    }
+
+    public Map<String, Object> getHashMapUser() {
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("Id", id);
+        user.put("Name", nome);
+        user.put("Surname", cognome);
+        user.put("Email", email);
+        user.put("Password", password);
+        user.put("UniversityType", universityType);
+        user.put("Year", anno);
+        user.put("University", university);
+        user.put("Department", department);
+        user.put("Semester", semestre);
+        user.put("SubdivisionType", tipoSuddivisione);
+        user.put("Subdivision", suddivisione);
+
+        return user;
     }
 
     @Override
     public String toString() {
-        return "Nome = " + nome + " Cognome = " + cognome + " Universita' = " + university
-                + " Dipartimento = " + department + " Tipo = " + universityTipe +
-                " Anno = " + anno + " Semestre = " + semestre;
+        return "Nome = " + nome + "\nCognome = " + cognome + "\nUniversita' = " + university
+                + "\nDipartimento = " + department + "\nTipo = " + universityType +
+                "\nAnno = " + anno + "\nSemestre = " + semestre;
     }
 }

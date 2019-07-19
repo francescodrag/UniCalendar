@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         if (utente != null) {
             //L'utente è già loggato quindi viene inidirizzato alla HomeActivity
             finish();
-            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            //startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         }
 
     }

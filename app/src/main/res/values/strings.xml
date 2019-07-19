@@ -20,4 +20,10 @@
     <string name="secondo_semestre">Secondo Semestre</string>
     <string name="go_back_button">Go Back Button</string>
     <string name="sign_up_button">Sign Up Button</string>
+    <string name="ripeti_password">Ripeti Password</string>
+    <string name="ripeti_password1">Ripeti Password:</string>
+    <string name="password1">Password:</string>
+    <string name="email1">Email:</string>
+    <string name="suddivisione">Suddivisione:</string>
+    <string name="tipologia_di_suddivisione">Tipologia di Suddivisione:</string>
 </resources>

@@ -2,13 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/background_shadow"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationActivity">
+    android:background="@drawable/background"
+    tools:context=".Registration2Activity">
 
     <ScrollView
-        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -26,147 +25,97 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_name"
+                android:id="@+id/textview_TipoSuddivisione"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tipologia_di_suddivisione"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/tipoSuddivisone_Registration2Activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/nome"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:entries="@array/Tipo_Suddivisione" />
+
+            <TextView
+                android:id="@+id/textViewSuddivisione"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/suddivisione"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/suddivisione_Registration2Activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/textViewEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email1"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/name_RegistrationActivity"
+                android:id="@+id/email_Registration2Activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:ems="10"
-                android:hint="@string/nome1"
-                android:inputType="textCapSentences"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
                 tools:ignore="Autofill" />
 
             <TextView
-                android:id="@+id/textView_surname"
+                android:id="@+id/textView_Password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cognome"
+                android:text="@string/password1"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/surname_RegistrationActivity"
+                android:id="@+id/password_Registration2Actitivy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:ems="10"
-                android:hint="@string/cognome1"
-                android:inputType="textCapSentences"
+                android:hint="@string/password"
+                android:inputType="textPassword"
                 tools:ignore="Autofill" />
 
             <TextView
-                android:id="@+id/textView_Tipo"
+                android:id="@+id/textView_RipetiPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/tipo_di_laurea"
+                android:text="@string/ripeti_password1"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <Spinner
-                android:id="@+id/tipologies_RegistrationActivity"
+            <EditText
+                android:id="@+id/ripetiPassword_Registration2Activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:entries="@array/tipologies"
-                android:spinnerMode="dropdown" />
-
-            <TextView
-                android:id="@+id/textView_Anno"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/anno_di_iscrizione"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/years_RegistrationActivity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:entries="@array/Triennale"
-                android:spinnerMode="dropdown" />
-
-            <TextView
-                android:id="@+id/textView_Universita"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/universita"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/univerisites_RegistrationActivity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:entries="@array/Universities"
-                android:spinnerMode="dropdown" />
-
-            <TextView
-                android:id="@+id/textView_Dipartimento"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/dipartimento"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/departments_RegistrationActivity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:entries="@array/Universita_Degli_Studi_Di_Salerno_Triennale"
-                android:spinnerMode="dropdown" />
-
-            <TextView
-                android:id="@+id/textView_Semestre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/semestre"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
-
-                <RadioButton
-                    android:id="@+id/primoSemestre_RegistrationActivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:text="@string/primo_semestre" />
-
-                <RadioButton
-                    android:id="@+id/secondoSemestre_RegistrationActivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/secondo_semestre" />
-            </RadioGroup>
+                android:ems="10"
+                android:hint="@string/ripeti_password"
+                android:inputType="textPassword"
+                tools:ignore="Autofill" />
 
         </LinearLayout>
     </ScrollView>
@@ -183,7 +132,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
-            android:id="@+id/goBackToLogin_RegistrationActivity"
+            android:id="@+id/goBackToRegistration1_Registration2Activity"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/ic_launcher_foreground"
@@ -198,7 +147,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/goToRegistration2_RegistrationActivity"
+            android:id="@+id/signUp_Registration2Activity"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/ic_launcher_foreground"
