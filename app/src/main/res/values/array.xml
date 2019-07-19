@@ -405,15 +405,32 @@
     </string-array>
 
     <string-array name="Universita_Degli_Studi_Del_Sannio_Triennale">
-        <item>-</item>
+        <item>Biotecnologie</item>
+        <item>Economia Aziendale</item>
+        <item>Economia Bancaria e Finanziaria</item>
+        <item>Ingegneria Civile</item>
+        <item>Ingegneria Elettronica per l\'Automazione e le Telecomunicazioni</item>
+        <item>Ingegneria Energetica</item>
+        <item>Ingegneria Informatica</item>
+        <item>Scienze Biologiche</item>
+        <item>Scienze Geologiche</item>
+        <item>Scienze Statistiche e Attuariali</item>
     </string-array>
 
     <string-array name="Universita_Degli_Studi_Del_Sannio_Magistrale">
-        <item>-</item>
+        <item>Biologia</item>
+        <item>Biotecnologie Genetiche e Molecolari</item>
+        <item>Economia e Management</item>
+        <item>Ingegneria Civile</item>
+        <item>Ingegneria Elettronica per l\'Automazione e le Telecomunicazioni</item>
+        <item>Ingegneria Energetica</item>
+        <item>Ingegneria Informatica</item>
+        <item>Scienze e Tecnologie Geologiche</item>
+        <item>Scienze Statistiche e Attuariali</item>
     </string-array>
 
     <string-array name="Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_5_anni">
-        <item>-</item>
+        <item>Giurisprudenza</item>
     </string-array>
 
     <string-array name="Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_6_anni">
@@ -435,4 +452,28 @@
     <string-array name="Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_6_anni">
         <item>-</item>
     </string-array>
+
+    <string-array name="Tipo_Suddivisione">
+        <item>Matricola Pari o Dispari</item>
+        <item>Resto della Matricola</item>
+        <item>Cognome</item>
+    </string-array>
+
+    <string-array name="Suddivisione_Pari_o_Dispari">
+        <item>Pari</item>
+        <item>Dispari</item>
+    </string-array>
+
+    <string-array name="Suddivisione_Resto_della_Matricola">
+        <item>Resto 0</item>
+        <item>Resto 1</item>
+        <item>Resto 2</item>
+    </string-array>
+
+    <array name="Suddivisione_Cognome">
+        <item>A-Z</item>
+        <item>D-G</item>
+        <item>H-Pet</item>
+        <item>Peu-Z</item>
+    </array>
 </resources>
