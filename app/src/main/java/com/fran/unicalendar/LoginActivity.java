@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         PasswordDimenticata = findViewById(R.id.recuperaPassword_Login);
     }
 
+    /*
     @Override
     protected void onStart() {
         super.onStart();
@@ -85,10 +86,11 @@ public class LoginActivity extends AppCompatActivity {
         if (utente != null) {
             //L'utente è già loggato quindi viene inidirizzato alla HomeActivity
             finish();
-            //startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         }
 
     }
+*/
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {

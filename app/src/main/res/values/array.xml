@@ -438,19 +438,80 @@
     </string-array>
 
     <string-array name="Universita_Degli_Studi_Della_Campania_Triennale">
-        <item>-</item>
+        <item>Economia Aziendale</item>
+        <item>Economia e Commercio</item>
+        <item>Scienze dei Servizi Giuridici</item>
+        <item>Conservazione dei Beni Culturali</item>
+        <item>Lettere</item>
+        <item>Scienze e Tecniche Psicologiche</item>
+        <item>Biotecnologie</item>
+        <item>Scienze Biologiche</item>
+        <item>Scienze Ambientali</item>
+        <item>Scienze del Turismo</item>
+        <item>Scienze Politiche</item>
+        <item>Infermieristica</item>
+        <item>Infermieristica Pediatrica</item>
+        <item>Ostetricia</item>
+        <item>Tecniche di Radiologia Medica, per Immagini e Radioterapia</item>
+        <item>Tecniche di Laboratorio Biomedico</item>
+        <item>Tecniche della Prevenzione nell\'Ambiente e nei Luoghi di Lavoro</item>
+        <item>Logopedia</item>
+        <item>Tecnica della Riabilitazione Psichiatrica</item>
+        <item>Terapia della Neuro e Psicomotricita\' dell\'Eta\' Evolutiva</item>
+        <item>Fisioterapia</item>
+        <item>Ortottica ed Assistenza Oftalmologica</item>
+        <item>Igiene Dentale</item>
+        <item>Nursing - Infermieristica in Lingua Inglese</item>
+        <item>Design e Comunicazione</item>
+        <item>Design per la Moda</item>
+        <item>Scienze e Tecniche dell\'Edilizia</item>
+        <item>Ingegneria Aerospaziale - Meccanica - Energetica</item>
+        <item>Ingegneria Civile - Edile - Ambientale</item>
+        <item>Ingegneria Elettronica e Informatica</item>
+        <item>Tecniche per l\'Edilizia, il Territorio e l\'Ambiente</item>
+        <item>Data Analytics</item>
+        <item>Fisica</item>
+        <item>Matematica</item>
     </string-array>
 
     <string-array name="Universita_Degli_Studi_Della_Campania_Magistrale">
-        <item>-</item>
+        <item>Economia, Finanza e Mercati</item>
+        <item>Economia e Management</item>
+        <item>Archeologia e Storia dell\'Arte</item>
+        <item>Filologia Classica e Moderna</item>
+        <item>Psicologia Applicata</item>
+        <item>Psicologia Clinica</item>
+        <item>Psicologia dei Processi Cognitivi</item>
+        <item>Biologia</item>
+        <item>Molecular Biotechnology</item>
+        <item>Scienze degli Alimenti e della Nutrizione Umana</item>
+        <item>Scienze e Tecnologie per l\'Ambiente e il Territorio</item>
+        <item>Relazioni e Organizzazioni Internazionali</item>
+        <item>Scienze della Politica</item>
+        <item>Scienze e Tecniche delle Amministrazioni Pubbliche</item>
+        <item>Scienze Infermieristiche e Ostetriche</item>
+        <item>Architettura - Progettazione degli Interni e per l\'Autonomia</item>
+        <item>Design per l\'Innovazione</item>
+        <item>Ingegneria Aerospaziale</item>
+        <item>Ingegneria Elettronica</item>
+        <item>Ingegneria Informatica</item>
+        <item>Ingegneria Meccanica</item>
+        <item>Ingegneria Civile</item>
+        <item>Ingegneria per l\'Energia e l\'Ambiente</item>
+        <item>Matematica</item>
     </string-array>
 
     <string-array name="Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_5_anni">
-        <item>-</item>
+        <item>Giurisprudenza</item>
+        <item>Farmacia</item>
+        <item>Architettura</item>
     </string-array>
 
     <string-array name="Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_6_anni">
-        <item>-</item>
+        <item>Medicina e Chirurgia - Sede di Napoli</item>
+        <item>Medicina e Chirurgia - Sede di Caserta</item>
+        <item>Medicina e Chirurgia in Lingua Inglese</item>
+        <item>Odontoiatria e Protesi Dentaria</item>
     </string-array>
 
     <string-array name="Tipo_Suddivisione">
