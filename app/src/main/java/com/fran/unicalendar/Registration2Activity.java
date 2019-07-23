@@ -111,6 +111,8 @@ public class Registration2Activity extends AppCompatActivity {
 
                 if (validator()) {
 
+                    progressDialog.setCancelable(false);
+                    progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.setMessage("Registrazione in corso...");
                     progressDialog.show();
 
@@ -243,6 +245,7 @@ public class Registration2Activity extends AppCompatActivity {
                             Log.d("TAG", "createUserWithEmail:success");
                             sendEmailVerification();
                         } else {
+                            progressDialog.dismiss();
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(Registration2Activity.this, "Authentication failed.",

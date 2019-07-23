@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         PasswordDimenticata = findViewById(R.id.recuperaPassword_Login);
     }
 
-
+/*
     @Override
     protected void onStart() {
         super.onStart();
@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-
+*/
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
@@ -124,6 +124,8 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Inserisci Password", Toast.LENGTH_LONG).show();
         } else {
             progressDialog.setMessage("Login in corso...");
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
             firebaseAuth.signInWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
