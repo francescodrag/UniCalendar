@@ -93,6 +93,9 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             builder = new AlertDialog.Builder(HomeActivity.this);
         }
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        builder.setCancelable(false);
         builder.setTitle("Attenzione!")
                 .setMessage("Sei sicuro di voler effettuare il logout?")
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {

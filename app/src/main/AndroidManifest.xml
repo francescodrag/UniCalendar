@@ -18,8 +18,18 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".Registration2Activity"
             android:screenOrientation="portrait"
+            android:noHistory="true"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".RecuperaPasswordActivity" />
         <activity
@@ -28,21 +38,23 @@
         <activity
             android:name=".RegistrationActivity"
             android:screenOrientation="portrait"
+            android:noHistory="true"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".LoginActivity"
             android:noHistory="true">
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
         </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
     </application>
 
 </manifest>
