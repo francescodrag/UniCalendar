@@ -22,12 +22,16 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".RecuperaPasswordActivity" />
-        <activity android:name=".HomeActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:noHistory="true" />
         <activity
             android:name=".RegistrationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".LoginActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
