@@ -46,7 +46,7 @@ public class Registration2Activity extends AppCompatActivity {
     String password;
     EditText RipetiPassword;
     String ripetiPassword;
-    ImageView goBackToRegistration1;
+    //ImageView goBackToRegistration1;
     ImageView signUp;
 
     ProgressDialog progressDialog;
@@ -92,13 +92,14 @@ public class Registration2Activity extends AppCompatActivity {
         });
 
 
+        /*
         goBackToRegistration1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Registration2Activity.this, RegistrationActivity.class));
             }
         });
-
+*/
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +129,7 @@ public class Registration2Activity extends AppCompatActivity {
         Email = findViewById(R.id.email_Registration2Activity);
         Password = findViewById(R.id.password_Registration2Actitivy);
         RipetiPassword = findViewById(R.id.ripetiPassword_Registration2Activity);
-        goBackToRegistration1 = findViewById(R.id.goBackToRegistration1_Registration2Activity);
+        //goBackToRegistration1 = findViewById(R.id.goBackToRegistration1_Registration2Activity);
         signUp = findViewById(R.id.signUp_Registration2Activity);
 
     }
@@ -294,5 +295,15 @@ public class Registration2Activity extends AppCompatActivity {
                     }
                 });
     }
+
+    /*
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(Registration2Activity.this, RegistrationActivity.class);
+        startActivity(intent);
+    }
+
+*/
 
 }
