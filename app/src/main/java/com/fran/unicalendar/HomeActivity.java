@@ -28,12 +28,18 @@ public class HomeActivity extends AppCompatActivity {
     GridLayout gridLayout;
     int i;
     Intent intent;
+    User user;
+
     ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Intent intent1 = getIntent();
+        user = intent1.getParcelableExtra("utente");
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -63,6 +69,17 @@ public class HomeActivity extends AppCompatActivity {
                     break;
                 }
                 case (2): {
+
+                    cardView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            intent = new Intent(HomeActivity.this, UserProfileActivity.class);
+                            intent.putExtra("utente", user);
+                            startActivity(intent);
+
+                        }
+                    });
 
                     break;
                 }

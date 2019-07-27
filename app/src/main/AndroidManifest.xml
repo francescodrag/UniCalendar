@@ -17,9 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".UserProfileActivity"></activity>
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,8 +29,8 @@
         </activity>
         <activity
             android:name=".Registration2Activity"
-            android:screenOrientation="portrait"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".RecuperaPasswordActivity" />
         <activity
@@ -37,12 +38,13 @@
             android:noHistory="true" />
         <activity
             android:name=".RegistrationActivity"
-            android:screenOrientation="portrait"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".LoginActivity"
             android:noHistory="true">
+
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
