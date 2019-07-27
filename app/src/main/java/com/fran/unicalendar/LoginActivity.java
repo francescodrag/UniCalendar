@@ -3,6 +3,7 @@ package com.fran.unicalendar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,6 +35,10 @@ public class LoginActivity extends AppCompatActivity {
     int Contatore = 5;
     String info = "Tentativi restanti: ";
     private FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
+    User user;
+    Intent intent2;
+    FirebaseUser firebaseUser;
     private ProgressDialog progressDialog;
 
     @Override
@@ -161,7 +171,8 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         //true se l'email e' stata verificata, false altrimenti.
         if (((firebaseUser != null) && (firebaseUser.isEmailVerified()))) {
-            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            getUserFromDatabase();
+            //startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         } else {
             Toast.makeText(LoginActivity.this, "Account non verificato.", Toast.LENGTH_SHORT).show();
             firebaseAuth.signOut();
@@ -183,4 +194,46 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(a);
     }
 
+    public void getUserFromDatabase() {
+        firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        intent2 = new Intent(LoginActivity.this, HomeActivity.class);
+
+        DocumentReference docRef = firebaseFirestore.collection("Users").document(Objects.requireNonNull(firebaseUser.getEmail()));
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("", "DocumentSnapshot data: " + document.getData());
+                        System.out.println(document.getData());
+
+                        user = new User();
+
+                        user.setNome((String) document.get("Name"));
+                        user.setCognome((String) document.get("Surname"));
+                        user.setId((String) document.get("Id"));
+                        user.setSuddivisione((String) document.get("Subdivision"));
+                        user.setTipoSuddivisione((String) document.get("SubdivisionType"));
+                        user.setEmail((String) document.get("Email"));
+                        user.setSemestre((String) document.get("Semester"));
+                        user.setDepartment((String) document.get("Department"));
+                        user.setAnno((String) document.get("Year"));
+                        user.setUniversity((String) document.get("University"));
+                        user.setUniversityTipe((String) document.get("UniversityType"));
+                        user.setPassword((String) document.get("Password"));
+
+                        intent2.putExtra("utente", user);
+                        startActivity(intent2);
+
+                    } else {
+                        Log.d("", "No such document");
+                    }
+                } else {
+                    Log.d("", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
 }
