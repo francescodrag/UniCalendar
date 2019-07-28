@@ -2,6 +2,7 @@ package com.fran.unicalendar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -45,39 +46,51 @@ public class SplashActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Log.d("", "DocumentSnapshot data: " + document.getData());
+                        if (document != null) {
+                            if (document.exists()) {
+                                Log.d("", "DocumentSnapshot data: " + document.getData());
 
-                            user = new User();
+                                user = new User();
 
-                            user.setNome((String) document.get("Name"));
-                            user.setCognome((String) document.get("Surname"));
-                            user.setId((String) document.get("Id"));
-                            user.setSuddivisione((String) document.get("Subdivision"));
-                            user.setTipoSuddivisione((String) document.get("SubdivisionType"));
-                            user.setEmail((String) document.get("Email"));
-                            user.setSemestre((String) document.get("Semester"));
-                            user.setDepartment((String) document.get("Department"));
-                            user.setAnno((String) document.get("Year"));
-                            user.setUniversity((String) document.get("University"));
-                            user.setUniversityTipe((String) document.get("UniversityType"));
-                            user.setPassword((String) document.get("Password"));
+                                user.setNome((String) document.get("Name"));
+                                user.setCognome((String) document.get("Surname"));
+                                user.setId((String) document.get("Id"));
+                                user.setSuddivisione((String) document.get("Subdivision"));
+                                user.setTipoSuddivisione((String) document.get("SubdivisionType"));
+                                user.setEmail((String) document.get("Email"));
+                                user.setSemestre((String) document.get("Semester"));
+                                user.setDepartment((String) document.get("Department"));
+                                user.setAnno((String) document.get("Year"));
+                                user.setUniversity((String) document.get("University"));
+                                user.setUniversityTipe((String) document.get("UniversityType"));
+                                user.setPassword((String) document.get("Password"));
 
-                            goToHome.putExtra("utente", user);
-                            startActivity(goToHome);
+                                goToHome.putExtra("utente", user);
+                                startActivity(goToHome);
 
+                            } else {
+                                Log.d("", "No such document");
+                            }
                         } else {
-                            Log.d("", "No such document");
+                            Log.d("", "get failed with ", task.getException());
                         }
-                    } else {
-                        Log.d("", "get failed with ", task.getException());
                     }
                 }
             });
 
         } else {
 
-            startActivity(goToLogin);
+            new Handler().postDelayed(new Runnable() {
+
+                // Using handler with postDelayed called runnable run method
+
+                @Override
+                public void run() {
+
+                    startActivity(goToLogin);
+
+                }
+            }, 2 * 1000);
 
         }
 
