@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#d29d00</color>
     <color name="colorAccent">#0085eb</color>
 
+
     <color name="address">#2F7092</color>
     <color name="followers">#0D5D98</color>
     <color name="headings">#3797CF</color>
@@ -16,4 +17,5 @@
     <color name="grey">#E5E5E5</color>
 
     <color name="white">#FFFFFF</color>
+
 </resources>
