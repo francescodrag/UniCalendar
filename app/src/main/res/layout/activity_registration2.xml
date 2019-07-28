@@ -135,7 +135,7 @@
             android:id="@+id/goBackToRegistration1_Registration2Activity"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/ic_launcher_foreground"
+            android:background_splash_activity="@drawable/ic_launcher_foreground"
             android:contentDescription="@string/go_back_button"
             android:gravity="start"
             android:scaleType="centerCrop"

@@ -71,7 +71,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/testico1"
+                    app:srcCompat="@drawable/icona_aggiungi_calendario_home_activity"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -120,7 +120,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/testico1"
+                    app:srcCompat="@drawable/icona_calendario_home_activity"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -172,7 +172,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/testico1"
+                    app:srcCompat="@drawable/icona_profilo_home_activity"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -222,7 +222,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/testico1"
+                    app:srcCompat="@drawable/icona_logout_home_activity"
                     tools:ignore="ContentDescription" />
 
                 <TextView

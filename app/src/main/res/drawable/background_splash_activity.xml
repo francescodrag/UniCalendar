@@ -4,9 +4,10 @@
     <item android:drawable="@color/white" />
 
     <item>
+
         <bitmap
             android:gravity="center|right"
-            android:src="@drawable/splash" />
+            android:src="@drawable/splash_activity_background" />
 
     </item>
 
