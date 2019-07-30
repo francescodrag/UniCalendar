@@ -62,6 +62,17 @@ public class HomeActivity extends AppCompatActivity {
             switch (i) {
                 case (0): {
 
+                    cardView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            intent = new Intent(HomeActivity.this, AddCalendarActivity.class);
+                            intent.putExtra("utente", user);
+                            startActivity(intent);
+
+                        }
+                    });
+
                     break;
                 }
                 case (1): {
