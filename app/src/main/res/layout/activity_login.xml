@@ -26,7 +26,6 @@
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-
             tools:ignore="Autofill" />
 
         <EditText
