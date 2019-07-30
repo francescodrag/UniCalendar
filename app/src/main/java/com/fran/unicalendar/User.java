@@ -19,6 +19,7 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
     private String id;
     private String nome;
     private String cognome;
