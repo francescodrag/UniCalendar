@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="giorniDellaSettimana">
+        <item>Lunedi\'</item>
+        <item>Martedi\'</item>
+        <item>Mercoledi\'</item>
+        <item>Giovedi\'</item>
+        <item>Venerdi\'</item>
+    </string-array>
+
     <string-array name="tipologies">
         <item>Laurea Triennale</item>
         <item>Laurea Magistrale</item>

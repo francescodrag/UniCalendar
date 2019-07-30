@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ public class AddLessonDialog extends AppCompatDialogFragment {
     private EditText inizioLezione;
     private EditText fineLezione;
     private RadioButton tipoLezione;
+    private Spinner giornoLezione;
     private ExampleDialogListener listener;
 
     @SuppressLint("SetTextI18n")
@@ -46,6 +48,12 @@ public class AddLessonDialog extends AppCompatDialogFragment {
         title.setTypeface(Typeface.DEFAULT_BOLD);
         title.setTextSize(30);
 
+        aula = view.findViewById(R.id.aula_AddLessonDialogLayout);
+        inizioLezione = view.findViewById(R.id.inizioLezione_AddLessonDialogLayout);
+        fineLezione = view.findViewById(R.id.fineLezione_AddLessonDialogLayout);
+        tipoLezione = view.findViewById(R.id.radioButton_AddLessonDialogLayout);
+        giornoLezione = view.findViewById(R.id.spinnerGiornoLezione_AddLessonDialogLayout);
+
         builder.setView(view)
                 .setCustomTitle(title)
                 .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -55,24 +63,29 @@ public class AddLessonDialog extends AppCompatDialogFragment {
                         String inizioLezioneString = "";
                         String fineLezioneString = "";
                         String tipoLezioneString = "";
-                        listener.applyTexts(aulaString, inizioLezioneString, fineLezioneString, tipoLezioneString);
+                        String giornoLezioneString = "";
+
+                        listener.applyTexts(aulaString, inizioLezioneString, fineLezioneString, tipoLezioneString, giornoLezioneString);
                     }
                 })
                 .setPositiveButton("Aggiungi", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
+
                         String aulaString = aula.getText().toString();
                         String inizioLezioneString = inizioLezione.getText().toString();
                         String fineLezioneString = fineLezione.getText().toString();
                         String tipoLezioneString = tipoLezione.getText().toString();
-                        listener.applyTexts(aulaString, inizioLezioneString, fineLezioneString, tipoLezioneString);
+                        String giornoLezioneString = giornoLezione.getSelectedItem().toString();
+
+                        listener.applyTexts(aulaString, inizioLezioneString, fineLezioneString, tipoLezioneString, giornoLezioneString);
+
                     }
+
                 });
 
-        aula = view.findViewById(R.id.aula_AddLessonDialogLayout);
-        inizioLezione = view.findViewById(R.id.inizioLezione_AddLessonDialogLayout);
-        fineLezione = view.findViewById(R.id.fineLezione_AddLessonDialogLayout);
-        tipoLezione = view.findViewById(R.id.radioButton_AddLessonDialogLayout);
+
 
         return builder.create();
     }
@@ -89,8 +102,9 @@ public class AddLessonDialog extends AppCompatDialogFragment {
         }
     }
 
+
     public interface ExampleDialogListener {
-        void applyTexts(String aula, String inizioLezione, String fineLezione, String tipoLezione);
+        void applyTexts(String aula, String inizioLezione, String fineLezione, String tipoLezione, String giornoLezione);
     }
 
 }

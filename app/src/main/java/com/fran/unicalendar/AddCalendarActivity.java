@@ -17,6 +17,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class AddCalendarActivity extends AppCompatActivity implements AddLessonDialog.ExampleDialogListener {
 
@@ -30,9 +33,23 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
     TextView orarioDiInizio;
     TextView orarioDiFine;
     TextView tipo;
+    TextView giorno;
     TextView deleteLession;
 
     private Handler handler;
+
+    private static boolean materiaValidator(String materia) {
+
+        Pattern pattern;
+        Matcher matcher;
+        final String Materia_Pattern =
+                "[A-Za-z\\s]{2,70}$";
+        pattern = Pattern.compile(Materia_Pattern);
+        matcher = pattern.matcher(materia);
+
+        return matcher.matches();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,47 +62,74 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
         addLezione = findViewById(R.id.addLezione_AddCalendarActivity);
         handler = new Handler();
 
+
         addLezione.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("InflateParams")
             @Override
             public void onClick(View view) {
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                layoutInflater = getLayoutInflater();
-                                infoLession = (LinearLayout) layoutInflater.inflate(R.layout.info_lession_view, null);
-                                mainLayout = findViewById(R.id.mainLayout);
-                                infoLession.setTag(mainLayout.getChildCount() + 1);
-                                //System.out.println("View aggiunta con TAG : "+ mainLayout.getChildCount());
-                                mainLayout.addView(infoLession, mainLayout.getChildCount());
-                                Log.d("lession add with TAG ", infoLession.getTag().toString());
-                                Log.d("child count ", Integer.toString(mainLayout.getChildCount()));
+                if (validator()) {
 
-                                LinearLayout alias = (LinearLayout) mainLayout.getChildAt(mainLayout.getChildCount() - 1);
-                                CardView cardView = (CardView) alias.getChildAt(0);
-                                LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-                                LinearLayout linearLayout1 = (LinearLayout) linearLayout.getChildAt(0);
-                                deleteLession = (TextView) linearLayout.getChildAt(1);
-                                aula = (TextView) linearLayout1.getChildAt(0);
-                                orarioDiInizio = (TextView) linearLayout1.getChildAt(1);
-                                orarioDiFine = (TextView) linearLayout1.getChildAt(2);
-                                tipo = (TextView) linearLayout1.getChildAt(3);
-                                tipo.addTextChangedListener(new CustomTextWatcher(tipo, infoLession, mainLayout));
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    layoutInflater = getLayoutInflater();
+                                    infoLession = (LinearLayout) layoutInflater.inflate(R.layout.info_lession_view, null);
+                                    mainLayout = findViewById(R.id.mainLayout);
+                                    infoLession.setTag(mainLayout.getChildCount() + 1);
+                                    //System.out.println("View aggiunta con TAG : "+ mainLayout.getChildCount());
+                                    mainLayout.addView(infoLession, mainLayout.getChildCount());
+                                    Log.d("lession add with TAG ", infoLession.getTag().toString());
+                                    Log.d("child count ", Integer.toString(mainLayout.getChildCount()));
 
-                                openDialog();
+                                    LinearLayout alias = (LinearLayout) mainLayout.getChildAt(mainLayout.getChildCount() - 1);
+                                    CardView cardView = (CardView) alias.getChildAt(0);
+                                    LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+                                    LinearLayout linearLayout1 = (LinearLayout) linearLayout.getChildAt(0);
+                                    deleteLession = (TextView) linearLayout.getChildAt(1);
+                                    aula = (TextView) linearLayout1.getChildAt(0);
+                                    orarioDiInizio = (TextView) linearLayout1.getChildAt(1);
+                                    orarioDiFine = (TextView) linearLayout1.getChildAt(2);
+                                    tipo = (TextView) linearLayout1.getChildAt(3);
+                                    giorno = (TextView) linearLayout1.getChildAt(4);
+                                    tipo.addTextChangedListener(new CustomTextWatcher(tipo, infoLession, mainLayout));
 
-                            }
-                        });
-                    }
-                }).start();
+                                    openDialog();
 
+                                }
+                            });
+                        }
+                    }).start();
+                }
             }
         });
 
+    }
+
+    public boolean validator() {
+
+        if (materia.getText().toString().isEmpty()) {
+            materia.setError("Il campo relativo alla materia non puo' essere vuoto!");
+            materia.requestFocus();
+            return false;
+        } else if (!materiaValidator(materia.getText().toString())) {
+            materia.setError("La materia inserita non e' ammessa!\nLa lunghezza dev'essere minimo di 2 caratteri e massimo 70.");
+            materia.requestFocus();
+            return false;
+        } else if (professore.getText().toString().isEmpty()) {
+            professore.setError("Il campo relativo al docente non puo' essere vuoto!");
+            professore.requestFocus();
+            return false;
+        } else if (!materiaValidator(professore.getText().toString())) {
+            professore.setError("Il nome del docente inserito non e' ammesso!\nLa lunghezza dev'essere minimo di 2 caratteri e massimo 70.");
+            professore.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 
     public void openDialog() {
@@ -109,11 +153,12 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
     }
 
     @Override
-    public void applyTexts(String aula1, String inizioLezione1, String fineLezione1, String tipoLezione) {
+    public void applyTexts(String aula1, String inizioLezione1, String fineLezione1, String tipoLezione, String giornoLezione) {
         aula.setText(aula.getText().toString().concat(aula1));
         orarioDiInizio.setText(orarioDiInizio.getText().toString().concat(inizioLezione1));
         orarioDiFine.setText(orarioDiFine.getText().toString().concat(fineLezione1));
         tipo.setText(tipo.getText().toString().concat(tipoLezione));
+        giorno.setText(giorno.getText().toString().concat(giornoLezione));
     }
 
     public class CustomTextWatcher implements TextWatcher {
@@ -163,17 +208,7 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
             deleteLession.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*
-                    if((Integer) infoLession.getTag()==(mainLayout.getChildCount())){
-                        Log.d("Child count before = ", Integer.toString(mainLayout.getChildCount()));
-                        Log.d("Clickable", "sto cliccando sull'info lession numero : " + infoLession.getTag().toString() );
-                        System.out.println("View rimossa con TAG : " + infoLession.getTag().toString());
-                        mainLayout.removeViewAt((Integer) infoLession.getTag()-1);
 
-                        Log.d("Child count after = ", Integer.toString(mainLayout.getChildCount()));
-                    contatore--;
-                    } */
-                    //int prova = mainLayout.getChildCount()-1;
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
