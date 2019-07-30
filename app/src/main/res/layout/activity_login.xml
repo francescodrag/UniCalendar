@@ -26,7 +26,7 @@
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:text="francescodragone@live.it"
+
             tools:ignore="Autofill" />
 
         <EditText
@@ -36,7 +36,6 @@
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:text="Matematica1"
             tools:ignore="Autofill" />
 
         <TextView
