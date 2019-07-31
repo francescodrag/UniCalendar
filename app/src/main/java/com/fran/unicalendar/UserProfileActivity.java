@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -31,19 +32,19 @@ public class UserProfileActivity extends AppCompatActivity {
 
     ImageView edit, save;
     EditText email;
-    Spinner spinnerTipo;
+    AutoCompleteTextView autoTipo;
     ArrayAdapter<CharSequence> adapterTipo;
     String tipo;
     String changedTipo;
-    Spinner spinnerAnno;
+    AutoCompleteTextView autoAnno;
     ArrayAdapter<CharSequence> adapterAnno;
     String anno;
     String changedAnno;
-    Spinner spinnerUniversita;
+    AutoCompleteTextView autoUniversita;
     ArrayAdapter<CharSequence> adapterUniversita;
     String universita;
     String changedUniversita;
-    Spinner spinnerDipartimento;
+    AutoCompleteTextView autoDipartimento;
     ArrayAdapter<CharSequence> adapterDipartimento;
     String dipartimento;
     String changedDipartimento;
@@ -108,6 +109,8 @@ public class UserProfileActivity extends AppCompatActivity {
                 edit.setVisibility(View.INVISIBLE);
                 save.setVisibility(View.VISIBLE);
                 enableView();
+                enableAdapterTipo();
+                enableAdapterAnno();
 
             }
         });
@@ -134,6 +137,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
+        /*
         spinnerTipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -190,6 +194,8 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
+        */
+
         checkSinistra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -216,10 +222,10 @@ public class UserProfileActivity extends AppCompatActivity {
         save = findViewById(R.id.save_UserProfileActivity);
         edit = findViewById(R.id.edit_UserProfileActivity);
         email = findViewById(R.id.email_UserProfileActivity);
-        spinnerTipo = findViewById(R.id.tipologies_UserProfileActivity);
-        spinnerAnno = findViewById(R.id.years_UserProfileActivity);
-        spinnerUniversita = findViewById(R.id.univerisites_UserProfileActivity);
-        spinnerDipartimento = findViewById(R.id.departments_UserProfileActivity);
+        autoTipo = findViewById(R.id.tipologies_UserProfileActivity);
+        autoAnno = findViewById(R.id.years_UserProfileActivity);
+        autoUniversita = findViewById(R.id.univerisites_UserProfileActivity);
+        autoDipartimento = findViewById(R.id.department_UserProfileActivity);
         checkSinistra = findViewById(R.id.primoSemestre_UserProfileActivity);
         checkDestra = findViewById(R.id.secondoSemestre_UserProfileActivity);
 
@@ -240,14 +246,22 @@ public class UserProfileActivity extends AppCompatActivity {
 
         nomeCognome.setText(user.getNome().concat(" ").concat(user.getCognome()));
         email.setText(user.getEmail());
+        autoTipo.setText(user.getUniversityTipe());
+        autoAnno.setText(user.getAnno());
+        autoUniversita.setText(user.getUniversity());
+        autoDipartimento.setText(user.getDepartment());
+
+        /*
         settingSpinnerTipo();
         settingSpinnerAnno();
         settingSpinnerUniversita();
         settingSpinnerDipartimento();
+        */
         settingSemester();
 
     }
 
+    /*
     public void settingSpinnerTipo() {
 
         tipo = user.getUniversityTipe();
@@ -512,6 +526,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
+*/
     public void settingSemester() {
 
         semestre = user.getSemestre();
@@ -528,10 +543,10 @@ public class UserProfileActivity extends AppCompatActivity {
     public void disableView() {
 
         email.setEnabled(false);
-        spinnerTipo.setEnabled(false);
-        spinnerAnno.setEnabled(false);
-        spinnerUniversita.setEnabled(false);
-        spinnerDipartimento.setEnabled(false);
+        autoTipo.setEnabled(false);
+        autoAnno.setEnabled(false);
+        autoUniversita.setEnabled(false);
+        autoDipartimento.setEnabled(false);
         checkSinistra.setEnabled(false);
         checkDestra.setVisibility(View.INVISIBLE);
 
@@ -539,12 +554,56 @@ public class UserProfileActivity extends AppCompatActivity {
 
     public void enableView() {
 
-        spinnerTipo.setEnabled(true);
-        spinnerAnno.setEnabled(true);
-        spinnerUniversita.setEnabled(true);
-        spinnerDipartimento.setEnabled(true);
+        autoTipo.setEnabled(true);
+        autoAnno.setEnabled(true);
+        autoUniversita.setEnabled(true);
+        autoDipartimento.setEnabled(true);
         checkSinistra.setEnabled(true);
         checkDestra.setVisibility(View.VISIBLE);
+
+    }
+
+    public void enableAdapterTipo() {
+
+        adapterTipo = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                R.array.tipologies,
+                android.R.layout.simple_spinner_item);
+        autoTipo.setAdapter(adapterTipo);
+
+    }
+
+    public void enableAdapterAnno() {
+
+        if (autoTipo.getText().toString().equals("Laurea Triennale")) {
+
+            Log.d("autoTipo", autoTipo.getText().toString());
+            adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                    R.array.Triennale,
+                    android.R.layout.simple_spinner_item);
+            autoAnno.setAdapter(adapterAnno);
+
+        } else if (autoTipo.getText().toString().equals("Laurea Magistrale")) {
+
+            adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                    R.array.Magistrale,
+                    android.R.layout.simple_spinner_item);
+            autoAnno.setAdapter(adapterAnno);
+
+        } else if (autoTipo.getText().toString().equals("Laurea Magistrale a Ciclo Unico di 5 Anni")) {
+
+            adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                    R.array.Magistrale_ciclo_unico_di_5_anni,
+                    android.R.layout.simple_spinner_item);
+            autoAnno.setAdapter(adapterAnno);
+
+        } else if (autoTipo.getText().toString().equals("Laurea Magistrale a Ciclo Unico di 6 Anni")) {
+
+            adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                    R.array.Magistrale_ciclo_unico_di_6_anni,
+                    android.R.layout.simple_spinner_item);
+            autoAnno.setAdapter(adapterAnno);
+
+        }
 
     }
 
@@ -683,11 +742,11 @@ public class UserProfileActivity extends AppCompatActivity {
         adapterDipartimento.notifyDataSetChanged();
 
         adapterAnno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerAnno.setAdapter(adapterAnno);
+        autoAnno.setAdapter(adapterAnno);
         changedTipo = adapterView.getSelectedItem().toString().trim();
 
         adapterDipartimento.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerDipartimento.setAdapter(adapterDipartimento);
+        autoDipartimento.setAdapter(adapterDipartimento);
 
     }
 
@@ -831,7 +890,7 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
         adapterDipartimento.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerDipartimento.setAdapter(adapterDipartimento);
+        autoDipartimento.setAdapter(adapterDipartimento);
 
     }
 
@@ -887,7 +946,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     public void uploadFirestore(String data, final ProgressDialog progressDialog) {
 
-        DocumentReference washingtonRef = firebaseFirestore.collection("Users").document(firebaseUser.getEmail());
+        DocumentReference washingtonRef = firebaseFirestore.collection("Users").document(Objects.requireNonNull(firebaseUser.getEmail()));
         System.out.println(data);
 // Set the "isCapital" field of the city 'DC'
         washingtonRef
