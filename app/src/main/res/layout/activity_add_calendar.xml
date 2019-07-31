@@ -79,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Materia"
+                    android:text="Ricerca Operativa"
                     android:inputType="textPersonName"
                     tools:ignore="Autofill,HardcodedText" />
 
@@ -98,6 +99,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Professore"
+                    android:text="Delfina Malandrino"
                     android:inputType="textPersonName"
                     tools:ignore="Autofill,HardcodedText" />
 

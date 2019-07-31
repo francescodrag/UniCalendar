@@ -35,7 +35,6 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
     TextView tipo;
     TextView giorno;
     TextView deleteLession;
-
     private Handler handler;
 
     private static boolean materiaValidator(String materia) {
@@ -47,7 +46,7 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
         pattern = Pattern.compile(Materia_Pattern);
         matcher = pattern.matcher(materia);
 
-        return matcher.matches();
+        return !matcher.matches();
 
     }
 
@@ -60,6 +59,7 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
         materia = findViewById(R.id.materia_AddCalendarActivity);
         professore = findViewById(R.id.professore_AddCalendarActivity);
         addLezione = findViewById(R.id.addLezione_AddCalendarActivity);
+
         handler = new Handler();
 
 
@@ -115,7 +115,7 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
             materia.setError("Il campo relativo alla materia non puo' essere vuoto!");
             materia.requestFocus();
             return false;
-        } else if (!materiaValidator(materia.getText().toString())) {
+        } else if (materiaValidator(materia.getText().toString())) {
             materia.setError("La materia inserita non e' ammessa!\nLa lunghezza dev'essere minimo di 2 caratteri e massimo 70.");
             materia.requestFocus();
             return false;
@@ -123,7 +123,7 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
             professore.setError("Il campo relativo al docente non puo' essere vuoto!");
             professore.requestFocus();
             return false;
-        } else if (!materiaValidator(professore.getText().toString())) {
+        } else if (materiaValidator(professore.getText().toString())) {
             professore.setError("Il nome del docente inserito non e' ammesso!\nLa lunghezza dev'essere minimo di 2 caratteri e massimo 70.");
             professore.requestFocus();
             return false;
@@ -134,9 +134,6 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
     public void openDialog() {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -147,10 +144,10 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
                     }
                 });
-            }
-        }).start();
+
 
     }
+
 
     @Override
     public void applyTexts(String aula1, String inizioLezione1, String fineLezione1, String tipoLezione, String giornoLezione) {

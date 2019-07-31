@@ -10,10 +10,12 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -29,12 +31,13 @@ public class AddLessonDialog extends AppCompatDialogFragment {
     private RadioButton tipoLezione;
     private Spinner giornoLezione;
     private ExampleDialogListener listener;
+    private Button positive;
 
     @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.add_lesson_dialog_layout, null);
@@ -72,7 +75,6 @@ public class AddLessonDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-
                         String aulaString = aula.getText().toString();
                         String inizioLezioneString = inizioLezione.getText().toString();
                         String fineLezioneString = fineLezione.getText().toString();
@@ -85,7 +87,28 @@ public class AddLessonDialog extends AppCompatDialogFragment {
 
                 });
 
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
 
+                System.out.println("FUNZIONA!");
+
+                AlertDialog alertDialog = (AlertDialog) getDialog();
+                positive = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        //TODO
+
+                    }
+                });
+
+                Toast.makeText(getActivity(), "Allert Mostrato", Toast.LENGTH_LONG).show();
+
+            }
+        });
 
         return builder.create();
     }
@@ -106,5 +129,6 @@ public class AddLessonDialog extends AppCompatDialogFragment {
     public interface ExampleDialogListener {
         void applyTexts(String aula, String inizioLezione, String fineLezione, String tipoLezione, String giornoLezione);
     }
+
 
 }
