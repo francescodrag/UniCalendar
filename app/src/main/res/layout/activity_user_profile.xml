@@ -189,15 +189,15 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <Spinner
+                <AutoCompleteTextView
                     android:id="@+id/tipologies_UserProfileActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:clickable="false"
-                    android:entries="@array/tipologies"
-                    android:spinnerMode="dropdown" />
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="LabelFor" />
 
                 <TextView
                     android:id="@+id/textView_Anno"
@@ -208,14 +208,16 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <Spinner
+                <AutoCompleteTextView
                     android:id="@+id/years_UserProfileActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:entries="@array/Triennale"
-                    android:spinnerMode="dropdown" />
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="LabelFor" />
+
 
                 <TextView
                     android:id="@+id/textView_Universita"
@@ -226,14 +228,16 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <Spinner
+                <AutoCompleteTextView
                     android:id="@+id/univerisites_UserProfileActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:entries="@array/Universities"
-                    android:spinnerMode="dropdown" />
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="LabelFor" />
+
 
                 <TextView
                     android:id="@+id/textView_Dipartimento"
@@ -244,14 +248,15 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <Spinner
-                    android:id="@+id/departments_UserProfileActivity"
+                <AutoCompleteTextView
+                    android:id="@+id/department_UserProfileActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:entries="@array/Universita_Degli_Studi_Di_Salerno_Triennale"
-                    android:spinnerMode="dropdown" />
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="LabelFor" />
 
                 <TextView
                     android:id="@+id/textView_Semestre"

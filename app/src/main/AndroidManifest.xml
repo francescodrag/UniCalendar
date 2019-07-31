@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".AddCalendarActivity"></activity>
+        <activity
+            android:name=".AddCalendarActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".UserProfileActivity" />
         <activity
             android:name=".SplashActivity"
