@@ -3,6 +3,7 @@ package com.fran.unicalendar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +54,8 @@ public class UserProfileActivity extends AppCompatActivity {
     Intent intent;
     TextView nomeCognome;
     User user;
+    ImageView imageUser;
+    Handler handler;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -66,6 +68,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         intent = getIntent();
         user = intent.getParcelableExtra("utente");
+        handler = new Handler();
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -121,6 +124,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
                 edit.setVisibility(View.VISIBLE);
                 save.setVisibility(View.INVISIBLE);
+                /*
                 verifyChange();
                 if (tipo.equals(changedTipo)) {
                     System.out.println("Changed Value: " + changedAnno + "\nPrevious Value: " + anno);
@@ -132,6 +136,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Changed detected", Toast.LENGTH_LONG).show();
 
                 }
+                */
 
 
             }
@@ -212,6 +217,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         setupView();
         settingView();
+        setupImageUser();
         disableView();
 
     }
@@ -228,7 +234,47 @@ public class UserProfileActivity extends AppCompatActivity {
         autoDipartimento = findViewById(R.id.department_UserProfileActivity);
         checkSinistra = findViewById(R.id.primoSemestre_UserProfileActivity);
         checkDestra = findViewById(R.id.secondoSemestre_UserProfileActivity);
+        imageUser = findViewById(R.id.image_UserProfileActivity);
 
+    }
+
+    public void setupImageUser() {
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                if (user.getUniversity().equals("Universita' degli Studi di Salerno")) {
+                    imageUser.setBackgroundResource(R.drawable.unisa);
+
+                } else if (user.getUniversity().equals("Universita' degli Studi di Napoli - Federico II")) {
+
+                    imageUser.setBackgroundResource(R.drawable.unina_federico);
+
+                } else if (user.getUniversity().equals("Universita' degli Studi di Napoli - L'Orientale")) {
+
+                    imageUser.setBackgroundResource(R.drawable.unina_orientale);
+
+                } else if (user.getUniversity().equals("Universita' degli Studi di Napoli - Parthenope")) {
+
+                    imageUser.setBackgroundResource(R.drawable.unina_parthenope);
+
+                } else if (user.getUniversity().equals("Universita' degli Studi di Napoli - Suor Orsola Benincasa")) {
+
+                    imageUser.setBackgroundResource(R.drawable.unina_orsola);
+
+                } else if (user.getUniversity().equals("Universita' degli Studi del Sannio")) {
+
+                    imageUser.setBackgroundResource(R.drawable.unibe);
+
+                } else if (user.getUniversity().equals("Universita degli Studi della Campania - Luigi Vanvitelli")) {
+
+                    imageUser.setBackgroundResource(R.drawable.unica);
+
+                }
+
+            }
+        });
     }
 
     public void selectSpinnerItemByValue(Spinner spinner, ArrayAdapter<CharSequence> adapter, String value) {
