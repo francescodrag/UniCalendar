@@ -21,6 +21,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +33,14 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
     SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
+    Gson gson;
+
+    Corso corso;
+    List<Corso> corsi;
+    Lezione lezione;
+    List<Lezione> lezioni;
+    //Calendario calendario;
+
     int counterLezioni = 1;
     ImageView addCorso;
 
@@ -36,7 +48,7 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
     LinearLayout infoLession;
     ViewGroup mainLayout;
     ImageView saveCalendar;
-    TextView corso;
+    TextView twcorso;
     EditText materia;
     EditText professore;
     ImageView addLezione;
@@ -63,57 +75,31 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
     }
 
-    public boolean validator() {
-
-        if (materia.getText().toString().isEmpty()) {
-            materia.setError("Il campo relativo alla materia non puo' essere vuoto!");
-            materia.requestFocus();
-            return false;
-        } else if (materiaValidator(materia.getText().toString())) {
-            materia.setError("La materia inserita non e' ammessa!\nLa lunghezza dev'essere minimo di 2 caratteri e massimo 70.");
-            materia.requestFocus();
-            return false;
-        } else if (professore.getText().toString().isEmpty()) {
-            professore.setError("Il campo relativo al docente non puo' essere vuoto!");
-            professore.requestFocus();
-            return false;
-        } else if (materiaValidator(professore.getText().toString())) {
-            professore.setError("Il nome del docente inserito non e' ammesso!\nLa lunghezza dev'essere minimo di 2 caratteri e massimo 70.");
-            professore.requestFocus();
-            return false;
-        }
-
-        return true;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_calendar);
 
+        setupViews();
+        setupObject();
 
-        materia = findViewById(R.id.materia_AddCalendarActivity);
-        professore = findViewById(R.id.professore_AddCalendarActivity);
-        addLezione = findViewById(R.id.addLezione_AddCalendarActivity);
-        addCorso = findViewById(R.id.addCorso_AddCalendarActivity);
-        saveCalendar = findViewById(R.id.saveCalendar_AddCalendarActivity);
-        corso = findViewById(R.id.Corso_AddCalendarActivity);
-
-        //if(counterLezioni>2)
         getData();
 
         addCorso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                saveData();
+                if (checkLezioni()) {
+
+                    setupLezioni();
+
+                    startActivity(new Intent(getApplicationContext(), AddCalendarActivityBucle.class));
+
+                }
+
 
             }
         });
-
-
-        handler = new Handler();
-
 
         addLezione.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("InflateParams")
@@ -128,6 +114,7 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
+
                                     layoutInflater = getLayoutInflater();
                                     infoLession = (LinearLayout) layoutInflater.inflate(R.layout.info_lession_view, null);
                                     mainLayout = findViewById(R.id.mainLayout);
@@ -171,6 +158,99 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
     }
 
+    public void setupViews() {
+
+        materia = findViewById(R.id.materia_AddCalendarActivity);
+        professore = findViewById(R.id.professore_AddCalendarActivity);
+        addLezione = findViewById(R.id.addLezione_AddCalendarActivity);
+        addCorso = findViewById(R.id.addCorso_AddCalendarActivity);
+        saveCalendar = findViewById(R.id.saveCalendar_AddCalendarActivity);
+        twcorso = findViewById(R.id.Corso_AddCalendarActivity);
+
+
+    }
+
+    public void setupObject() {
+
+        handler = new Handler();
+        corsi = new ArrayList<>();
+        lezioni = new ArrayList<>();
+
+
+    }
+
+    public void setupLezioni() {
+
+        int i = mainLayout.getChildCount();
+
+        for (int c = 2; c < i; c++) {
+
+            LinearLayout alias = (LinearLayout) mainLayout.getChildAt(c);
+            CardView cardView = (CardView) alias.getChildAt(0);
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            LinearLayout linearLayout1 = (LinearLayout) linearLayout.getChildAt(0);
+            deleteLession = (TextView) linearLayout.getChildAt(1);
+            aula = (TextView) linearLayout1.getChildAt(0);
+            orarioDiInizio = (TextView) linearLayout1.getChildAt(1);
+            orarioDiFine = (TextView) linearLayout1.getChildAt(2);
+            tipo = (TextView) linearLayout1.getChildAt(3);
+            giorno = (TextView) linearLayout1.getChildAt(4);
+
+            lezione = new Lezione(aula.getText().toString().substring(15), orarioDiInizio.getText().toString().substring(27),
+                    orarioDiFine.getText().toString().substring(26), tipo.getText().toString().substring(15), giorno.getText().toString().substring(9));
+
+            System.out.println("Iterazione numero " + c + " del ciclo for per instanziare le lezioni.");
+            System.out.println("L'oggetto lezione contiene i valori: " + lezione.getAula() + "\n" + lezione.getOraDiInizio() + "\n" +
+                    lezione.getOraDiFine() + "\n" + lezione.getTipologia() + "\n" + lezione.getGiornoDellaLezione());
+
+            lezioni.add(lezione);
+
+        }
+
+        setupCorso(lezioni);
+
+    }
+
+    public void setupCorso(List<Lezione> lezioni) {
+
+        corso = new Corso(materia.getText().toString(), professore.getText().toString(), lezioni);
+        corsi.add(corso);
+
+        saveData();
+
+    }
+
+    public boolean checkLezioni() {
+
+        mainLayout = findViewById(R.id.mainLayout);
+
+        return mainLayout.getChildCount() != 2;
+
+    }
+
+    public boolean validator() {
+
+        if (materia.getText().toString().isEmpty()) {
+            materia.setError("Il campo relativo alla materia non puo' essere vuoto!");
+            materia.requestFocus();
+            return false;
+        } else if (materiaValidator(materia.getText().toString())) {
+            materia.setError("La materia inserita non e' ammessa!\nLa lunghezza dev'essere minimo di 2 caratteri e massimo 70.");
+            materia.requestFocus();
+            return false;
+        } else if (professore.getText().toString().isEmpty()) {
+            professore.setError("Il campo relativo al docente non puo' essere vuoto!");
+            professore.requestFocus();
+            return false;
+        } else if (materiaValidator(professore.getText().toString())) {
+            professore.setError("Il nome del docente inserito non e' ammesso!\nLa lunghezza dev'essere minimo di 2 caratteri e massimo 70.");
+            professore.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
     public void openDialog() {
 
         handler.post(new Runnable() {
@@ -187,27 +267,25 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
     }
 
-    //Save counterLession info
+    //Save counterLession info and corsi Object
     public void saveData() {
 
-        sharedPreferences = getSharedPreferences("Counter_Corso", Context.MODE_PRIVATE);
+        gson = new Gson();
+        String json = gson.toJson(corsi);
 
+        sharedPreferences = getSharedPreferences("Counter_Corso", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
         int count = counterLezioni + 1;
 
         editor.putInt("counter", count);
-        System.out.println("Normal, counterLezioni: " + count);
+        editor.putString("corsi", json);
 
-        //editor.remove("counter").apply();
         editor.apply();
-
-        //Toast.makeText(AddCalendarActivity.this, sharedPreferences.getInt("counter", 0),Toast.LENGTH_LONG).show();
-
-        startActivity(new Intent(getApplicationContext(), AddCalendarActivityBucle.class));
 
     }
 
+    @SuppressWarnings("unchecked")
     public void getData() {
 
         sharedPreferences = getSharedPreferences("Counter_Corso", Context.MODE_PRIVATE);
@@ -217,9 +295,12 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
         if (count > 2) {
             counterLezioni = count;
+            gson = new Gson();
+            String json = sharedPreferences.getString("corsi", "");
+            corsi = (List<Corso>) gson.fromJson(json, List.class);
             saveCalendar.setVisibility(View.VISIBLE);
         }
-        corso.append(Integer.toString(counterLezioni));
+        twcorso.append(Integer.toString(counterLezioni));
 
     }
 

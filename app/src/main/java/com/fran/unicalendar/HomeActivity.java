@@ -63,7 +63,9 @@ public class HomeActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("Counter_Corso", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        editor.remove("counter").apply();
+        editor.remove("counter");
+        editor.remove("corsi");
+        editor.apply();
 
     }
 

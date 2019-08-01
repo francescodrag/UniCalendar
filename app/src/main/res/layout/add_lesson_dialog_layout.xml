@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Aula"
-            android:inputType="textPersonName"
+            android:inputType="textCapSentences"
             tools:ignore="Autofill,HardcodedText" />
 
         <TextView
