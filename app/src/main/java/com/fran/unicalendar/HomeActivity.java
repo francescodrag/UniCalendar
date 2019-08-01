@@ -2,8 +2,10 @@ package com.fran.unicalendar;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +32,9 @@ public class HomeActivity extends AppCompatActivity {
     Intent intent;
     User user;
 
+    SharedPreferences.Editor editor;
+    SharedPreferences sharedPreferences;
+
     ProgressDialog progressDialog;
 
     @Override
@@ -40,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent1 = getIntent();
         user = intent1.getParcelableExtra("utente");
 
+        RemoveSharedPreferencesForCounterCorso();
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -52,6 +58,14 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+
+    public void RemoveSharedPreferencesForCounterCorso() {
+
+        sharedPreferences = getSharedPreferences("Counter_Corso", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.remove("counter").apply();
+
+    }
 
     private void setSingleEvent(GridLayout mainGrid) {
         //Loop all child item of Main Grid

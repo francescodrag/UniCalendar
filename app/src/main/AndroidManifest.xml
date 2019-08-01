@@ -18,8 +18,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
+            android:name=".AddCalendarActivityBucle"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".AddCalendarActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".UserProfileActivity" />
         <activity
             android:name=".SplashActivity"

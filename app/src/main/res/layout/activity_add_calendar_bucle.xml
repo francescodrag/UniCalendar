@@ -6,14 +6,14 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/mainLayout"
+        android:id="@+id/mainLayoutBucle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".AddCalendarActivity">
+        tools:context=".AddCalendarActivityBucle">
 
         <LinearLayout
-            android:id="@+id/linearLayout6"
+            android:id="@+id/linearLayout6Bucle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView5Bucle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -34,7 +34,7 @@
                 tools:ignore="HardcodedText" />
 
             <ImageButton
-                android:id="@+id/addCorso_AddCalendarActivity"
+                android:id="@+id/addCorso_AddCalendarActivityBucle"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -45,13 +45,13 @@
                 tools:ignore="ContentDescription" />
 
             <ImageButton
-                android:id="@+id/saveCalendar_AddCalendarActivity"
+                android:id="@+id/saveCalendar_AddCalendarActivityBucle"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:background="@drawable/ic_launcher_foreground"
                 android:scaleType="centerInside"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:srcCompat="@drawable/icona_save"
                 tools:ignore="ContentDescription" />
 
@@ -77,7 +77,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/Corso_AddCalendarActivity"
+                    android:id="@+id/Corso_AddCalendarActivityBucle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -92,7 +92,7 @@
                     tools:ignore="HardcodedText" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/textView6Bucle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Materia :"
@@ -102,17 +102,17 @@
                     tools:ignore="HardcodedText" />
 
                 <EditText
-                    android:id="@+id/materia_AddCalendarActivity"
+                    android:id="@+id/materia_AddCalendarActivityBucle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
                     android:ems="10"
                     android:hint="Materia"
+                    android:inputType="textCapWords"
                     android:text="Ricerca Operativa"
                     tools:ignore="Autofill,HardcodedText" />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/textView7Bucle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Docente : "
@@ -122,7 +122,7 @@
                     tools:ignore="HardcodedText" />
 
                 <EditText
-                    android:id="@+id/professore_AddCalendarActivity"
+                    android:id="@+id/professore_AddCalendarActivityBucle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -137,7 +137,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/textView8Bucle"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -149,12 +149,12 @@
                         tools:ignore="HardcodedText" />
 
                     <ImageButton
-                        android:id="@+id/addLezione_AddCalendarActivity"
+                        android:id="@+id/addLezione_AddCalendarActivityBucle"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:scaleType="fitCenter"
                         android:background="@color/white"
+                        android:scaleType="fitCenter"
                         app:srcCompat="@drawable/icona_aggiungi_calendario_home_activity"
                         tools:ignore="ContentDescription" />
                 </LinearLayout>
