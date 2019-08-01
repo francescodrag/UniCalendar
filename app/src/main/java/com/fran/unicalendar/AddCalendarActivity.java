@@ -222,6 +222,8 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
     public boolean checkLezioni() {
 
+        mainLayout = findViewById(R.id.mainLayout);
+
         return mainLayout.getChildCount() != 2;
 
     }

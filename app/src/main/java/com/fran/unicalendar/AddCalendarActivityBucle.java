@@ -214,6 +214,8 @@ public class AddCalendarActivityBucle extends AppCompatActivity implements AddLe
 
     public boolean checkLezioni() {
 
+        mainLayout = findViewById(R.id.mainLayoutBucle);
+
         return mainLayout.getChildCount() != 2;
 
     }
