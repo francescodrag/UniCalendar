@@ -1,40 +1,30 @@
 package com.fran.unicalendar;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Calendario {
 
-    private String id;
     private String university;
     private String department;
     private String universityType;
+    private String anno;
     private String tipoSuddivisione;
     private String suddivisione;
-    private String anno;
     private String semestre;
-    private ArrayList<Lezione> lezioni;
+    private List<Corso> corsi;
 
     public Calendario() {
     }
 
-    public Calendario(String id, String university, String department, String universityType, String tipoSuddivisione, String suddivisione, String anno, String semestre, ArrayList<Lezione> lezioni) {
-        this.id = id;
+    public Calendario(String university, String department, String universityType, String anno, String tipoSuddivisione, String suddivisione, String semestre, List<Corso> corsi) {
         this.university = university;
         this.department = department;
         this.universityType = universityType;
+        this.anno = anno;
         this.tipoSuddivisione = tipoSuddivisione;
         this.suddivisione = suddivisione;
-        this.anno = anno;
         this.semestre = semestre;
-        this.lezioni = lezioni;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.corsi = corsi;
     }
 
     public String getUniversity() {
@@ -61,6 +51,14 @@ public class Calendario {
         this.universityType = universityType;
     }
 
+    public String getAnno() {
+        return anno;
+    }
+
+    public void setAnno(String anno) {
+        this.anno = anno;
+    }
+
     public String getTipoSuddivisione() {
         return tipoSuddivisione;
     }
@@ -77,14 +75,6 @@ public class Calendario {
         this.suddivisione = suddivisione;
     }
 
-    public String getAnno() {
-        return anno;
-    }
-
-    public void setAnno(String anno) {
-        this.anno = anno;
-    }
-
     public String getSemestre() {
         return semestre;
     }
@@ -93,16 +83,15 @@ public class Calendario {
         this.semestre = semestre;
     }
 
-    public ArrayList<Lezione> getLezioni() {
-        return lezioni;
+    public List<Corso> getCorsi() {
+        return corsi;
     }
 
-    public void setLezione(ArrayList<Lezione> lezioni) {
-        this.lezioni = lezioni;
+    public void setCorsi(List<Corso> corsi) {
+        this.corsi = corsi;
     }
 
-    public void addLezione(Lezione lezione) {
-        lezioni.add(lezione);
+    public void addCorso(Corso corso) {
+        corsi.add(corso);
     }
-
 }

@@ -25,8 +25,9 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/email"
+            android:text="francescodragone@live.it"
             android:inputType="textEmailAddress"
-            tools:ignore="Autofill" />
+            tools:ignore="Autofill,HardcodedText" />
 
         <EditText
             android:id="@+id/password_Login"
@@ -34,8 +35,9 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/password"
+            android:text="Test1234"
             android:inputType="textPassword"
-            tools:ignore="Autofill" />
+            tools:ignore="Autofill,HardcodedText" />
 
         <TextView
             android:id="@+id/recuperaPassword_Login"

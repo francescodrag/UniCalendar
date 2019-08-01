@@ -3,22 +3,20 @@ package com.fran.unicalendar;
 public class Lezione {
 
     public String aula;
-    public String professore;
-    public String inizioLezione;
-    public String fineLezione;
-    public String tipo;
-    //public String durata; //settimane
-
+    public String oraDiInizio;
+    public String oraDiFine;
+    public String tipologia;
+    public String giornoDellaLezione;
 
     public Lezione() {
     }
 
-    public Lezione(String aula, String professore, String inizioLezione, String fineLezione, String tipo) {
+    public Lezione(String aula, String oraDiInizio, String oraDiFine, String tipologia, String giornoDellaLezione) {
         this.aula = aula;
-        this.professore = professore;
-        this.inizioLezione = inizioLezione;
-        this.fineLezione = fineLezione;
-        this.tipo = tipo;
+        this.oraDiInizio = oraDiInizio;
+        this.oraDiFine = oraDiFine;
+        this.tipologia = tipologia;
+        this.giornoDellaLezione = giornoDellaLezione;
     }
 
     public String getAula() {
@@ -29,35 +27,35 @@ public class Lezione {
         this.aula = aula;
     }
 
-    public String getProfessore() {
-        return professore;
+    public String getOraDiInizio() {
+        return oraDiInizio;
     }
 
-    public void setProfessore(String professore) {
-        this.professore = professore;
+    public void setOraDiInizio(String oraDiInizio) {
+        this.oraDiInizio = oraDiInizio;
     }
 
-    public String getInizioLezione() {
-        return inizioLezione;
+    public String getOraDiFine() {
+        return oraDiFine;
     }
 
-    public void setInizioLezione(String inizioLezione) {
-        this.inizioLezione = inizioLezione;
+    public void setOraDiFine(String oraDiFine) {
+        this.oraDiFine = oraDiFine;
     }
 
-    public String getFineLezione() {
-        return fineLezione;
+    public String getTipologia() {
+        return tipologia;
     }
 
-    public void setFineLezione(String fineLezione) {
-        this.fineLezione = fineLezione;
+    public void setTipologia(String tipologia) {
+        this.tipologia = tipologia;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getGiornoDellaLezione() {
+        return giornoDellaLezione;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setGiornoDellaLezione(String giornoDellaLezione) {
+        this.giornoDellaLezione = giornoDellaLezione;
     }
 }

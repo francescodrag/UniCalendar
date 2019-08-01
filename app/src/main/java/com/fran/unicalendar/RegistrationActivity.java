@@ -43,7 +43,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Pattern pattern;
         Matcher matcher;
         final String Name_Pattern =
-                "^[A-Z][a-z]{2,15}$";
+                "^[A-Z][A-Za-z\\s]{2,30}$";
         pattern = Pattern.compile(Name_Pattern);
         matcher = pattern.matcher(nome);
 
@@ -56,7 +56,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Pattern pattern;
         Matcher matcher;
         final String Surname_Pattern =
-                "^[A-Z][A-Za-z']{2,15}$";
+                "^[A-Z][A-Za-z\\s']{2,30}$";
         pattern = Pattern.compile(Surname_Pattern);
         matcher = pattern.matcher(userSurname);
 
@@ -168,19 +168,19 @@ public class RegistrationActivity extends AppCompatActivity {
     public boolean validator() {
 
         if (nome.isEmpty()) {
-            Name.setError("Il Nome non puo' essere vuoto!\nInserisci un Nome che inizi con la lettera maiuscola compreso tra i 3 ed i 16 caratteri.");
+            Name.setError("Il Nome non puo' essere vuoto!\nInserisci un Nome che inizi con la lettera maiuscola compreso tra i 3 ed i 31 caratteri.");
             Name.requestFocus();
             return false;
         } else if (!nameValidator(nome)) {
-            Name.setError("Il nome inserito non e' ammesso!\nLa lunghezza dev'essere minimo di 3 caratteri e massimo 16.");
+            Name.setError("Il nome inserito non e' ammesso!\nLa lunghezza dev'essere minimo di 3 caratteri e massimo 31.");
             Name.requestFocus();
             return false;
         } else if (cognome.isEmpty()) {
-            Surname.setError("Il cognome non puo' essere vuoto!\nInserisci un cognome, che inizi con la lettera maiuscola e sia compreso tra 3 e 16 caratteri.");
+            Surname.setError("Il cognome non puo' essere vuoto!\nInserisci un cognome, che inizi con la lettera maiuscola e sia compreso tra 3 e 31 caratteri.");
             Surname.requestFocus();
             return false;
         } else if (!surnameValidator(cognome)) {
-            Surname.setError("Il Cognome inserito non e' ammesso!\nLa lunghezza dev'essere minimo di 3 caratteri e massimo 16.");
+            Surname.setError("Il Cognome inserito non e' ammesso!\nLa lunghezza dev'essere minimo di 3 caratteri e massimo 31.");
             Surname.requestFocus();
             return false;
         } else if (dipartimento.equals("-")) {
