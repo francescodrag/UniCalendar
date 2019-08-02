@@ -1,7 +1,9 @@
 package com.fran.unicalendar;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.util.Objects;
 
@@ -40,6 +43,10 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent2;
     FirebaseUser firebaseUser;
     private ProgressDialog progressDialog;
+
+    SharedPreferences.Editor editor;
+    SharedPreferences sharedPreferences;
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,30 +212,42 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d("", "DocumentSnapshot data: " + document.getData());
-                        System.out.println(document.getData());
+                    if (document != null) {
+                        if (document.exists()) {
+                            Log.d("", "DocumentSnapshot data: " + document.getData());
+                            System.out.println(document.getData());
 
-                        user = new User();
+                            user = new User();
 
-                        user.setNome((String) document.get("Name"));
-                        user.setCognome((String) document.get("Surname"));
-                        user.setId((String) document.get("Id"));
-                        user.setSuddivisione((String) document.get("Subdivision"));
-                        user.setTipoSuddivisione((String) document.get("SubdivisionType"));
-                        user.setEmail((String) document.get("Email"));
-                        user.setSemestre((String) document.get("Semester"));
-                        user.setDepartment((String) document.get("Department"));
-                        user.setAnno((String) document.get("Year"));
-                        user.setUniversity((String) document.get("University"));
-                        user.setUniversityTipe((String) document.get("UniversityType"));
-                        user.setPassword((String) document.get("Password"));
+                            user.setNome((String) document.get("Name"));
+                            user.setCognome((String) document.get("Surname"));
+                            user.setId((String) document.get("Id"));
+                            user.setSuddivisione((String) document.get("Subdivision"));
+                            user.setTipoSuddivisione((String) document.get("SubdivisionType"));
+                            user.setEmail((String) document.get("Email"));
+                            user.setSemestre((String) document.get("Semester"));
+                            user.setDepartment((String) document.get("Department"));
+                            user.setAnno((String) document.get("Year"));
+                            user.setUniversity((String) document.get("University"));
+                            user.setUniversityTipe((String) document.get("UniversityType"));
+                            user.setPassword((String) document.get("Password"));
 
-                        intent2.putExtra("utente", user);
-                        startActivity(intent2);
+                            gson = new Gson();
+                            String json = gson.toJson(user);
 
-                    } else {
-                        Log.d("", "No such document");
+                            sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
+                            editor = sharedPreferences.edit();
+
+                            editor.putString("user", json);
+
+                            editor.apply();
+
+                            //intent2.putExtra("utente", user);
+                            startActivity(intent2);
+
+                        } else {
+                            Log.d("", "No such document");
+                        }
                     }
                 } else {
                     Log.d("", "get failed with ", task.getException());

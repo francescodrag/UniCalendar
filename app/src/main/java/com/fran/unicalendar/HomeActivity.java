@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -34,6 +35,7 @@ public class HomeActivity extends AppCompatActivity {
 
     SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
+    Gson gson;
 
     ProgressDialog progressDialog;
 
@@ -42,8 +44,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Intent intent1 = getIntent();
-        user = intent1.getParcelableExtra("utente");
+        getUser();
+
+        //Intent intent1 = getIntent();
+        //user = intent1.getParcelableExtra("utente");
 
         RemoveSharedPreferencesForCounterCorso();
 
@@ -83,7 +87,7 @@ public class HomeActivity extends AppCompatActivity {
                         public void onClick(View view) {
 
                             intent = new Intent(HomeActivity.this, AddCalendarActivity.class);
-                            intent.putExtra("utente", user);
+                            //intent.putExtra("utente", user);
                             startActivity(intent);
 
                         }
@@ -102,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                         public void onClick(View view) {
 
                             intent = new Intent(HomeActivity.this, UserProfileActivity.class);
-                            intent.putExtra("utente", user);
+                            //intent.putExtra("utente", user);
                             startActivity(intent);
 
                         }
@@ -127,6 +131,15 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
 
+
+    }
+
+    private void getUser() {
+
+        sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
+        gson = new Gson();
+        String json = sharedPreferences.getString("user", "");
+        user = gson.fromJson(json, User.class);
 
     }
 
