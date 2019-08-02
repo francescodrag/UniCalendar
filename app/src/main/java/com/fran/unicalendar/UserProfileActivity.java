@@ -1,7 +1,9 @@
 package com.fran.unicalendar;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -24,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.util.Objects;
 
@@ -61,15 +64,23 @@ public class UserProfileActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     FirebaseFirestore firebaseFirestore;
 
+    SharedPreferences.Editor editor;
+    SharedPreferences sharedPreferences;
+    Gson gson;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        intent = getIntent();
-        user = intent.getParcelableExtra("utente");
+        //intent = getIntent();
+        //user = intent.getParcelableExtra("utente");
         handler = new Handler();
 
+        sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
+        gson = new Gson();
+        String json = sharedPreferences.getString("user", "");
+        user = gson.fromJson(json, User.class);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -267,7 +278,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     imageUser.setBackgroundResource(R.drawable.unibe);
 
-                } else if (user.getUniversity().equals("Universita degli Studi della Campania - Luigi Vanvitelli")) {
+                } else if (user.getUniversity().equals("Universita' degli Studi della Campania - Luigi Vanvitelli")) {
 
                     imageUser.setBackgroundResource(R.drawable.unica);
 

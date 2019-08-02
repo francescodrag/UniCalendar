@@ -39,7 +39,8 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
     List<Corso> corsi;
     Lezione lezione;
     List<Lezione> lezioni;
-    //Calendario calendario;
+    Calendario calendario;
+    User user;
 
     int counterLezioni = 1;
     ImageView addCorso;
@@ -156,6 +157,22 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
             }
         });
 
+        saveCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (checkLezioni()) {
+
+                    setupLezioni();
+                    getUser();
+
+                    startActivity(new Intent(getApplicationContext(), ReviewCalendarActivity.class));
+
+                }
+
+            }
+        });
+
     }
 
     public void setupViews() {
@@ -264,7 +281,6 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
             }
         });
 
-
     }
 
     //Save counterLession info and corsi Object
@@ -304,6 +320,46 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
     }
 
+    public void getUser() {
+
+        sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
+        gson = new Gson();
+        String json = sharedPreferences.getString("user", "");
+        user = gson.fromJson(json, User.class);
+
+        createCalendario(user);
+
+    }
+
+    public void createCalendario(User user) {
+
+        calendario = new Calendario();
+        calendario.setUniversityType(user.getUniversityTipe());
+        calendario.setUniversity(user.getUniversity());
+        calendario.setAnno(user.getAnno());
+        calendario.setDepartment(user.getDepartment());
+        calendario.setSemestre(user.getSemestre());
+        calendario.setSuddivisione(user.getSuddivisione());
+        calendario.setTipoSuddivisione(user.getTipoSuddivisione());
+        calendario.setCorsi(corsi);
+
+        saveCalendar();
+
+    }
+
+    public void saveCalendar() {
+
+        gson = new Gson();
+        String json = gson.toJson(calendario);
+
+        sharedPreferences = getSharedPreferences("Calendar", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        editor.putString("calendar", json);
+
+        editor.apply();
+
+    }
 
     @Override
     public void applyTexts(String aula1, String inizioLezione1, String fineLezione1, String tipoLezione, String giornoLezione) {
@@ -407,4 +463,11 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(a);
+    }
+
 }
