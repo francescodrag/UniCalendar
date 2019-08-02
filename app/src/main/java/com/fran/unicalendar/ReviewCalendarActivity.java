@@ -1,10 +1,17 @@
 package com.fran.unicalendar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.gson.Gson;
 
@@ -12,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewCalendarActivity extends AppCompatActivity {
-
 
     //SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
@@ -25,6 +31,17 @@ public class ReviewCalendarActivity extends AppCompatActivity {
     List<Lezione> lezioni;
     Calendario calendario;
 
+    LayoutInflater layoutInflater;
+    LinearLayout corsoLayout;
+    LinearLayout lezioneLayout;
+    ViewGroup mainLayout;
+
+    TextView Corso, Materia, Docente;
+    TextView Aula, OrarioInizio, OrarioFine, Tipologia, Giorno;
+
+    //int position = 0;
+
+    @SuppressLint("InflateParams")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +53,13 @@ public class ReviewCalendarActivity extends AppCompatActivity {
         calendario = gson.fromJson(json, Calendario.class);
 
         lezioni = new ArrayList<>();
+
+        //layoutInflater = getLayoutInflater();
+        //corsoLayout = (LinearLayout) layoutInflater.inflate(R.layout.corso_layout, null);
+        //lezioneLayout = (CardView) layoutInflater.inflate(R.layout.lezione_layout, null);
+        //mainLayout = findViewById(R.id.mainLayout_ReviewCalendarActivity);
+        //mainLayout.removeAllViews();
+
 
         if (calendario != null) {
 
@@ -66,6 +90,23 @@ public class ReviewCalendarActivity extends AppCompatActivity {
                     System.out.println("Materia : " + corsi.get(i).getMateria());
                     System.out.println("Docente : " + corsi.get(i).getDocente());
 
+                    layoutInflater = getLayoutInflater();
+                    corsoLayout = (LinearLayout) layoutInflater.inflate(R.layout.corso_layout, null);
+                    mainLayout = findViewById(R.id.mainLayout_ReviewCalendarActivity);
+                    mainLayout.addView(corsoLayout, mainLayout.getChildCount());
+
+
+                    LinearLayout main = (LinearLayout) mainLayout.getChildAt(mainLayout.getChildCount() - 1);
+                    CardView cardView = (CardView) main.getChildAt(0);
+                    LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+                    Corso = (TextView) linearLayout.getChildAt(0);
+                    Corso.append(Integer.toString(i + 1));
+                    Materia = (TextView) linearLayout.getChildAt(1);
+                    Materia.append(corsi.get(i).getMateria());
+                    Docente = (TextView) linearLayout.getChildAt(2);
+                    Docente.append(corsi.get(i).getDocente());
+
+
                     lezioni = corsi.get(i).getLezioni();
                     if (lezioni != null) {
 
@@ -82,6 +123,25 @@ public class ReviewCalendarActivity extends AppCompatActivity {
                             System.out.println("Tipo di Lezione : " + lezioni.get(n).getTipologia());
                             System.out.println("Giorno della Lezione : " + lezioni.get(n).getGiornoDellaLezione());
 
+                            layoutInflater = getLayoutInflater();
+                            lezioneLayout = (LinearLayout) layoutInflater.inflate(R.layout.lezione_layout, null);
+                            mainLayout = findViewById(R.id.mainLayout_ReviewCalendarActivity);
+                            mainLayout.addView(lezioneLayout, mainLayout.getChildCount());
+
+                            LinearLayout mainLezione = (LinearLayout) mainLayout.getChildAt(mainLayout.getChildCount() - 1);
+                            CardView cardViewLezione = (CardView) mainLezione.getChildAt(0);
+                            LinearLayout linearLayoutLezione = (LinearLayout) cardViewLezione.getChildAt(0);
+                            Aula = (TextView) linearLayoutLezione.getChildAt(0);
+                            Aula.append(lezioni.get(n).getAula());
+                            OrarioInizio = (TextView) linearLayoutLezione.getChildAt(1);
+                            OrarioInizio.append(lezioni.get(n).getOraDiInizio());
+                            OrarioFine = (TextView) linearLayoutLezione.getChildAt(2);
+                            OrarioFine.append(lezioni.get(n).getOraDiFine());
+                            Tipologia = (TextView) linearLayoutLezione.getChildAt(3);
+                            Tipologia.append(lezioni.get(n).getTipologia());
+                            Giorno = (TextView) linearLayoutLezione.getChildAt(4);
+                            Giorno.append(lezioni.get(n).getGiornoDellaLezione());
+
                         }
 
                         System.out.println("*********************************\n");
@@ -97,4 +157,11 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(a);
+    }
+
 }
