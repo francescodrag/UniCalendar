@@ -30,6 +30,18 @@ public class ReviewCalendarActivity extends AppCompatActivity {
     //Lezione lezione;
     List<Lezione> lezioni;
     Calendario calendario;
+    List<Giorno> giorni;
+    List<Evento> eventiLunedi;
+    List<Evento> eventiMartedi;
+    List<Evento> eventiMercoledi;
+    List<Evento> eventiGiovedi;
+    List<Evento> eventiVenerdi;
+    Giorno lunedi;
+    Giorno martedi;
+    Giorno mercoledi;
+    Giorno giovedi;
+    Giorno venerdi;
+    Evento evento;
 
     LayoutInflater layoutInflater;
     LinearLayout corsoLayout;
@@ -53,13 +65,17 @@ public class ReviewCalendarActivity extends AppCompatActivity {
         calendario = gson.fromJson(json, Calendario.class);
 
         lezioni = new ArrayList<>();
-
-        //layoutInflater = getLayoutInflater();
-        //corsoLayout = (LinearLayout) layoutInflater.inflate(R.layout.corso_layout, null);
-        //lezioneLayout = (CardView) layoutInflater.inflate(R.layout.lezione_layout, null);
-        //mainLayout = findViewById(R.id.mainLayout_ReviewCalendarActivity);
-        //mainLayout.removeAllViews();
-
+        eventiLunedi = new ArrayList<>();
+        eventiMartedi = new ArrayList<>();
+        eventiMercoledi = new ArrayList<>();
+        eventiGiovedi = new ArrayList<>();
+        eventiVenerdi = new ArrayList<>();
+        lunedi = new Giorno();
+        martedi = new Giorno();
+        mercoledi = new Giorno();
+        giovedi = new Giorno();
+        venerdi = new Giorno();
+        giorni = new ArrayList<>();
 
         if (calendario != null) {
 
@@ -107,6 +123,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
                     Docente.append(corsi.get(i).getDocente());
 
 
+
                     lezioni = corsi.get(i).getLezioni();
                     if (lezioni != null) {
 
@@ -142,6 +159,54 @@ public class ReviewCalendarActivity extends AppCompatActivity {
                             Giorno = (TextView) linearLayoutLezione.getChildAt(4);
                             Giorno.append(lezioni.get(n).getGiornoDellaLezione());
 
+
+                            evento = new Evento();
+                            evento.setAula(lezioni.get(n).getAula());
+                            evento.setInizioLezione(lezioni.get(n).getOraDiInizio());
+                            evento.setFineLezione(lezioni.get(n).getOraDiFine());
+                            evento.setTipologiaLezione(lezioni.get(n).getTipologia());
+                            evento.setDocente(corsi.get(i).getDocente());
+                            evento.setMateria(corsi.get(i).getMateria());
+
+
+                            switch (lezioni.get(n).getGiornoDellaLezione()) {
+                                case "Lunedi'":
+
+                                    eventiLunedi.add(evento);
+                                    lunedi.setGiorno(0);
+                                    lunedi.setEventi(eventiLunedi);
+
+                                    break;
+                                case "Martedi'":
+
+                                    eventiMartedi.add(evento);
+                                    martedi.setGiorno(1);
+                                    martedi.setEventi(eventiMartedi);
+
+                                    break;
+                                case "Mercoledi'":
+
+                                    eventiMercoledi.add(evento);
+                                    mercoledi.setGiorno(2);
+                                    mercoledi.setEventi(eventiMercoledi);
+
+                                    break;
+                                case "Giovedi'":
+
+                                    eventiGiovedi.add(evento);
+                                    giovedi.setGiorno(3);
+                                    giovedi.setEventi(eventiGiovedi);
+
+                                    break;
+                                case "Venerdi'":
+
+                                    eventiVenerdi.add(evento);
+                                    venerdi.setGiorno(4);
+                                    venerdi.setEventi(eventiVenerdi);
+
+                                    break;
+                            }
+
                         }
 
                         System.out.println("*********************************\n");
@@ -151,10 +216,36 @@ public class ReviewCalendarActivity extends AppCompatActivity {
                     System.out.println("*********************************\n");
 
                 }
+                giorni.add(lunedi);
+                giorni.add(martedi);
+                giorni.add(mercoledi);
+                giorni.add(giovedi);
+                giorni.add(venerdi);
             }
 
         }
 
+
+        for (int count = 0; count < giorni.size(); count++) {
+
+            if (giorni.get(count).getEventi() != null) {
+
+                System.out.println("Giorno numero : " + count + "\nNumero eventi : " + giorni.get(count).getEventi().size());
+
+                for (int eventi = 0; eventi < giorni.get(count).getEventi().size(); eventi++) {
+
+                    System.out.println("Aula : " + giorni.get(count).getEventi().get(eventi).getAula());
+                    System.out.println("Orario di Inizio Lezione : " + giorni.get(count).getEventi().get(eventi).getInizioLezione());
+                    System.out.println("Orario di Fine Lezione : " + giorni.get(count).getEventi().get(eventi).getFineLezione());
+                    System.out.println("Tipo di Lezione : " + giorni.get(count).getEventi().get(eventi).getTipologiaLezione());
+                    System.out.println("Docente : " + giorni.get(count).getEventi().get(eventi).getDocente());
+                    System.out.println("Materia : " + giorni.get(count).getEventi().get(eventi).getMateria());
+
+                }
+
+            }
+
+        }
 
     }
 

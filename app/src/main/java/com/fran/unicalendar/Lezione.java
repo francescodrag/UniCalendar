@@ -2,11 +2,11 @@ package com.fran.unicalendar;
 
 public class Lezione {
 
-    public String aula;
-    public String oraDiInizio;
-    public String oraDiFine;
-    public String tipologia;
-    public String giornoDellaLezione;
+    private String aula;
+    private String oraDiInizio;
+    private String oraDiFine;
+    private String tipologia;
+    private String giornoDellaLezione;
 
     public Lezione() {
     }

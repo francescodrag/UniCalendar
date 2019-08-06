@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".ReviewCalendarActivity"></activity>
+        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".ReviewCalendarActivity" />
         <activity
             android:name=".AddCalendarActivityBucle"
             android:screenOrientation="portrait" />

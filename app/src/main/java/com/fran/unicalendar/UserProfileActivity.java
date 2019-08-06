@@ -1,5 +1,6 @@
 package com.fran.unicalendar;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -255,33 +256,41 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                if (user.getUniversity().equals("Universita' degli Studi di Salerno")) {
-                    imageUser.setBackgroundResource(R.drawable.unisa);
+                switch (user.getUniversity()) {
+                    case "Universita' degli Studi di Salerno":
+                        imageUser.setBackgroundResource(R.drawable.unisa);
 
-                } else if (user.getUniversity().equals("Universita' degli Studi di Napoli - Federico II")) {
+                        break;
+                    case "Universita' degli Studi di Napoli - Federico II":
 
-                    imageUser.setBackgroundResource(R.drawable.unina_federico);
+                        imageUser.setBackgroundResource(R.drawable.unina_federico);
 
-                } else if (user.getUniversity().equals("Universita' degli Studi di Napoli - L'Orientale")) {
+                        break;
+                    case "Universita' degli Studi di Napoli - L'Orientale":
 
-                    imageUser.setBackgroundResource(R.drawable.unina_orientale);
+                        imageUser.setBackgroundResource(R.drawable.unina_orientale);
 
-                } else if (user.getUniversity().equals("Universita' degli Studi di Napoli - Parthenope")) {
+                        break;
+                    case "Universita' degli Studi di Napoli - Parthenope":
 
-                    imageUser.setBackgroundResource(R.drawable.unina_parthenope);
+                        imageUser.setBackgroundResource(R.drawable.unina_parthenope);
 
-                } else if (user.getUniversity().equals("Universita' degli Studi di Napoli - Suor Orsola Benincasa")) {
+                        break;
+                    case "Universita' degli Studi di Napoli - Suor Orsola Benincasa":
 
-                    imageUser.setBackgroundResource(R.drawable.unina_orsola);
+                        imageUser.setBackgroundResource(R.drawable.unina_orsola);
 
-                } else if (user.getUniversity().equals("Universita' degli Studi del Sannio")) {
+                        break;
+                    case "Universita' degli Studi del Sannio":
 
-                    imageUser.setBackgroundResource(R.drawable.unibe);
+                        imageUser.setBackgroundResource(R.drawable.unibe);
 
-                } else if (user.getUniversity().equals("Universita' degli Studi della Campania - Luigi Vanvitelli")) {
+                        break;
+                    case "Universita' degli Studi della Campania - Luigi Vanvitelli":
 
-                    imageUser.setBackgroundResource(R.drawable.unica);
+                        imageUser.setBackgroundResource(R.drawable.unica);
 
+                        break;
                 }
 
             }
@@ -584,6 +593,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
 */
+    @SuppressLint("SetTextI18n")
     public void settingSemester() {
 
         semestre = user.getSemestre();
