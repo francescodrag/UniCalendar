@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+
+    android:background="@drawable/black_border"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    tools:context=".CalendarActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/black_border"
+            android:gravity="center"
+            android:visibility="visible"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/black_border"
+            android:gravity="center"
+            android:text="Lun"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/black_border"
+            android:gravity="center"
+            android:text="Mar"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/black_border"
+            android:gravity="center"
+            android:text="Mer"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/black_border"
+            android:gravity="center"
+            android:text="Gio"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/black_border"
+            android:gravity="center"
+            android:text="Ven"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/calendario_CalendarActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/black_border">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/black_border"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:id="@+id/orari_CalendarActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/black_border"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="8:30"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="9:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="9:30"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="10:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="10:30"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="11:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="11:30"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="12:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="12:30"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="13:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="13:30"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="14:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="14:30"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="15:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="15:30"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="16:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="16:30"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="17:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="17:30"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="18:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="18:30"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/black_border"
+                    android:gravity="center"
+                    android:text="19:00"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lunedi_CalendarActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/black_border"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/martedi_CalendarActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/black_border"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/mercoledi_CalendarActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/black_border"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/giovedi_CalendarActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/black_border"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/venerdi_CalendarActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/black_border"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

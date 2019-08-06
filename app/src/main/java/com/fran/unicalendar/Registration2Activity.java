@@ -46,7 +46,6 @@ public class Registration2Activity extends AppCompatActivity {
     String password;
     EditText RipetiPassword;
     String ripetiPassword;
-    //ImageView goBackToRegistration1;
     ImageView signUp;
 
     ProgressDialog progressDialog;
@@ -60,8 +59,6 @@ public class Registration2Activity extends AppCompatActivity {
         user = intent.getParcelableExtra("Utente");
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-
-        //Toast.makeText(getApplicationContext(), utente.toString(), Toast.LENGTH_LONG).show();
 
         setupView();
 
@@ -91,15 +88,6 @@ public class Registration2Activity extends AppCompatActivity {
             }
         });
 
-
-        /*
-        goBackToRegistration1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Registration2Activity.this, RegistrationActivity.class));
-            }
-        });
-*/
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,15 +126,19 @@ public class Registration2Activity extends AppCompatActivity {
 
     public void initTipoSuddivisione(AdapterView<?> adapterView) {
 
-        if (adapterView.getSelectedItem().toString().equals("Matricola Pari o Dispari")) {
-            adapterSuddivisione = ArrayAdapter.createFromResource(Registration2Activity.this, R.array.Suddivisione_Pari_o_Dispari,
-                    android.R.layout.simple_spinner_item);
-        } else if (adapterView.getSelectedItem().toString().equals("Resto della Matricola")) {
-            adapterSuddivisione = ArrayAdapter.createFromResource(Registration2Activity.this, R.array.Suddivisione_Resto_della_Matricola,
-                    android.R.layout.simple_spinner_item);
-        } else if (adapterView.getSelectedItem().toString().equals("Cognome")) {
-            adapterSuddivisione = ArrayAdapter.createFromResource(Registration2Activity.this, R.array.Suddivisione_Cognome,
-                    android.R.layout.simple_spinner_item);
+        switch (adapterView.getSelectedItem().toString()) {
+            case "Matricola Pari o Dispari":
+                adapterSuddivisione = ArrayAdapter.createFromResource(Registration2Activity.this, R.array.Suddivisione_Pari_o_Dispari,
+                        android.R.layout.simple_spinner_item);
+                break;
+            case "Resto della Matricola":
+                adapterSuddivisione = ArrayAdapter.createFromResource(Registration2Activity.this, R.array.Suddivisione_Resto_della_Matricola,
+                        android.R.layout.simple_spinner_item);
+                break;
+            case "Cognome":
+                adapterSuddivisione = ArrayAdapter.createFromResource(Registration2Activity.this, R.array.Suddivisione_Cognome,
+                        android.R.layout.simple_spinner_item);
+                break;
         }
 
         adapterSuddivisione.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -241,6 +233,7 @@ public class Registration2Activity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             firebaseUser = firebaseAuth.getCurrentUser();
+                            assert firebaseUser != null;
                             user.setId(firebaseUser.getUid());
                             Log.d("TAG", "createUserWithEmail:success");
                             sendEmailVerification();
