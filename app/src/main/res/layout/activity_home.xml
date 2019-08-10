@@ -10,23 +10,39 @@
     tools:context=".HomeActivity">
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textGrid"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/boulevard"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/inkfree"
             android:text="Uni Calendar"
             android:textColor="@android:color/black"
-            android:textSize="40sp"
+            android:textSize="70sp"
+            android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/benvenutoUtente_HomeActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inkfree"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:text="Bentornato "
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
 
     <GridLayout
         android:id="@+id/GridLayout_HomeActivity"

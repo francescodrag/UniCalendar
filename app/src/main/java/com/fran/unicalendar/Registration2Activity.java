@@ -280,8 +280,8 @@ public class Registration2Activity extends AppCompatActivity {
                         Log.d("TAG", "DocumentSnapshot successfully written!");
                         Toast.makeText(Registration2Activity.this, "Registrazione avvenuta con successo, email di verifica inviata!", Toast.LENGTH_LONG).show();
                         firebaseAuth.signOut();
-                        finish();
                         startActivity(new Intent(Registration2Activity.this, LoginActivity.class));
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

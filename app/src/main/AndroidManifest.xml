@@ -17,15 +17,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".CalendarActivity"></activity>
-        <activity android:name=".ReviewCalendarActivity" />
+        <activity
+            android:name=".CalendarActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ReviewCalendarActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AddCalendarActivityBucle"
             android:screenOrientation="portrait" />
         <activity
             android:name=".AddCalendarActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".UserProfileActivity" />
+        <activity
+            android:name=".UserProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
@@ -38,16 +45,15 @@
         </activity>
         <activity
             android:name=".Registration2Activity"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".RecuperaPasswordActivity" />
         <activity
             android:name=".HomeActivity"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:theme="@style/HomeTheme" />
         <activity
             android:name=".RegistrationActivity"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity

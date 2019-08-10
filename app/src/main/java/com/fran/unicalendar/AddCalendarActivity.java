@@ -96,6 +96,8 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
                     startActivity(new Intent(getApplicationContext(), AddCalendarActivityBucle.class));
 
+                    finish();
+
                 }
 
 
@@ -167,6 +169,8 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
                     getUser();
 
                     startActivity(new Intent(getApplicationContext(), ReviewCalendarActivity.class));
+
+                    finish();
 
                 }
 
@@ -468,6 +472,7 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
     public void onBackPressed() {
         Intent a = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(a);
+        finish();
     }
 
 }

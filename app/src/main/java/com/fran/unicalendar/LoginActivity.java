@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //startActivity(new Intent(LoginActivity.this,RegistrationActivity.class));
                 startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+                finish();
             }
         });
 
@@ -244,6 +245,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             //intent2.putExtra("utente", user);
                             startActivity(intent2);
+                            finish();
 
                         } else {
                             Log.d("", "No such document");

@@ -95,6 +95,8 @@ public class AddCalendarActivityBucle extends AppCompatActivity implements AddLe
 
                     startActivity(new Intent(getApplicationContext(), AddCalendarActivity.class));
 
+                    finish();
+
                 }
 
             }
@@ -163,6 +165,8 @@ public class AddCalendarActivityBucle extends AppCompatActivity implements AddLe
                     getUser();
 
                     startActivity(new Intent(getApplicationContext(), ReviewCalendarActivity.class));
+
+                    finish();
 
                 }
 
@@ -474,6 +478,7 @@ public class AddCalendarActivityBucle extends AppCompatActivity implements AddLe
     public void onBackPressed() {
         Intent a = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(a);
+        finish();
     }
 
 }
