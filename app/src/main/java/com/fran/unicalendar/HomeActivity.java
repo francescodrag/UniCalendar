@@ -32,8 +32,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
@@ -49,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
     int i;
     Intent intent;
     User user;
+    TimeTable timeTable;
 
     SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
@@ -76,14 +77,16 @@ public class HomeActivity extends AppCompatActivity {
         bentornato = findViewById(R.id.benvenutoUtente_HomeActivity);
         bentornato.append(user.getNome().concat(" ").concat(user.getCognome()));
 
-        if (!isPresentTimeTable()) {
+        if (user.isCalendario()) {
 
-            if (!searchIntoDB()) {
+            setTimeTableIntoSharedPreferences();
 
-                createDialogCalendario();
+        } else {
+            if (!isPresentTimeTable()) {
+
+                searchIntoDB();
 
             }
-
         }
 
         //Intent intent1 = getIntent();
@@ -221,7 +224,7 @@ public class HomeActivity extends AppCompatActivity {
 
         builder = new AlertDialog.Builder(this);
         layoutInflater = getLayoutInflater();
-        view = layoutInflater.inflate(R.layout.add_lesson_dialog_layout, null);
+        view = layoutInflater.inflate(R.layout.add_calendar_dialog, null);
 
         TextView title = new TextView(this);
         // You Can Customise your Title here
@@ -234,7 +237,7 @@ public class HomeActivity extends AppCompatActivity {
 
         builder.setView(view)
                 .setCustomTitle(title)
-                .setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -243,7 +246,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     }
                 })
-                .setPositiveButton("Aggiungi", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -302,7 +305,7 @@ public class HomeActivity extends AppCompatActivity {
                 .show();
     }
 
-    public boolean searchIntoDB() {
+    public void searchIntoDB() {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -310,23 +313,66 @@ public class HomeActivity extends AppCompatActivity {
                 .document(user.getUniversityTipe()).collection(user.getAnno()).document(user.getUniversity())
                 .collection(user.getDepartment()).document(user.getSemestre())
                 .collection(user.getTipoSuddivisione().concat(" - ").concat(user.getSuddivisione()))
-                .limit(1)
-                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                calendario = queryDocumentSnapshots.toObjects(Calendario.class).get(0);
-                Log.d("onSucces", "Calendario scaricato");
-                flag = true;
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                .document("Calendario")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        calendario = documentSnapshot.toObject(Calendario.class);
+                        if (calendario != null) {
+                            Log.d("onSucces", "Calendario scaricato");
+                            createDialogCalendario();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                flag = false;
+                Log.d("onFailure", "Calendario non scaricato");
             }
         });
 
-        return flag;
+    }
 
+    @SuppressWarnings("Unchecked")
+    public void setTimeTableIntoSharedPreferences() {
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        timeTable = new TimeTable();
+
+        firebaseFirestore.collection("TimeTables")
+                .document(user.getUniversityTipe()).collection(user.getAnno()).document(user.getUniversity())
+                .collection(user.getDepartment()).document(user.getSemestre())
+                .collection(user.getTipoSuddivisione().concat(" - ").concat(user.getSuddivisione()))
+                .document("TimeTable")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        timeTable = documentSnapshot.toObject(TimeTable.class);
+                        Log.d("onSucces", "Giorni scaricati");
+
+                        giorni = timeTable.getGiorni();
+
+                        gson = new Gson();
+                        @SuppressWarnings("UnstableApiUsage")
+                        Type timetable = new TypeToken<List<Giorno>>() {
+                        }.getType();
+                        String json = gson.toJson(giorni, timetable);
+
+                        sharedPreferences = getSharedPreferences("TimeTable", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putString("timeTable", json);
+
+                        editor.apply();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
     }
 
     public void signOut() {
@@ -337,10 +383,20 @@ public class HomeActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         // user is now signed out
                         progressDialog.dismiss();
+                        removeSharedPreferencesTimeTable();
                         startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         finish();
                     }
                 });
+
+    }
+
+    public void removeSharedPreferencesTimeTable() {
+
+        sharedPreferences = getSharedPreferences("TimeTable", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.remove("timeTable");
+        editor.apply();
 
     }
 

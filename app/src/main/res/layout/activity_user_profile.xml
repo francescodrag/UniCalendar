@@ -40,7 +40,7 @@
                     android:adjustViewBounds="true"
                     android:background="@drawable/circle"
                     android:padding="3dp"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     tools:ignore="ContentDescription" />
 
             </RelativeLayout>
@@ -53,7 +53,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15sp"
                 android:fontFamily="sans-serif-light"
-                android:text="Joey Tribbiani"
                 android:textColor="#FFFFFF"
                 android:textSize="32sp"
                 tools:ignore="HardcodedText" />
@@ -122,6 +121,9 @@
                     android:id="@+id/email_UserProfileActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:ems="10"
                     android:inputType="none"
                     tools:ignore="Autofill,LabelFor,TextFields" />
@@ -135,7 +137,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/tipologies_UserProfileActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -143,7 +145,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="LabelFor" />
+                    tools:ignore="Autofill,LabelFor,TextFields" />
 
                 <TextView
                     android:id="@+id/textView_Anno"
@@ -154,7 +156,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/years_UserProfileActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -162,7 +164,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="LabelFor" />
+                    tools:ignore="Autofill,LabelFor,TextFields" />
 
 
                 <TextView
@@ -174,7 +176,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/univerisites_UserProfileActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -182,7 +184,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="LabelFor" />
+                    tools:ignore="Autofill,LabelFor,TextFields" />
 
 
                 <TextView
@@ -194,7 +196,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/department_UserProfileActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -202,7 +204,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    tools:ignore="LabelFor" />
+                    tools:ignore="Autofill,LabelFor,TextFields" />
 
                 <TextView
                     android:id="@+id/textView_Semestre"
@@ -213,27 +215,57 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <RadioGroup
+                <EditText
+                    android:id="@+id/semester_UserProfileActivity"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:orientation="horizontal">
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="Autofill,LabelFor,TextFields" />
 
-                    <RadioButton
-                        android:id="@+id/primoSemestre_UserProfileActivity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:checked="true" />
+                <TextView
+                    android:id="@+id/textView_TipoSuddivisioneUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo Suddivisione:"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
 
-                    <RadioButton
-                        android:id="@+id/secondoSemestre_UserProfileActivity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
-                </RadioGroup>
+                <EditText
+                    android:id="@+id/tipoSuddivisione_UserProfileActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="Autofill,LabelFor,TextFields" />
+
+                <TextView
+                    android:id="@+id/textView_SuddivisioneUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Suddivisione:"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <EditText
+                    android:id="@+id/suddivisione_UserProfileActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    tools:ignore="Autofill,LabelFor,TextFields" />
+
+
             </LinearLayout>
 
         </ScrollView>

@@ -232,6 +232,7 @@ public class LoginActivity extends AppCompatActivity {
                             user.setUniversity((String) document.get("University"));
                             user.setUniversityTipe((String) document.get("UniversityType"));
                             user.setPassword((String) document.get("Password"));
+                            user.setCalendario((boolean) document.get("HasCalendario"));
 
                             gson = new Gson();
                             String json = gson.toJson(user);

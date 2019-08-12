@@ -221,6 +221,7 @@ public class Registration2Activity extends AppCompatActivity {
         user.setSuddivisione(suddivisione);
         user.setEmail(email);
         user.setPassword(password);
+        user.setCalendario(false);
 
     }
 

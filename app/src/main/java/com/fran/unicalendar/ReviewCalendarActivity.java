@@ -22,12 +22,15 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ReviewCalendarActivity extends AppCompatActivity {
 
@@ -64,6 +67,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
+    FirebaseUser firebaseUser;
     ProgressDialog progressDialog;
 
     @SuppressLint("InflateParams")
@@ -393,7 +397,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
 
                         Log.d("OnSucces", "Calendario caricato!");
-                        setSharedPreferences();
+                        uploadTimeTableIntoDatabase();
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -401,6 +405,59 @@ public class ReviewCalendarActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
 
                 Log.w("TAG", "Error writing document", e);
+
+            }
+        });
+
+
+    }
+
+    public void uploadTimeTableIntoDatabase() {
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        TimeTable timeTable = new TimeTable(giorni);
+
+        firebaseFirestore.collection("TimeTables")
+                .document(calendario.getUniversityType()).collection(calendario.getAnno()).document(calendario.getUniversity())
+                .collection(calendario.getDepartment()).document(calendario.getSemestre())
+                .collection(calendario.getTipoSuddivisione().concat(" - ").concat(calendario.getSuddivisione())).document("TimeTable")
+                .set(timeTable)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Log.d("OnSucces", "TimeTable caricato!");
+                        uploadUserIntoDatabase();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Log.w("TAG", "Error writing document", e);
+
+            }
+        });
+
+    }
+
+    public void uploadUserIntoDatabase() {
+
+        firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = firebaseFirestore.collection("Users").document(Objects.requireNonNull(firebaseUser.getEmail()));
+
+        docRef.update("HasCalendario", true).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                setSharedPreferences();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
 
             }
         });
