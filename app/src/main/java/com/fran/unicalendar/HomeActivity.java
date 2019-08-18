@@ -1,6 +1,5 @@
 package com.fran.unicalendar;
 
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -45,7 +44,6 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     GridLayout gridLayout;
-    boolean flag;
     int i;
     Intent intent;
     User user;

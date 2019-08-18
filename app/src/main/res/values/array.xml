@@ -9,6 +9,11 @@
         <item>Venerdi\'</item>
     </string-array>
 
+    <string-array name="Semestri">
+        <item>Primo Semestre</item>
+        <item>Secondo Semestre</item>
+    </string-array>
+
     <string-array name="orariLezioni">
         <item>8:30</item>
         <item>9:00</item>

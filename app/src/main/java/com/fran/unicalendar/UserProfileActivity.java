@@ -79,6 +79,9 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                startActivity(new Intent(getApplicationContext(), ModificaProfiloUtenteActivity.class));
+                finish();
+
             }
         });
 

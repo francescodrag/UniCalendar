@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".ModificaProfiloUtenteActivity"></activity>
         <activity
             android:name=".CalendarActivity"
             android:screenOrientation="portrait" />
