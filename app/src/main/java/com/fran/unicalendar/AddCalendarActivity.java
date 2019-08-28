@@ -1,14 +1,19 @@
 package com.fran.unicalendar;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -63,6 +69,11 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
     TextView deleteLession;
 
+    AlertDialog alertDialog;
+    AlertDialog.Builder builder;
+    View view;
+    ProgressDialog progressDialog;
+
     private static boolean materiaValidator(String materia) {
 
         Pattern pattern;
@@ -92,11 +103,25 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
                 if (checkLezioni()) {
 
-                    setupLezioni();
+                    if (validator()) {
 
-                    startActivity(new Intent(getApplicationContext(), AddCalendarActivityBucle.class));
+                        setupLezioni();
 
-                    finish();
+                        startActivity(new Intent(getApplicationContext(), AddCalendarActivityBucle.class));
+
+                        finish();
+
+                    }
+
+                } else {
+
+                    Toast toast = Toast.makeText(AddCalendarActivity.this,
+                            "Un corso deve contenere almeno una lezione!",
+                            Toast.LENGTH_LONG);
+
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
+                    toast.show();
 
                 }
 
@@ -146,7 +171,13 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
                                     } else {
 
-                                        Toast.makeText(getApplicationContext(), "Basta!", Toast.LENGTH_LONG).show();
+                                        Toast toast = Toast.makeText(AddCalendarActivity.this,
+                                                "Un corso non puo' avere piu' di 5 lezioni!",
+                                                Toast.LENGTH_LONG);
+
+                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                        toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
+                                        toast.show();
 
                                     }
 
@@ -165,17 +196,78 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
                 if (checkLezioni()) {
 
-                    setupLezioni();
-                    getUser();
+                    if (validator()) {
 
-                    startActivity(new Intent(getApplicationContext(), ReviewCalendarActivity.class));
+                        createDialogSalvaCalendario();
 
-                    finish();
+                    }
+                } else {
+
+                    Toast toast = Toast.makeText(AddCalendarActivity.this,
+                            "Un corso deve contenere almeno una lezione!",
+                            Toast.LENGTH_LONG);
+
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
+                    toast.show();
 
                 }
 
             }
         });
+
+    }
+
+    @SuppressLint({"InflateParams", "SetTextI18n"})
+    public void createDialogSalvaCalendario() {
+
+        builder = new AlertDialog.Builder(this);
+        layoutInflater = getLayoutInflater();
+        view = layoutInflater.inflate(R.layout.save_calendar_dialog, null);
+
+        TextView title = new TextView(this);
+        // You Can Customise your Title here
+        title.setText("Salvataggio Calendario");
+        title.setPadding(10, 20, 10, 0);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTypeface(Typeface.DEFAULT_BOLD);
+        title.setTextSize(30);
+
+        builder.setView(view)
+                .setCustomTitle(title)
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        dialogInterface.dismiss();
+                        dialogInterface.cancel();
+
+                    }
+                })
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        setupLezioni();
+                        getUser();
+
+                        startActivity(new Intent(getApplicationContext(), ReviewCalendarActivity.class));
+
+                        finish();
+
+                        progressDialog.dismiss();
+                        dialogInterface.cancel();
+                        dialogInterface.dismiss();
+
+                    }
+
+                });
+
+        alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
 
     }
 
@@ -201,6 +293,11 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
     }
 
     public void setupLezioni() {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
 
         int i = mainLayout.getChildCount();
 
@@ -470,9 +567,59 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
     @Override
     public void onBackPressed() {
-        Intent a = new Intent(getApplicationContext(), HomeActivity.class);
-        startActivity(a);
-        finish();
+
+        createDialogBackToHome();
+
+    }
+
+    @SuppressLint({"InflateParams", "SetTextI18n"})
+    public void createDialogBackToHome() {
+
+        builder = new AlertDialog.Builder(this);
+        layoutInflater = getLayoutInflater();
+        view = layoutInflater.inflate(R.layout.back_to_home_dialog, null);
+
+        TextView title = new TextView(this);
+        // You Can Customise your Title here
+        title.setText("Home Page");
+        title.setPadding(10, 20, 10, 0);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTypeface(Typeface.DEFAULT_BOLD);
+        title.setTextSize(30);
+
+        builder.setView(view)
+                .setCustomTitle(title)
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        dialogInterface.dismiss();
+                        dialogInterface.cancel();
+
+                    }
+                })
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Intent a = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(a);
+
+                        finish();
+
+                        dialogInterface.cancel();
+                        dialogInterface.dismiss();
+
+                    }
+
+                });
+
+        alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+
     }
 
 }

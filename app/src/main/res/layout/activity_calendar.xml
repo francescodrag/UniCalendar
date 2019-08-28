@@ -13,6 +13,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:background="@color/grey"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dipartimento_CalendarActivity"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Informatica"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            tools:ignore="HardcodedText" />
+
+        <ImageButton
+            android:id="@+id/delete_CalendarActivity"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/ic_launcher_foreground"
+            android:gravity="end"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icona_delete"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
 
         android:orientation="horizontal">
 

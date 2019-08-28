@@ -1,23 +1,40 @@
 package com.fran.unicalendar;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.reflect.TypeToken;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -26,11 +43,25 @@ public class CalendarActivity extends AppCompatActivity {
     LinearLayout mainLayout;
     LinearLayout empty;
 
+    ImageButton deleteCalendar;
+    TextView dipartimento;
+
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     Gson gson;
+    User user;
+
+    AlertDialog alertDialog;
+    AlertDialog.Builder builder;
+    View view;
+    ProgressDialog progressDialog;
 
     List<Giorno> giorni;
     List<String> colori;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +69,10 @@ public class CalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
 
         getTimeTableFromSharedPreferences();
+        getUserFromSharedPreferences();
+
+        dipartimento = findViewById(R.id.dipartimento_CalendarActivity);
+        dipartimento.setText(user.getDepartment());
 
         colori = new ArrayList<>();
 
@@ -80,7 +115,6 @@ public class CalendarActivity extends AppCompatActivity {
                         break;
                 }
 
-                Evento evento;
                 int altezza = 850;
                 for (int i = 0; i < giorni.get(count).getEventi().size(); i++) {
                     int orarioInizio = fromStringToInt(giorni.get(count).getEventi().get(i).getInizioLezione());
@@ -165,6 +199,136 @@ public class CalendarActivity extends AppCompatActivity {
                 }
             }
         }
+
+        deleteCalendar = findViewById(R.id.delete_CalendarActivity);
+
+        deleteCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                createDialogEliminaCalendario();
+
+            }
+        });
+
+    }
+
+    @SuppressLint({"InflateParams", "SetTextI18n"})
+    public void createDialogEliminaCalendario() {
+
+        builder = new AlertDialog.Builder(this);
+        layoutInflater = getLayoutInflater();
+        view = layoutInflater.inflate(R.layout.delete_calendar_dialog, null);
+
+        TextView title = new TextView(this);
+        // You Can Customise your Title here
+        title.setText("Elimina Calendario");
+        title.setPadding(10, 20, 10, 0);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTypeface(Typeface.DEFAULT_BOLD);
+        title.setTextSize(30);
+
+        builder.setView(view)
+                .setCustomTitle(title)
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        dialogInterface.dismiss();
+                        dialogInterface.cancel();
+
+                    }
+                })
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        uploadUserIntoDatabase();
+
+                        dialogInterface.cancel();
+                        dialogInterface.dismiss();
+
+                    }
+
+                });
+
+        alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+
+    }
+
+    public void uploadUserIntoDatabase() {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("Eliminazione Calendario in corso...");
+        progressDialog.show();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = firebaseFirestore.collection("Users").document(Objects.requireNonNull(firebaseUser.getEmail()));
+
+        docRef.update("HasCalendario", false).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                user.setCalendario(false);
+                updateSharedPreferences();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+    }
+
+    public void getUserFromSharedPreferences() {
+
+        sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
+        gson = new Gson();
+        String json = sharedPreferences.getString("user", "");
+        user = gson.fromJson(json, User.class);
+
+    }
+
+    public void updateSharedPreferences() {
+
+        gson = new Gson();
+        String json = gson.toJson(user);
+
+        sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        editor.putString("user", json);
+
+        editor.apply();
+
+        removeSharedPreferencesTimeTable();
+
+    }
+
+    public void removeSharedPreferencesTimeTable() {
+
+        sharedPreferences = getSharedPreferences("TimeTable", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.remove("timeTable");
+        editor.apply();
+
+        progressDialog.dismiss();
+
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
+        finish();
+
     }
 /*
         layoutInflater = getLayoutInflater();

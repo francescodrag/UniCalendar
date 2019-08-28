@@ -24,6 +24,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
@@ -40,6 +41,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
     List<Corso> corsi;
     List<Lezione> lezioni;
     Calendario calendario;
+    User user;
     List<Giorno> giorni;
     List<Evento> eventiLunedi;
     List<Evento> eventiMartedi;
@@ -77,6 +79,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review_calendar);
 
         getCalendarFromsharedPreferences();
+        getUserFromSharedPreferences();
 
         initObjects();
 
@@ -282,7 +285,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
                 progressDialog.setMessage("Caricamento Calendario in corso...");
                 progressDialog.show();
 
-                uploadDatabase();
+                searchIntoDB();
 
             }
         });
@@ -295,6 +298,17 @@ public class ReviewCalendarActivity extends AppCompatActivity {
         gson = new Gson();
         String json = sharedPreferences.getString("calendar", "");
         calendario = gson.fromJson(json, Calendario.class);
+        if (calendario == null)
+            Log.d("ALLERT:", "nullo!");
+
+    }
+
+    public void getUserFromSharedPreferences() {
+
+        sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
+        gson = new Gson();
+        String json = sharedPreferences.getString("user", "");
+        user = gson.fromJson(json, User.class);
 
     }
 
@@ -383,14 +397,45 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
     }
 
+    public void searchIntoDB() {
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        firebaseFirestore.collection("TimeTables")
+                .document(user.getUniversityType()).collection(user.getAnno()).document(user.getUniversity())
+                .collection(user.getDepartment()).document(user.getSemestre())
+                .collection(user.getTipoSuddivisione().concat(" - ").concat(user.getSuddivisione()))
+                .document("Calendario")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        calendario = documentSnapshot.toObject(Calendario.class);
+                        if (calendario != null) {
+                            Log.d("onSucces", "Calendario scaricato");
+                            uploadUserIntoDatabase();
+                        } else {
+                            getCalendarFromsharedPreferences();
+                            uploadDatabase();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("onFailure", "Calendario non scaricato");
+            }
+        });
+
+    }
+
     public void uploadDatabase() {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         firebaseFirestore.collection("TimeTables")
-                .document(calendario.getUniversityType()).collection(calendario.getAnno()).document(calendario.getUniversity())
-                .collection(calendario.getDepartment()).document(calendario.getSemestre())
-                .collection(calendario.getTipoSuddivisione().concat(" - ").concat(calendario.getSuddivisione())).document("Calendario")
+                .document(user.getUniversityType()).collection(user.getAnno()).document(user.getUniversity())
+                .collection(user.getDepartment()).document(user.getSemestre())
+                .collection(user.getTipoSuddivisione().concat(" - ").concat(user.getSuddivisione())).document("Calendario")
                 .set(calendario)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -408,8 +453,6 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     public void uploadTimeTableIntoDatabase() {
