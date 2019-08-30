@@ -130,6 +130,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+                finish();
             }
         });
 
@@ -589,6 +590,7 @@ public class RegistrationActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
 }

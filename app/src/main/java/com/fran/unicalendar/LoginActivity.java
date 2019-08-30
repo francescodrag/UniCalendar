@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //startActivity(new Intent(LoginActivity.this,RegistrationActivity.class));
                 startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+                finish();
             }
         });
 
@@ -231,6 +232,7 @@ public class LoginActivity extends AppCompatActivity {
                             user.setUniversity((String) document.get("University"));
                             user.setUniversityTipe((String) document.get("UniversityType"));
                             user.setPassword((String) document.get("Password"));
+                            user.setCalendario((boolean) document.get("HasCalendario"));
 
                             gson = new Gson();
                             String json = gson.toJson(user);
@@ -244,6 +246,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             //intent2.putExtra("utente", user);
                             startActivity(intent2);
+                            finish();
 
                         } else {
                             Log.d("", "No such document");

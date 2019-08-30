@@ -32,6 +32,7 @@ public class User implements Parcelable {
     private String suddivisione;
     private String anno;
     private String semestre;
+    private boolean calendario;
 
     public User() {
     }
@@ -146,6 +147,22 @@ public class User implements Parcelable {
         this.semestre = semestre;
     }
 
+    public String getUniversityType() {
+        return universityType;
+    }
+
+    public void setUniversityType(String universityType) {
+        this.universityType = universityType;
+    }
+
+    public boolean isCalendario() {
+        return calendario;
+    }
+
+    public void setCalendario(boolean calendario) {
+        this.calendario = calendario;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -183,6 +200,7 @@ public class User implements Parcelable {
         user.put("Semester", semestre);
         user.put("SubdivisionType", tipoSuddivisione);
         user.put("Subdivision", suddivisione);
+        user.put("HasCalendario", calendario);
 
         return user;
     }

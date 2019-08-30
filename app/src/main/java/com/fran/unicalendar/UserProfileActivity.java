@@ -1,60 +1,51 @@
 package com.fran.unicalendar;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
-
-import java.util.Objects;
 
 public class UserProfileActivity extends AppCompatActivity {
 
 
     ImageView edit, save;
     EditText email;
-    AutoCompleteTextView autoTipo;
-    ArrayAdapter<CharSequence> adapterTipo;
-    String tipo;
-    String changedTipo;
-    AutoCompleteTextView autoAnno;
-    ArrayAdapter<CharSequence> adapterAnno;
-    String anno;
-    String changedAnno;
-    AutoCompleteTextView autoUniversita;
-    ArrayAdapter<CharSequence> adapterUniversita;
-    String universita;
-    String changedUniversita;
-    AutoCompleteTextView autoDipartimento;
-    ArrayAdapter<CharSequence> adapterDipartimento;
-    String dipartimento;
-    String changedDipartimento;
-    RadioButton checkSinistra, checkDestra;
-    String semestre;
-    String changedSemestre;
+    EditText tipoUniversita;
+    EditText annoUniversita;
+    EditText universita;
+    EditText dipartimento;
+    EditText semestre;
+    EditText tipoSuddivisione;
+    EditText suddivisione;
+
+    //ArrayAdapter<CharSequence> adapterTipo;
+    //String tipo;
+    //String changedTipo;
+    //ArrayAdapter<CharSequence> adapterAnno;
+    //String anno;
+    //String changedAnno;
+    //ArrayAdapter<CharSequence> adapterUniversita;
+    //String universita;
+    //String changedUniversita;
+    //ArrayAdapter<CharSequence> adapterDipartimento;
+    //String dipartimento;
+    //String changedDipartimento;
+    //RadioButton checkSinistra, checkDestra;
+    //String semestre;
+    //String changedSemestre;
+
     Intent intent;
     TextView nomeCognome;
     User user;
@@ -78,81 +69,22 @@ public class UserProfileActivity extends AppCompatActivity {
         //user = intent.getParcelableExtra("utente");
         handler = new Handler();
 
-        sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
-        gson = new Gson();
-        String json = sharedPreferences.getString("user", "");
-        user = gson.fromJson(json, User.class);
+        getUserFromSharedPreferences();
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-
-        /*
-        System.out.println(firebaseUser.getEmail());
-
-        DocumentReference docRef = firebaseFirestore.collection("Users").document(Objects.requireNonNull(firebaseUser.getEmail()));
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d("", "DocumentSnapshot data: " + document.getData());
-                        System.out.println(document.getData());
-                        System.out.println(document.get("Name"));
-                    } else {
-                        Log.d("", "No such document");
-                    }
-                } else {
-                    Log.d("", "get failed with ", task.getException());
-                }
-            }
-        });
-*/
-        //hashMapUser = (Map<String, Object>) firebaseFirestore.collection("Users")
-        //      .whereEqualTo(Objects.requireNonNull(firebaseUser.getEmail()), true)
-        //    .get().getResult();
-
+        initFirebase();
 
         initView();
-
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                edit.setVisibility(View.INVISIBLE);
-                save.setVisibility(View.VISIBLE);
-                enableView();
-                enableAdapterTipo();
-                enableAdapterAnno();
+                startActivity(new Intent(getApplicationContext(), ModificaProfiloUtenteActivity.class));
+                finish();
 
             }
         });
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                edit.setVisibility(View.VISIBLE);
-                save.setVisibility(View.INVISIBLE);
-                /*
-                verifyChange();
-                if (tipo.equals(changedTipo)) {
-                    System.out.println("Changed Value: " + changedAnno + "\nPrevious Value: " + anno);
-                    System.out.println("Changed Value: " + changedTipo + "\nPrevious Value: " + tipo);
-                    System.out.println(changedDipartimento);
-                    System.out.println(changedUniversita);
-                    disableView();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Changed detected", Toast.LENGTH_LONG).show();
-
-                }
-                */
-
-
-            }
-        });
 
         /*
         spinnerTipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -211,7 +143,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        */
+
 
         checkSinistra.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,6 +154,24 @@ public class UserProfileActivity extends AppCompatActivity {
 
             }
         });
+*/
+
+    }
+
+    public void getUserFromSharedPreferences() {
+
+        sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
+        gson = new Gson();
+        String json = sharedPreferences.getString("user", "");
+        user = gson.fromJson(json, User.class);
+
+    }
+
+    public void initFirebase() {
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
     }
 
@@ -237,16 +187,30 @@ public class UserProfileActivity extends AppCompatActivity {
     public void setupView() {
 
         nomeCognome = findViewById(R.id.nomeCognomeUtente_UserProfileActivity);
-        save = findViewById(R.id.save_UserProfileActivity);
         edit = findViewById(R.id.edit_UserProfileActivity);
         email = findViewById(R.id.email_UserProfileActivity);
-        autoTipo = findViewById(R.id.tipologies_UserProfileActivity);
-        autoAnno = findViewById(R.id.years_UserProfileActivity);
-        autoUniversita = findViewById(R.id.univerisites_UserProfileActivity);
-        autoDipartimento = findViewById(R.id.department_UserProfileActivity);
-        checkSinistra = findViewById(R.id.primoSemestre_UserProfileActivity);
-        checkDestra = findViewById(R.id.secondoSemestre_UserProfileActivity);
+        tipoUniversita = findViewById(R.id.tipologies_UserProfileActivity);
+        annoUniversita = findViewById(R.id.years_UserProfileActivity);
+        universita = findViewById(R.id.univerisites_UserProfileActivity);
+        dipartimento = findViewById(R.id.department_UserProfileActivity);
+        semestre = findViewById(R.id.semester_UserProfileActivity);
+        tipoSuddivisione = findViewById(R.id.tipoSuddivisione_UserProfileActivity);
+        suddivisione = findViewById(R.id.suddivisione_UserProfileActivity);
         imageUser = findViewById(R.id.image_UserProfileActivity);
+
+    }
+
+    public void settingView() {
+
+        nomeCognome.setText(user.getNome().concat(" ").concat(user.getCognome()));
+        email.setText(user.getEmail());
+        tipoUniversita.setText(user.getUniversityTipe());
+        annoUniversita.setText(user.getAnno());
+        universita.setText(user.getUniversity());
+        dipartimento.setText(user.getDepartment());
+        semestre.setText(user.getSemestre());
+        tipoSuddivisione.setText(user.getTipoSuddivisione());
+        suddivisione.setText(user.getSuddivisione());
 
     }
 
@@ -297,328 +261,316 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void selectSpinnerItemByValue(Spinner spinner, ArrayAdapter<CharSequence> adapter, String value) {
-        spinner.setAdapter(adapter);
-        for (int position = 0; position < adapter.getCount(); position++) {
-            if (Objects.equals(adapter.getItem(position), value)) {
-                spinner.setSelection(position);
-                System.out.println("La variabile contiene: " + value);
-                return;
-            }
-        }
-    }
+    public void disableView() {
 
-    public void settingView() {
-
-        nomeCognome.setText(user.getNome().concat(" ").concat(user.getCognome()));
-        email.setText(user.getEmail());
-        autoTipo.setText(user.getUniversityTipe());
-        autoAnno.setText(user.getAnno());
-        autoUniversita.setText(user.getUniversity());
-        autoDipartimento.setText(user.getDepartment());
-
-        /*
-        settingSpinnerTipo();
-        settingSpinnerAnno();
-        settingSpinnerUniversita();
-        settingSpinnerDipartimento();
-        */
-        settingSemester();
+        email.setEnabled(false);
+        tipoUniversita.setEnabled(false);
+        annoUniversita.setEnabled(false);
+        universita.setEnabled(false);
+        dipartimento.setEnabled(false);
+        semestre.setEnabled(false);
+        tipoSuddivisione.setEnabled(false);
+        suddivisione.setEnabled(false);
 
     }
 
     /*
-    public void settingSpinnerTipo() {
+   public void selectSpinnerItemByValue(Spinner spinner, ArrayAdapter<CharSequence> adapter, String value) {
+       spinner.setAdapter(adapter);
+       for (int position = 0; position < adapter.getCount(); position++) {
+           if (Objects.equals(adapter.getItem(position), value)) {
+               spinner.setSelection(position);
+               System.out.println("La variabile contiene: " + value);
+               return;
+           }
+       }
+   }
 
-        tipo = user.getUniversityTipe();
 
-        adapterTipo = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.tipologies,
-                android.R.layout.simple_spinner_dropdown_item);
 
-        selectSpinnerItemByValue(spinnerTipo, adapterTipo, tipo);
 
-    }
+   public void settingSpinnerTipo() {
 
-    public void settingSpinnerAnno() {
+       tipo = user.getUniversityTipe();
 
-        anno = user.getAnno();
-        System.out.println(anno);
+       adapterTipo = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.tipologies,
+               android.R.layout.simple_spinner_dropdown_item);
 
-        if (tipo.equals("Laurea Triennale")) {
-            adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.Triennale,
-                    android.R.layout.simple_spinner_dropdown_item);
-        } else if (tipo.equals("Laurea Magistrale")) {
-                adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.Magistrale,
-                        android.R.layout.simple_spinner_dropdown_item);
-            System.out.println("ECCOMI");
-        } else if (tipo.equals("Laurea Magistrale a Ciclo Unico di 5 Anni")) {
-                adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.Magistrale_ciclo_unico_di_5_anni,
-                        android.R.layout.simple_spinner_dropdown_item);
-        } else if (tipo.equals("Laurea Magistrale a Ciclo Unico di 6 Anni")) {
-                adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.Magistrale_ciclo_unico_di_6_anni,
-                        android.R.layout.simple_spinner_dropdown_item);
-        }
+       selectSpinnerItemByValue(spinnerTipo, adapterTipo, tipo);
 
-        selectSpinnerItemByValue(spinnerAnno, adapterAnno, anno);
+   }
 
-    }
+   public void settingSpinnerAnno() {
 
-    public void settingSpinnerUniversita() {
+       anno = user.getAnno();
+       System.out.println(anno);
 
-        universita = user.getUniversity();
+       if (tipo.equals("Laurea Triennale")) {
+           adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.Triennale,
+                   android.R.layout.simple_spinner_dropdown_item);
+       } else if (tipo.equals("Laurea Magistrale")) {
+               adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.Magistrale,
+                       android.R.layout.simple_spinner_dropdown_item);
+           System.out.println("ECCOMI");
+       } else if (tipo.equals("Laurea Magistrale a Ciclo Unico di 5 Anni")) {
+               adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.Magistrale_ciclo_unico_di_5_anni,
+                       android.R.layout.simple_spinner_dropdown_item);
+       } else if (tipo.equals("Laurea Magistrale a Ciclo Unico di 6 Anni")) {
+               adapterAnno = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.Magistrale_ciclo_unico_di_6_anni,
+                       android.R.layout.simple_spinner_dropdown_item);
+       }
 
-        adapterUniversita = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.Universities,
-                android.R.layout.simple_spinner_dropdown_item);
+       selectSpinnerItemByValue(spinnerAnno, adapterAnno, anno);
 
-        selectSpinnerItemByValue(spinnerUniversita, adapterUniversita, universita);
+   }
 
-    }
+   public void settingSpinnerUniversita() {
 
-    public void settingSpinnerDipartimento() {
+       universita = user.getUniversity();
 
-        dipartimento = user.getDepartment();
+       adapterUniversita = ArrayAdapter.createFromResource(UserProfileActivity.this, R.array.Universities,
+               android.R.layout.simple_spinner_dropdown_item);
 
-        if (tipo.equals("Laurea Triennale")) {
-            switch (universita) {
-                case ("Universita' degli Studi di Salerno"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Salerno_Triennale,
-                            android.R.layout.simple_spinner_item);
+       selectSpinnerItemByValue(spinnerUniversita, adapterUniversita, universita);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Federico II"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Federico_Triennale,
-                            android.R.layout.simple_spinner_item);
+   }
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - L'Orientale"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Triennale,
-                            android.R.layout.simple_spinner_item);
+   public void settingSpinnerDipartimento() {
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Parthenope"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Triennale,
-                            android.R.layout.simple_spinner_item);
+       dipartimento = user.getDepartment();
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Suor Orsola Benincasa"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Triennale,
-                            android.R.layout.simple_spinner_item);
+       if (tipo.equals("Laurea Triennale")) {
+           switch (universita) {
+               case ("Universita' degli Studi di Salerno"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Salerno_Triennale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi del Sannio"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Del_Sannio_Triennale,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Federico II"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Federico_Triennale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi della Campania - Luigi Vanvitelli"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Della_Campania_Triennale,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - L'Orientale"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Triennale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-            }
-        } else if (tipo.equals("Laurea Magistrale")) {
-            switch (universita) {
-                case ("Universita' degli Studi di Salerno"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Salerno_Magistrale,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Parthenope"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Triennale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Federico II"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Suor Orsola Benincasa"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Triennale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - L'Orientale"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi del Sannio"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Del_Sannio_Triennale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Parthenope"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi della Campania - Luigi Vanvitelli"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Della_Campania_Triennale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Suor Orsola Benincasa"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+           }
+       } else if (tipo.equals("Laurea Magistrale")) {
+           switch (universita) {
+               case ("Universita' degli Studi di Salerno"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Salerno_Magistrale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi del Sannio"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Del_Sannio_Magistrale,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Federico II"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi della Campania - Luigi Vanvitelli"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Della_Campania_Magistrale,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - L'Orientale"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-            }
-        } else if (tipo.equals("Laurea Magistrale a Ciclo Unico di 5 Anni")) {
-            switch (universita) {
-                case ("Universita' degli Studi di Salerno"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_5_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Parthenope"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Federico II"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_5_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Suor Orsola Benincasa"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - L'Orientale"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_5_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi del Sannio"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Del_Sannio_Magistrale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Parthenope"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_5_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi della Campania - Luigi Vanvitelli"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Della_Campania_Magistrale,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Suor Orsola Benincasa"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_5_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+           }
+       } else if (tipo.equals("Laurea Magistrale a Ciclo Unico di 5 Anni")) {
+           switch (universita) {
+               case ("Universita' degli Studi di Salerno"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_5_anni,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi del Sannio"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_5_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Federico II"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_5_anni,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi della Campania - Luigi Vanvitelli"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_5_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - L'Orientale"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_5_anni,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-            }
-        } else if (tipo.equals("Laurea Magistrale a Ciclo Unico di 6 Anni")) {
-            switch (universita) {
-                case ("Universita' degli Studi di Salerno"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_6_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Parthenope"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_5_anni,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Federico II"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_6_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Suor Orsola Benincasa"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_5_anni,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - L'Orientale"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_6_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi del Sannio"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_5_anni,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Parthenope"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_6_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi della Campania - Luigi Vanvitelli"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_5_anni,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi di Napoli - Suor Orsola Benincasa"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_6_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+           }
+       } else if (tipo.equals("Laurea Magistrale a Ciclo Unico di 6 Anni")) {
+           switch (universita) {
+               case ("Universita' degli Studi di Salerno"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_6_anni,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi del Sannio"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_6_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Federico II"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_6_anni,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-                case ("Universita' degli Studi della Campania - Luigi Vanvitelli"): {
-                    adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
-                            R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_6_anni,
-                            android.R.layout.simple_spinner_item);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - L'Orientale"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_6_anni,
+                           android.R.layout.simple_spinner_item);
 
-                    break;
-                }
-            }
-        }
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Parthenope"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_6_anni,
+                           android.R.layout.simple_spinner_item);
 
-        selectSpinnerItemByValue(spinnerDipartimento, adapterDipartimento, dipartimento);
+                   break;
+               }
+               case ("Universita' degli Studi di Napoli - Suor Orsola Benincasa"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_6_anni,
+                           android.R.layout.simple_spinner_item);
 
-    }
+                   break;
+               }
+               case ("Universita' degli Studi del Sannio"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_6_anni,
+                           android.R.layout.simple_spinner_item);
 
+                   break;
+               }
+               case ("Universita' degli Studi della Campania - Luigi Vanvitelli"): {
+                   adapterDipartimento = ArrayAdapter.createFromResource(UserProfileActivity.this,
+                           R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_6_anni,
+                           android.R.layout.simple_spinner_item);
+
+                   break;
+               }
+           }
+       }
+
+       selectSpinnerItemByValue(spinnerDipartimento, adapterDipartimento, dipartimento);
+
+   }
+
+
+   @SuppressLint("SetTextI18n")
+   public void settingSemester() {
+
+       semestre = user.getSemestre();
+       if (semestre.equals("Primo Semestre")) {
+           checkSinistra.setText(semestre);
+           checkDestra.setText("Secondo Semestre");
+       } else if (semestre.equals("Secondo Semestre")) {
+           checkSinistra.setText(semestre);
+           checkDestra.setText("Primo Semestre");
+       }
+
+   }
 */
-    @SuppressLint("SetTextI18n")
-    public void settingSemester() {
 
-        semestre = user.getSemestre();
-        if (semestre.equals("Primo Semestre")) {
-            checkSinistra.setText(semestre);
-            checkDestra.setText("Secondo Semestre");
-        } else if (semestre.equals("Secondo Semestre")) {
-            checkSinistra.setText(semestre);
-            checkDestra.setText("Primo Semestre");
-        }
 
-    }
-
-    public void disableView() {
-
-        email.setEnabled(false);
-        autoTipo.setEnabled(false);
-        autoAnno.setEnabled(false);
-        autoUniversita.setEnabled(false);
-        autoDipartimento.setEnabled(false);
-        checkSinistra.setEnabled(false);
-        checkDestra.setVisibility(View.INVISIBLE);
-
-    }
-
+    /*
     public void enableView() {
 
         autoTipo.setEnabled(true);
@@ -989,7 +941,7 @@ public class UserProfileActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Changed detected", Toast.LENGTH_LONG).show();
 
         }
-        */
+
     }
 
     public void semesterValidator() {
@@ -1033,4 +985,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 });
 
     }
+
+    */
 }

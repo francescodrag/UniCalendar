@@ -26,8 +26,8 @@ import java.util.Objects;
 public class AddLessonDialog extends AppCompatDialogFragment {
 
     private EditText aula;
-    private EditText inizioLezione;
-    private EditText fineLezione;
+    private Spinner inizioLezione;
+    private Spinner fineLezione;
     private RadioButton tipoLezione;
     private Spinner giornoLezione;
     private ExampleDialogListener listener;
@@ -76,8 +76,8 @@ public class AddLessonDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         String aulaString = aula.getText().toString();
-                        String inizioLezioneString = inizioLezione.getText().toString();
-                        String fineLezioneString = fineLezione.getText().toString();
+                        String inizioLezioneString = inizioLezione.getSelectedItem().toString();
+                        String fineLezioneString = fineLezione.getSelectedItem().toString();
                         String tipoLezioneString = tipoLezione.getText().toString();
                         String giornoLezioneString = giornoLezione.getSelectedItem().toString();
 

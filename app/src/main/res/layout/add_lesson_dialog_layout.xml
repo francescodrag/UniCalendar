@@ -32,6 +32,10 @@
             android:id="@+id/aula_AddLessonDialogLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:ems="10"
             android:hint="Aula"
             android:inputType="textCapSentences"
@@ -47,14 +51,15 @@
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
-        <EditText
+        <Spinner
             android:id="@+id/inizioLezione_AddLessonDialogLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="8:30"
-            android:inputType="time"
-            tools:ignore="Autofill,HardcodedText" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:entries="@array/orariLezioni" />
 
         <TextView
             android:id="@+id/textView11"
@@ -66,14 +71,15 @@
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
-        <EditText
+        <Spinner
             android:id="@+id/fineLezione_AddLessonDialogLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="19:00"
-            android:inputType="time"
-            tools:ignore="Autofill,HardcodedText" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:entries="@array/orariLezioni" />
 
         <TextView
             android:id="@+id/textView12"
@@ -87,7 +93,11 @@
 
         <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp">
 
             <RadioButton
                 android:id="@+id/radioButton_AddLessonDialogLayout"

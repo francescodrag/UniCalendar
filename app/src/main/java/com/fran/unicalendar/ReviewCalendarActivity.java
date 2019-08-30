@@ -1,35 +1,47 @@
 package com.fran.unicalendar;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.reflect.TypeToken;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ReviewCalendarActivity extends AppCompatActivity {
 
-    //SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
-    //SharedPreferences userPreferences;
     Gson gson;
 
-    //Corso corso;
     List<Corso> corsi;
-    //Lezione lezione;
     List<Lezione> lezioni;
     Calendario calendario;
+    User user;
     List<Giorno> giorni;
     List<Evento> eventiLunedi;
     List<Evento> eventiMartedi;
@@ -46,12 +58,19 @@ public class ReviewCalendarActivity extends AppCompatActivity {
     LayoutInflater layoutInflater;
     LinearLayout corsoLayout;
     LinearLayout lezioneLayout;
+    LinearLayout options;
     ViewGroup mainLayout;
 
     TextView Corso, Materia, Docente;
     TextView Aula, OrarioInizio, OrarioFine, Tipologia, Giorno;
 
-    //int position = 0;
+    ImageView Delete;
+    ImageView Save;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
+    FirebaseUser firebaseUser;
+    ProgressDialog progressDialog;
 
     @SuppressLint("InflateParams")
     @Override
@@ -59,23 +78,10 @@ public class ReviewCalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_calendar);
 
-        sharedPreferences = getSharedPreferences("Calendar", Context.MODE_PRIVATE);
-        gson = new Gson();
-        String json = sharedPreferences.getString("calendar", "");
-        calendario = gson.fromJson(json, Calendario.class);
+        getCalendarFromsharedPreferences();
+        getUserFromSharedPreferences();
 
-        lezioni = new ArrayList<>();
-        eventiLunedi = new ArrayList<>();
-        eventiMartedi = new ArrayList<>();
-        eventiMercoledi = new ArrayList<>();
-        eventiGiovedi = new ArrayList<>();
-        eventiVenerdi = new ArrayList<>();
-        lunedi = new Giorno();
-        martedi = new Giorno();
-        mercoledi = new Giorno();
-        giovedi = new Giorno();
-        venerdi = new Giorno();
-        giorni = new ArrayList<>();
+        initObjects();
 
         if (calendario != null) {
 
@@ -121,7 +127,6 @@ public class ReviewCalendarActivity extends AppCompatActivity {
                     Materia.append(corsi.get(i).getMateria());
                     Docente = (TextView) linearLayout.getChildAt(2);
                     Docente.append(corsi.get(i).getDocente());
-
 
 
                     lezioni = corsi.get(i).getLezioni();
@@ -216,6 +221,12 @@ public class ReviewCalendarActivity extends AppCompatActivity {
                     System.out.println("*********************************\n");
 
                 }
+
+                layoutInflater = getLayoutInflater();
+                options = (LinearLayout) layoutInflater.inflate(R.layout.review_calendar_options, null);
+                mainLayout = findViewById(R.id.mainLayout_ReviewCalendarActivity);
+                mainLayout.addView(options, mainLayout.getChildCount());
+
                 giorni.add(lunedi);
                 giorni.add(martedi);
                 giorni.add(mercoledi);
@@ -224,7 +235,6 @@ public class ReviewCalendarActivity extends AppCompatActivity {
             }
 
         }
-
 
         for (int count = 0; count < giorni.size(); count++) {
 
@@ -247,12 +257,285 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
         }
 
+        sortEventi();
+
+        initViews();
+
+        Delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //TODO
+
+                startActivity(new Intent(ReviewCalendarActivity.this, HomeActivity.class));
+
+                finish();
+
+            }
+        });
+
+        Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //TODO
+
+                progressDialog.setCancelable(false);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("Caricamento Calendario in corso...");
+                progressDialog.show();
+
+                searchIntoDB();
+
+            }
+        });
+
+    }
+
+    public void getCalendarFromsharedPreferences() {
+
+        sharedPreferences = getSharedPreferences("Calendar", Context.MODE_PRIVATE);
+        gson = new Gson();
+        String json = sharedPreferences.getString("calendar", "");
+        calendario = gson.fromJson(json, Calendario.class);
+        if (calendario == null)
+            Log.d("ALLERT:", "nullo!");
+
+    }
+
+    public void getUserFromSharedPreferences() {
+
+        sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
+        gson = new Gson();
+        String json = sharedPreferences.getString("user", "");
+        user = gson.fromJson(json, User.class);
+
+    }
+
+    public void initObjects() {
+
+        lezioni = new ArrayList<>();
+        eventiLunedi = new ArrayList<>();
+        eventiMartedi = new ArrayList<>();
+        eventiMercoledi = new ArrayList<>();
+        eventiGiovedi = new ArrayList<>();
+        eventiVenerdi = new ArrayList<>();
+        lunedi = new Giorno();
+        martedi = new Giorno();
+        mercoledi = new Giorno();
+        giovedi = new Giorno();
+        venerdi = new Giorno();
+        giorni = new ArrayList<>();
+        progressDialog = new ProgressDialog(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+    }
+
+    public void initViews() {
+
+        Delete = findViewById(R.id.delete_ReviewCalendarOptions);
+        Save = findViewById(R.id.save_ReviewCalendarOptions);
+
+    }
+
+    public void sortEventi() {
+
+        for (int count = 0; count < giorni.size(); count++) {
+
+            if (giorni.get(count).getEventi() != null) {
+
+                Evento evento;
+                for (int i = 1; i < giorni.get(count).getEventi().size(); i++) {
+                    for (int j = i; j > 0; j--) {
+                        if (fromStringToInt(giorni.get(count).getEventi().get(j).getInizioLezione()) <
+                                fromStringToInt(giorni.get(count).getEventi().get(j - 1).getInizioLezione())) {
+                            evento = giorni.get(count).getEventi().get(j);
+                            giorni.get(count).getEventi().set(j, giorni.get(count).getEventi().get(j - 1));
+                            giorni.get(count).getEventi().set(j - 1, evento);
+                        }
+                    }
+                }
+                for (int i = 0; i < giorni.get(count).getEventi().size(); i++) {
+
+                    System.out.println("Aula : " + giorni.get(count).getEventi().get(i).getAula());
+                    System.out.println("Orario di Inizio Lezione : " + giorni.get(count).getEventi().get(i).getInizioLezione());
+                    System.out.println("Orario di Fine Lezione : " + giorni.get(count).getEventi().get(i).getFineLezione());
+                    System.out.println("Tipo di Lezione : " + giorni.get(count).getEventi().get(i).getTipologiaLezione());
+                    System.out.println("Docente : " + giorni.get(count).getEventi().get(i).getDocente());
+                    System.out.println("Materia : " + giorni.get(count).getEventi().get(i).getMateria());
+
+                }
+
+            }
+
+        }
+
+    }
+
+    public int fromStringToInt(String orario) {
+
+        String clear = null;
+
+        int lunghezza = orario.length();
+
+        if (lunghezza == 4) {
+            if (Character.getNumericValue(orario.charAt(2)) == 3) {
+                clear = orario.substring(0, 1).concat("5").concat(orario.substring(3, 4));
+            } else {
+                clear = orario.substring(0, 1).concat(orario.substring(2, 4));
+            }
+        } else if (lunghezza == 5) {
+            if (Character.getNumericValue(orario.charAt(3)) == 3) {
+                clear = orario.substring(0, 2).concat("5").concat(orario.substring(4, 5));
+            } else {
+                clear = orario.substring(0, 2).concat(orario.substring(3, 5));
+            }
+        }
+
+        return Integer.parseInt(clear);
+
+    }
+
+    public void searchIntoDB() {
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        firebaseFirestore.collection("TimeTables")
+                .document(user.getUniversityType()).collection(user.getAnno()).document(user.getUniversity())
+                .collection(user.getDepartment()).document(user.getSemestre())
+                .collection(user.getTipoSuddivisione().concat(" - ").concat(user.getSuddivisione()))
+                .document("Calendario")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        calendario = documentSnapshot.toObject(Calendario.class);
+                        if (calendario != null) {
+                            Log.d("onSucces", "Calendario scaricato");
+                            uploadUserIntoDatabase();
+                        } else {
+                            getCalendarFromsharedPreferences();
+                            uploadDatabase();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("onFailure", "Calendario non scaricato");
+            }
+        });
+
+    }
+
+    public void uploadDatabase() {
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        firebaseFirestore.collection("TimeTables")
+                .document(user.getUniversityType()).collection(user.getAnno()).document(user.getUniversity())
+                .collection(user.getDepartment()).document(user.getSemestre())
+                .collection(user.getTipoSuddivisione().concat(" - ").concat(user.getSuddivisione())).document("Calendario")
+                .set(calendario)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Log.d("OnSucces", "Calendario caricato!");
+                        uploadTimeTableIntoDatabase();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Log.w("TAG", "Error writing document", e);
+
+            }
+        });
+    }
+
+    public void uploadTimeTableIntoDatabase() {
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        TimeTable timeTable = new TimeTable(giorni);
+
+        firebaseFirestore.collection("TimeTables")
+                .document(calendario.getUniversityType()).collection(calendario.getAnno()).document(calendario.getUniversity())
+                .collection(calendario.getDepartment()).document(calendario.getSemestre())
+                .collection(calendario.getTipoSuddivisione().concat(" - ").concat(calendario.getSuddivisione())).document("TimeTable")
+                .set(timeTable)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Log.d("OnSucces", "TimeTable caricato!");
+                        uploadUserIntoDatabase();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Log.w("TAG", "Error writing document", e);
+
+            }
+        });
+
+    }
+
+    public void uploadUserIntoDatabase() {
+
+        firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = firebaseFirestore.collection("Users").document(Objects.requireNonNull(firebaseUser.getEmail()));
+
+        docRef.update("HasCalendario", true).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                setSharedPreferences();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+
+    }
+
+    public void setSharedPreferences() {
+
+        gson = new Gson();
+        @SuppressWarnings("UnstableApiUsage")
+        Type timetable = new TypeToken<List<Giorno>>() {
+        }.getType();
+        String json = gson.toJson(giorni, timetable);
+
+        sharedPreferences = getSharedPreferences("TimeTable", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("timeTable", json);
+
+        editor.apply();
+
+        progressDialog.dismiss();
+
+        startActivity(new Intent(ReviewCalendarActivity.this, CalendarActivity.class));
+
+        finish();
+
     }
 
     @Override
     public void onBackPressed() {
         Intent a = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(a);
+        finish();
     }
 
 }
