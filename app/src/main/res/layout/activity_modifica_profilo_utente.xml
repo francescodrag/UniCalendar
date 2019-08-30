@@ -145,6 +145,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:entries="@array/tipologies"
                     tools:ignore="Autofill,LabelFor,TextFields" />
 
                 <TextView
@@ -164,6 +165,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:entries="@array/Triennale"
                     tools:ignore="Autofill,LabelFor,TextFields" />
 
 
@@ -184,6 +186,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:entries="@array/Universities"
                     tools:ignore="Autofill,LabelFor,TextFields" />
 
 
@@ -204,6 +207,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:entries="@array/Universita_Degli_Studi_Di_Salerno_Triennale"
                     tools:ignore="Autofill,LabelFor,TextFields" />
 
                 <TextView
@@ -223,6 +227,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:entries="@array/Semestri"
                     tools:ignore="Autofill,LabelFor,TextFields" />
 
                 <TextView
@@ -243,6 +248,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:entries="@array/Tipo_Suddivisione"
                     tools:ignore="Autofill,LabelFor,TextFields" />
 
                 <TextView
@@ -263,6 +269,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:entries="@array/Suddivisione_Pari_o_Dispari"
                     tools:ignore="Autofill,LabelFor,TextFields" />
 
 

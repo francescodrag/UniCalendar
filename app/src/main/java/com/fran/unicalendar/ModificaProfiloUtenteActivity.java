@@ -1,13 +1,18 @@
 package com.fran.unicalendar;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,42 +34,35 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     ImageView undo, save;
     EditText email;
-    Spinner tipoUniversita;
-    Spinner annoUniversita;
-    Spinner universita;
-    Spinner dipartimento;
-    Spinner semestre;
-    Spinner tipoSuddivisione;
-    Spinner suddivisione;
 
-    ArrayAdapter<CharSequence> adapterTipo;
-    String tipo;
-    //String changedTipo;
+    Spinner spinnerTipo;
+    String tipo = "Laurea Triennale";
+
+    Spinner spinnerAnno;
     ArrayAdapter<CharSequence> adapterAnno;
-    String anno;
-    //String changedAnno;
-    ArrayAdapter<CharSequence> adapterUniversita;
-    String Universita;
-    //String changedUniversita;
+    String anno = "Primo Anno";
+
+    Spinner spinnerUniversita;
+    String universita = "Universita' degli Studi di Salerno";
+
+    Spinner spinnerDipartimento;
     ArrayAdapter<CharSequence> adapterDipartimento;
-    String Dipartimento;
-    ArrayAdapter<CharSequence> adapterSemestre;
-    String Semestre;
-    ArrayAdapter<CharSequence> adapterTipoSuddivisione;
-    String TipoSuddivisione;
+    String dipartimento = "Chimica";
+
+    Spinner spinnerSemestre;
+    String semestre = "Primo Semestre";
+
+    Spinner spinnerTipoSuddivisione;
+    String tipoSuddivisione;
+
+    Spinner spinnerSuddivisione;
     ArrayAdapter<CharSequence> adapterSuddivisione;
-    String Suddivisione;
-    String originalTipo;
-    //String changedDipartimento;
-    //RadioButton checkSinistra, checkDestra;
-    //String semestre;
-    //String changedSemestre;
+    String suddivisione = "Pari";
 
     Intent intent;
     TextView nomeCognome;
@@ -80,6 +79,12 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     Gson gson;
 
+    AlertDialog alertDialog;
+    AlertDialog.Builder builder;
+    View view;
+    ProgressDialog progressDialog;
+    LayoutInflater layoutInflater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,33 +99,21 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
         initView();
 
 
-        tipoUniversita.setOnTouchListener(new View.OnTouchListener() {
-
-            @SuppressLint("ClickableViewAccessibility")
+        spinnerTipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                tipoUniversita.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                        initTipo(adapterView);
-
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                    }
-                });
-
-                return false;
+                initTipo(adapterView);
 
             }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
         });
 
-        annoUniversita.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerAnno.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 anno = adapterView.getSelectedItem().toString().trim();
@@ -132,7 +125,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
             }
         });
 
-        universita.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerUniversita.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -146,29 +139,19 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
             }
         });
 
-        dipartimento.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
+        spinnerDipartimento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                dipartimento = adapterView.getSelectedItem().toString().trim();
+            }
 
-                dipartimento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        Dipartimento = adapterView.getSelectedItem().toString().trim();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                    }
-                });
-
-                return false;
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
 
-        tipoSuddivisione.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerTipoSuddivisione.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -182,10 +165,22 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
             }
         });
 
-        suddivisione.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerSuddivisione.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Suddivisione = adapterView.getSelectedItem().toString().trim();
+                suddivisione = adapterView.getSelectedItem().toString().trim();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spinnerSemestre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                semestre = adapterView.getSelectedItem().toString().trim();
             }
 
             @Override
@@ -198,10 +193,22 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (Dipartimento.equals("-")) {
-                    Toast.makeText(getApplicationContext(), "L'" + Universita + " non offre corsi di " + tipo, Toast.LENGTH_LONG).show();
-                } else
-                    updateUser();
+                if (dipartimento.equals("-")) {
+
+                    Toast toast = Toast.makeText(ModificaProfiloUtenteActivity.this,
+                            "L'" + universita + " non offre corsi di " + tipo,
+                            Toast.LENGTH_LONG);
+
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
+                    toast.show();
+
+
+                } else {
+
+                    createDialogSaveModify();
+
+                }
 
             }
         });
@@ -210,23 +217,29 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
-                finish();
+                createDialogUndoModify();
 
             }
         });
+
 
     }
 
     public void updateUser() {
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("Salvataggio modifiche in corso...");
+        progressDialog.show();
+
         user.setUniversityTipe(tipo);
         user.setAnno(anno);
-        user.setUniversity(Universita);
-        user.setDepartment(Dipartimento);
-        user.setSemestre(Semestre);
-        user.setTipoSuddivisione(TipoSuddivisione);
-        user.setSuddivisione(Suddivisione);
+        user.setUniversity(universita);
+        user.setDepartment(dipartimento);
+        user.setSemestre(semestre);
+        user.setTipoSuddivisione(tipoSuddivisione);
+        user.setSuddivisione(suddivisione);
         user.setCalendario(false);
 
         updateDataBase();
@@ -316,13 +329,13 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
         save = findViewById(R.id.save_ModificaProfiloUtenteActivity);
         undo = findViewById(R.id.undo_ModificaProfiloUtenteActivity);
         email = findViewById(R.id.email_ModificaProfiloUtenteActivity);
-        tipoUniversita = findViewById(R.id.tipologies_ModificaProfiloUtenteActivity);
-        annoUniversita = findViewById(R.id.years_ModificaProfiloUtenteActivity);
-        universita = findViewById(R.id.univerisites_ModificaProfiloUtenteActivity);
-        dipartimento = findViewById(R.id.department_ModificaProfiloUtenteActivity);
-        semestre = findViewById(R.id.semester_ModificaProfiloUtenteActivity);
-        tipoSuddivisione = findViewById(R.id.tipoSuddivisione_ModificaProfiloUtenteActivity);
-        suddivisione = findViewById(R.id.suddivisione_ModificaProfiloUtenteActivity);
+        spinnerTipo = findViewById(R.id.tipologies_ModificaProfiloUtenteActivity);
+        spinnerAnno = findViewById(R.id.years_ModificaProfiloUtenteActivity);
+        spinnerUniversita = findViewById(R.id.univerisites_ModificaProfiloUtenteActivity);
+        spinnerDipartimento = findViewById(R.id.department_ModificaProfiloUtenteActivity);
+        spinnerSemestre = findViewById(R.id.semester_ModificaProfiloUtenteActivity);
+        spinnerTipoSuddivisione = findViewById(R.id.tipoSuddivisione_ModificaProfiloUtenteActivity);
+        spinnerSuddivisione = findViewById(R.id.suddivisione_ModificaProfiloUtenteActivity);
         imageUser = findViewById(R.id.image_ModificaProfiloUtenteActivity);
 
     }
@@ -331,13 +344,6 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
         nomeCognome.setText(user.getNome().concat(" ").concat(user.getCognome()));
         email.setText(user.getEmail());
-        settingSpinnerTipo();
-        settingSpinnerAnno();
-        settingSpinnerUniversita();
-        settingSpinnerDipartimento();
-        settingSpinnerSemestre();
-        settingSpinnerTipoSuddivisione();
-        settingSpinnerSuddivisione();
 
     }
 
@@ -347,7 +353,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                switch (user.getUniversity()) {
+                switch (universita) {
                     case "Universita' degli Studi di Salerno":
                         imageUser.setBackgroundResource(R.drawable.unisa);
 
@@ -394,6 +400,500 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     }
 
+    public void initTipo(AdapterView<?> adapterView) {
+
+        switch (adapterView.getSelectedItem().toString()) {
+            case "Laurea Triennale":
+                switch (universita) {
+                    case "Universita' degli Studi di Salerno":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Salerno_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Federico II":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - L'Orientale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Parthenope":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Suor Orsola Benincasa":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi del Sannio":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Del_Sannio_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi della Campania - Luigi Vanvitelli":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Della_Campania_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                }
+                adapterAnno = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Triennale,
+                        android.R.layout.simple_spinner_item);
+                break;
+            case "Laurea Magistrale":
+                switch (universita) {
+                    case "Universita' degli Studi di Salerno":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Federico II":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - L'Orientale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Parthenope":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Suor Orsola Benincasa":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi del Sannio":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi della Campania - Luigi Vanvitelli":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                }
+                adapterAnno = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Magistrale,
+                        android.R.layout.simple_spinner_item);
+                break;
+            case "Laurea Magistrale a Ciclo Unico di 5 Anni":
+                switch (universita) {
+                    case "Universita' degli Studi di Salerno":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Federico II":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - L'Orientale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Parthenope":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Suor Orsola Benincasa":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi del Sannio":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi della Campania - Luigi Vanvitelli":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                }
+                adapterAnno = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Magistrale_ciclo_unico_di_5_anni,
+                        android.R.layout.simple_spinner_item);
+                break;
+            case "Laurea Magistrale a Ciclo Unico di 6 Anni":
+                switch (universita) {
+                    case "Universita' degli Studi di Salerno":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Federico II":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - L'Orientale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Parthenope":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi di Napoli - Suor Orsola Benincasa":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi del Sannio":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Universita' degli Studi della Campania - Luigi Vanvitelli":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                }
+                adapterAnno = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Magistrale_ciclo_unico_di_6_anni,
+                        android.R.layout.simple_spinner_item);
+                break;
+        }
+
+        adapterDipartimento.notifyDataSetChanged();
+
+        adapterAnno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAnno.setAdapter(adapterAnno);
+        tipo = adapterView.getSelectedItem().toString().trim();
+
+        adapterDipartimento.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDipartimento.setAdapter(adapterDipartimento);
+
+    }
+
+    public void initUniversities(AdapterView<?> adapterView) {
+
+        adapterDipartimento.notifyDataSetChanged();
+
+        switch (adapterView.getSelectedItem().toString()) {
+            case "Universita' degli Studi di Salerno":
+                universita = adapterView.getSelectedItem().toString().trim();
+                switch (tipo) {
+                    case "Laurea Triennale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Salerno_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                }
+                break;
+            case "Universita' degli Studi di Napoli - Federico II":
+                universita = adapterView.getSelectedItem().toString().trim();
+                switch (tipo) {
+                    case "Laurea Triennale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                }
+                break;
+            case "Universita' degli Studi di Napoli - L'Orientale":
+                universita = adapterView.getSelectedItem().toString().trim();
+                switch (tipo) {
+                    case "Laurea Triennale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                }
+                break;
+            case "Universita' degli Studi di Napoli - Parthenope":
+                universita = adapterView.getSelectedItem().toString().trim();
+                switch (tipo) {
+                    case "Laurea Triennale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                }
+                break;
+            case "Universita' degli Studi di Napoli - Suor Orsola Benincasa":
+                universita = adapterView.getSelectedItem().toString().trim();
+                switch (tipo) {
+                    case "Laurea Triennale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                }
+                break;
+            case "Universita' degli Studi del Sannio":
+                universita = adapterView.getSelectedItem().toString().trim();
+                switch (tipo) {
+                    case "Laurea Triennale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Del_Sannio_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                }
+                break;
+            case "Universita' degli Studi della Campania - Luigi Vanvitelli":
+                universita = adapterView.getSelectedItem().toString().trim();
+                switch (tipo) {
+                    case "Laurea Triennale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Della_Campania_Triennale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_5_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
+                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
+                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_6_anni,
+                                android.R.layout.simple_spinner_item);
+                        break;
+                }
+                break;
+        }
+
+        adapterDipartimento.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDipartimento.setAdapter(adapterDipartimento);
+
+    }
+
+    public void initTipoSuddivisione(AdapterView<?> adapterView) {
+
+        switch (adapterView.getSelectedItem().toString()) {
+            case "Matricola Pari o Dispari":
+                adapterSuddivisione = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Suddivisione_Pari_o_Dispari,
+                        android.R.layout.simple_spinner_item);
+                break;
+            case "Resto della Matricola":
+                adapterSuddivisione = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Suddivisione_Resto_della_Matricola,
+                        android.R.layout.simple_spinner_item);
+                break;
+            case "Cognome":
+                adapterSuddivisione = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Suddivisione_Cognome,
+                        android.R.layout.simple_spinner_item);
+                break;
+        }
+
+        adapterSuddivisione.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSuddivisione.setAdapter(adapterSuddivisione);
+        tipoSuddivisione = adapterView.getSelectedItem().toString().trim();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        createDialogUndoModify();
+
+    }
+
+    @SuppressLint({"InflateParams", "SetTextI18n"})
+    public void createDialogUndoModify() {
+
+        builder = new AlertDialog.Builder(this);
+        layoutInflater = getLayoutInflater();
+        view = layoutInflater.inflate(R.layout.undo_modify_dialog, null);
+
+        TextView title = new TextView(this);
+        title.setText("Annulla Modifiche");
+        title.setPadding(10, 20, 10, 0);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTypeface(Typeface.DEFAULT_BOLD);
+        title.setTextSize(30);
+
+        builder.setView(view)
+                .setCustomTitle(title)
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        dialogInterface.dismiss();
+                        dialogInterface.cancel();
+
+                    }
+                })
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
+                        finish();
+
+                        dialogInterface.cancel();
+                        dialogInterface.dismiss();
+
+                    }
+
+                });
+
+        alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+
+    }
+
+    @SuppressLint({"InflateParams", "SetTextI18n"})
+    public void createDialogSaveModify() {
+
+        builder = new AlertDialog.Builder(this);
+        layoutInflater = getLayoutInflater();
+        view = layoutInflater.inflate(R.layout.save_modify_dialog, null);
+
+        TextView title = new TextView(this);
+        title.setText("Salva Modifiche");
+        title.setPadding(10, 20, 10, 0);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTypeface(Typeface.DEFAULT_BOLD);
+        title.setTextSize(30);
+
+        builder.setView(view)
+                .setCustomTitle(title)
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        dialogInterface.dismiss();
+                        dialogInterface.cancel();
+
+                    }
+                })
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        updateUser();
+
+                        progressDialog.dismiss();
+                        dialogInterface.cancel();
+                        dialogInterface.dismiss();
+
+                    }
+
+                });
+
+        alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+
+    }
+
+}
+
+/*
     public void selectSpinnerItemByValue(Spinner spinner, ArrayAdapter<CharSequence> adapter, String value) {
         spinner.setAdapter(adapter);
         for (int position = 0; position < adapter.getCount(); position++) {
@@ -726,395 +1226,6 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
         selectSpinnerItemByValue(suddivisione, adapterSuddivisione, Suddivisione);
 
     }
+*/
 
-    public void initTipo(AdapterView<?> adapterView) {
 
-        switch (adapterView.getSelectedItem().toString()) {
-            case "Laurea Triennale":
-                switch (Universita) {
-                    case "Universita' degli Studi di Salerno":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Salerno_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Federico II":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - L'Orientale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Parthenope":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Suor Orsola Benincasa":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi del Sannio":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Del_Sannio_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi della Campania - Luigi Vanvitelli":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Della_Campania_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-                adapterAnno = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Triennale,
-                        android.R.layout.simple_spinner_item);
-                break;
-            case "Laurea Magistrale":
-                switch (Universita) {
-                    case "Universita' degli Studi di Salerno":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Federico II":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - L'Orientale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Parthenope":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Suor Orsola Benincasa":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi del Sannio":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi della Campania - Luigi Vanvitelli":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-                adapterAnno = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Magistrale,
-                        android.R.layout.simple_spinner_item);
-                break;
-            case "Laurea Magistrale a Ciclo Unico di 5 Anni":
-                switch (Universita) {
-                    case "Universita' degli Studi di Salerno":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Federico II":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - L'Orientale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Parthenope":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Suor Orsola Benincasa":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi del Sannio":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi della Campania - Luigi Vanvitelli":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-                adapterAnno = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Magistrale_ciclo_unico_di_5_anni,
-                        android.R.layout.simple_spinner_item);
-                break;
-            case "Laurea Magistrale a Ciclo Unico di 6 Anni":
-                switch (Universita) {
-                    case "Universita' degli Studi di Salerno":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Federico II":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - L'Orientale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Parthenope":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi di Napoli - Suor Orsola Benincasa":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi del Sannio":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Universita' degli Studi della Campania - Luigi Vanvitelli":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-                adapterAnno = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Magistrale_ciclo_unico_di_6_anni,
-                        android.R.layout.simple_spinner_item);
-                break;
-        }
-
-        adapterDipartimento.notifyDataSetChanged();
-
-        adapterAnno.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        annoUniversita.setAdapter(adapterAnno);
-        tipo = adapterView.getSelectedItem().toString().trim();
-
-        adapterDipartimento.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dipartimento.setAdapter(adapterDipartimento);
-
-    }
-
-    public void initUniversities(AdapterView<?> adapterView) {
-
-        adapterDipartimento.notifyDataSetChanged();
-
-        switch (adapterView.getSelectedItem().toString()) {
-            case "Universita' degli Studi di Salerno":
-                Universita = adapterView.getSelectedItem().toString().trim();
-                switch (tipo) {
-                    case "Laurea Triennale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Salerno_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Salerno_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-                break;
-            case "Universita' degli Studi di Napoli - Federico II":
-                Universita = adapterView.getSelectedItem().toString().trim();
-                switch (tipo) {
-                    case "Laurea Triennale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Federico_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-                break;
-            case "Universita' degli Studi di Napoli - L'Orientale":
-                Universita = adapterView.getSelectedItem().toString().trim();
-                switch (tipo) {
-                    case "Laurea Triennale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orientale_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-                break;
-            case "Universita' degli Studi di Napoli - Parthenope":
-                Universita = adapterView.getSelectedItem().toString().trim();
-                switch (tipo) {
-                    case "Laurea Triennale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Parthenope_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-                break;
-            case "Universita' degli Studi di Napoli - Suor Orsola Benincasa":
-                Universita = adapterView.getSelectedItem().toString().trim();
-                switch (tipo) {
-                    case "Laurea Triennale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Di_Napoli_Orsola_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-                break;
-            case "Universita' degli Studi del Sannio":
-                Universita = adapterView.getSelectedItem().toString().trim();
-                switch (tipo) {
-                    case "Laurea Triennale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Del_Sannio_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Del_Sannio_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-                break;
-            case "Universita' degli Studi della Campania - Luigi Vanvitelli":
-                Universita = adapterView.getSelectedItem().toString().trim();
-                switch (tipo) {
-                    case "Laurea Triennale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Della_Campania_Triennale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 5 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_5_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                    case "Laurea Magistrale a Ciclo Unico di 6 Anni":
-                        adapterDipartimento = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this,
-                                R.array.Universita_Degli_Studi_Della_Campania_Magistrale_a_Ciclo_Unico_di_6_anni,
-                                android.R.layout.simple_spinner_item);
-                        break;
-                }
-                break;
-        }
-
-        adapterDipartimento.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dipartimento.setAdapter(adapterDipartimento);
-
-    }
-
-    public void initTipoSuddivisione(AdapterView<?> adapterView) {
-
-        switch (adapterView.getSelectedItem().toString()) {
-            case "Matricola Pari o Dispari":
-                adapterSuddivisione = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Suddivisione_Pari_o_Dispari,
-                        android.R.layout.simple_spinner_item);
-                break;
-            case "Resto della Matricola":
-                adapterSuddivisione = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Suddivisione_Resto_della_Matricola,
-                        android.R.layout.simple_spinner_item);
-                break;
-            case "Cognome":
-                adapterSuddivisione = ArrayAdapter.createFromResource(ModificaProfiloUtenteActivity.this, R.array.Suddivisione_Cognome,
-                        android.R.layout.simple_spinner_item);
-                break;
-        }
-
-        adapterSuddivisione.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        suddivisione.setAdapter(adapterSuddivisione);
-        TipoSuddivisione = adapterView.getSelectedItem().toString().trim();
-
-    }
-
-}
