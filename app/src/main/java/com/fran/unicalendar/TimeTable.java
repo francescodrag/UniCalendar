@@ -2,6 +2,7 @@ package com.fran.unicalendar;
 
 import java.util.List;
 
+@SuppressWarnings("all")
 public class TimeTable {
 
     private List<Giorno> giorni;

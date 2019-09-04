@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 public class UserProfileActivity extends AppCompatActivity {
 
 
-    ImageView edit, save;
+    ImageView edit;
     EditText email;
     EditText tipoUniversita;
     EditText annoUniversita;
@@ -56,7 +56,6 @@ public class UserProfileActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     FirebaseFirestore firebaseFirestore;
 
-    SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
     Gson gson;
 
