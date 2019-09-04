@@ -409,4 +409,40 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (alertDialog != null && alertDialog.isShowing()) {
+
+            alertDialog.cancel();
+            alertDialog.dismiss();
+
+        } else if (progressDialog != null && progressDialog.isShowing()) {
+
+            progressDialog.cancel();
+            progressDialog.dismiss();
+
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (alertDialog != null && alertDialog.isShowing()) {
+
+            alertDialog.cancel();
+            alertDialog.dismiss();
+
+        } else if (progressDialog != null && progressDialog.isShowing()) {
+
+            progressDialog.cancel();
+            progressDialog.dismiss();
+
+        }
+
+    }
+
 }

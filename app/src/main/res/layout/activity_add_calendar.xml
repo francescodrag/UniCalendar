@@ -105,10 +105,9 @@
                     android:id="@+id/materia_AddCalendarActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
                     android:ems="10"
                     android:hint="Materia"
-                    android:text="Ricerca Operativa"
+                    android:inputType="textCapWords"
                     tools:ignore="Autofill,HardcodedText" />
 
                 <TextView
@@ -128,7 +127,6 @@
                     android:ems="10"
                     android:hint="Docente"
                     android:inputType="textCapWords"
-                    android:text="Delfina Malandrino"
                     tools:ignore="Autofill,HardcodedText" />
 
                 <LinearLayout

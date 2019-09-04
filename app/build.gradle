@@ -7,12 +7,13 @@ android {
         applicationId "com.fran.unicalendar"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "3"
         testInstrumentationRunner "androidx.unina_orsola.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
+            aaptOptions { cruncherEnabled = false }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

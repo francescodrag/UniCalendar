@@ -78,7 +78,14 @@ public class AddLessonDialog extends AppCompatDialogFragment {
                         String aulaString = aula.getText().toString();
                         String inizioLezioneString = inizioLezione.getSelectedItem().toString();
                         String fineLezioneString = fineLezione.getSelectedItem().toString();
-                        String tipoLezioneString = tipoLezione.getText().toString();
+                        String tipoLezioneString;
+
+                        if (tipoLezione.isChecked()) {
+                            tipoLezioneString = tipoLezione.getText().toString();
+                        } else {
+                            tipoLezioneString = "Laboratorio";
+                        }
+
                         String giornoLezioneString = giornoLezione.getSelectedItem().toString();
 
                         listener.applyTexts(aulaString, inizioLezioneString, fineLezioneString, tipoLezioneString, giornoLezioneString);

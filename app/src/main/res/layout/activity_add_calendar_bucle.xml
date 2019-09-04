@@ -108,7 +108,6 @@
                     android:ems="10"
                     android:hint="Materia"
                     android:inputType="textCapWords"
-                    android:text="Ricerca Operativa"
                     tools:ignore="Autofill,HardcodedText" />
 
                 <TextView
@@ -128,7 +127,6 @@
                     android:ems="10"
                     android:hint="Docente"
                     android:inputType="textCapWords"
-                    android:text="Delfina Malandrino"
                     tools:ignore="Autofill,HardcodedText" />
 
                 <LinearLayout

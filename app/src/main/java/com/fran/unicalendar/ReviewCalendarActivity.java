@@ -538,4 +538,30 @@ public class ReviewCalendarActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (progressDialog != null && progressDialog.isShowing()) {
+
+            progressDialog.cancel();
+            progressDialog.dismiss();
+
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (progressDialog != null && progressDialog.isShowing()) {
+
+            progressDialog.cancel();
+            progressDialog.dismiss();
+
+        }
+
+    }
+
 }
