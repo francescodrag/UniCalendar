@@ -1,18 +1,26 @@
 package com.fran.unicalendar;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,6 +34,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -47,6 +57,14 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
     Gson gson;
+
+    AlertDialog alertDialog;
+    AlertDialog.Builder builder;
+    View view;
+    LayoutInflater layoutInflater;
+
+    EditText email;
+    EditText confermaEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +97,160 @@ public class LoginActivity extends AppCompatActivity {
         PasswordDimenticata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, CalendarActivity.class));
+                //startActivity(new Intent(LoginActivity.this, CalendarActivity.class));
+                createDialogResetPassword();
             }
         });
+    }
+
+    @SuppressLint({"InflateParams", "SetTextI18n"})
+    public void createDialogResetPassword() {
+
+        builder = new AlertDialog.Builder(this);
+        layoutInflater = getLayoutInflater();
+        view = layoutInflater.inflate(R.layout.reset_password_dialog, null);
+
+        TextView title = new TextView(this);
+        // You Can Customise your Title here
+        title.setText("Reset Password");
+        title.setPadding(10, 20, 10, 0);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTypeface(Typeface.DEFAULT_BOLD);
+        title.setTextSize(30);
+
+        builder.setView(view)
+                .setCustomTitle(title);
+
+        alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialogInterface) {
+
+                ImageButton conferma = view.findViewById(R.id.yes_ResetPasswordDialog);
+                ImageButton annulla = view.findViewById(R.id.no_ResetPasswordDialog);
+                email = view.findViewById(R.id.email_ResetPasswordDialogLayout);
+                confermaEmail = view.findViewById(R.id.confermaEmail_ResetPasswordDialogLayout);
+
+                annulla.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        alertDialog.cancel();
+                        alertDialog.dismiss();
+
+                    }
+                });
+
+                conferma.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+                        if (!emailValidator()) {
+
+                            email.setError("L'email inserita non e' valida!");
+                            email.requestFocus();
+
+                        } else if (email.getText().toString().trim().isEmpty()) {
+
+                            Email.setError("Il campo email non puo' essere vuoto!");
+                            Email.requestFocus();
+
+                        } else if (confermaEmail.getText().toString().trim().isEmpty()) {
+
+                            confermaEmail.setError("Il campo conferma email non puo' essere vuoto!");
+                            confermaEmail.requestFocus();
+
+                        } else if (!confermaEmailValidator()) {
+
+                            confermaEmail.setError("L'email inserita non e' valida!");
+                            confermaEmail.requestFocus();
+
+                        } else if (compareEmail()) {
+
+                            confermaEmail.setError("Le due email non coincidono!");
+                            confermaEmail.requestFocus();
+
+                        } else {
+
+                            inviaEmailReset(email.getText().toString().trim());
+
+                            alertDialog.dismiss();
+                            alertDialog.cancel();
+
+                            progressDialog.setMessage("Invio in corso...");
+                            progressDialog.setCancelable(false);
+                            progressDialog.setCanceledOnTouchOutside(false);
+                            progressDialog.show();
+
+                        }
+
+                    }
+                });
+
+
+            }
+        });
+
+        alertDialog.show();
+
+    }
+
+    public void inviaEmailReset(String email) {
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+
+                            Log.d("Reset", "Email sent.");
+
+                            progressDialog.dismiss();
+                            progressDialog.cancel();
+
+                            Toast.makeText(getApplicationContext(), "Email di Reset inviata!", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
+
+    }
+
+    public boolean compareEmail() {
+
+        return !email.getText().toString().trim().equals(confermaEmail.getText().toString().trim());
+
+    }
+
+    public boolean confermaEmailValidator() {
+
+        Pattern pattern;
+        Matcher matcher;
+        final String Email_Pattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        pattern = Pattern.compile(Email_Pattern);
+        matcher = pattern.matcher(confermaEmail.getText().toString().trim());
+
+        return matcher.matches();
+
+    }
+
+    public boolean emailValidator() {
+
+        Pattern pattern;
+        Matcher matcher;
+        final String Email_Pattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        pattern = Pattern.compile(Email_Pattern);
+        matcher = pattern.matcher(email.getText().toString().trim());
+
+        return matcher.matches();
+
     }
 
     public void initView() {
@@ -257,5 +426,41 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (alertDialog != null && alertDialog.isShowing()) {
+
+            alertDialog.cancel();
+            alertDialog.dismiss();
+
+        } else if (progressDialog != null && progressDialog.isShowing()) {
+
+            progressDialog.cancel();
+            progressDialog.dismiss();
+
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (alertDialog != null && alertDialog.isShowing()) {
+
+            alertDialog.cancel();
+            alertDialog.dismiss();
+
+        } else if (progressDialog != null && progressDialog.isShowing()) {
+
+            progressDialog.cancel();
+            progressDialog.dismiss();
+
+        }
+
     }
 }

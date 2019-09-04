@@ -25,7 +25,6 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/email"
-            android:text="francescodragone@live.it"
             android:inputType="textEmailAddress"
             tools:ignore="Autofill,HardcodedText" />
 
@@ -35,7 +34,6 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/password"
-            android:text="Test1234"
             android:inputType="textPassword"
             tools:ignore="Autofill,HardcodedText" />
 

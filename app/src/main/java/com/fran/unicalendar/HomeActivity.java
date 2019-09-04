@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -194,7 +193,7 @@ public class HomeActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
 
-                            allert();
+                            createDialogLogout();
 
                         }
                     });
@@ -274,6 +273,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    /*
     private void allert() {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -302,7 +302,7 @@ public class HomeActivity extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
-
+*/
     public void searchIntoDB() {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -425,6 +425,91 @@ public class HomeActivity extends AppCompatActivity {
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
+    }
+
+    @SuppressLint({"InflateParams", "SetTextI18n"})
+    public void createDialogLogout() {
+
+        builder = new AlertDialog.Builder(this);
+        layoutInflater = getLayoutInflater();
+        view = layoutInflater.inflate(R.layout.logout_dialog, null);
+
+        TextView title = new TextView(this);
+        // You Can Customise your Title here
+        title.setText("Logout");
+        title.setPadding(10, 20, 10, 0);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTypeface(Typeface.DEFAULT_BOLD);
+        title.setTextSize(30);
+
+        builder.setView(view)
+                .setCustomTitle(title)
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        dialogInterface.dismiss();
+                        dialogInterface.cancel();
+
+                    }
+                })
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        intent = new Intent(HomeActivity.this, LoginActivity.class);
+                        setupProcessDialog("Logout in corso...");
+                        signOut();
+
+                        dialogInterface.cancel();
+                        dialogInterface.dismiss();
+
+                    }
+
+                });
+
+        alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (alertDialog != null && alertDialog.isShowing()) {
+
+            alertDialog.cancel();
+            alertDialog.dismiss();
+
+        } else if (progressDialog != null && progressDialog.isShowing()) {
+
+            progressDialog.cancel();
+            progressDialog.dismiss();
+
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (alertDialog != null && alertDialog.isShowing()) {
+
+            alertDialog.cancel();
+            alertDialog.dismiss();
+
+        } else if (progressDialog != null && progressDialog.isShowing()) {
+
+            progressDialog.cancel();
+            progressDialog.dismiss();
+
+        }
+
     }
 
 }
