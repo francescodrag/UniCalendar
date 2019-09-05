@@ -2,6 +2,7 @@ package com.fran.unicalendar;
 
 import java.util.List;
 
+@SuppressWarnings("all")
 public class Giorno {
 
     private int giorno;

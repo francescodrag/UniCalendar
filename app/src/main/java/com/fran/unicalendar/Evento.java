@@ -1,5 +1,6 @@
 package com.fran.unicalendar;
 
+@SuppressWarnings("all")
 public class Evento {
 
     private String aula;

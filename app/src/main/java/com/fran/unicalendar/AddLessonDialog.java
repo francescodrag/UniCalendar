@@ -132,7 +132,6 @@ public class AddLessonDialog extends AppCompatDialogFragment {
         }
     }
 
-
     public interface ExampleDialogListener {
         void applyTexts(String aula, String inizioLezione, String fineLezione, String tipoLezione, String giornoLezione);
     }

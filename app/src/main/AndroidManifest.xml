@@ -48,6 +48,7 @@
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".HomeActivity"
+            android:screenOrientation="portrait"
             android:noHistory="true"
             android:theme="@style/HomeTheme" />
         <activity
@@ -56,6 +57,7 @@
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:noHistory="true">
 
         </activity>

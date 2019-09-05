@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("all")
 public class User implements Parcelable {
 
     public static final Creator<User> CREATOR = new Creator<User>() {

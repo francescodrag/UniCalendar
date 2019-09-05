@@ -18,8 +18,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +37,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-public class AddCalendarActivity extends AppCompatActivity implements AddLessonDialog.ExampleDialogListener {
+public class AddCalendarActivity extends AppCompatActivity {
 
     SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
@@ -74,6 +76,12 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
     View view;
     ProgressDialog progressDialog;
 
+    EditText Aula;
+    Spinner OrarioInizio;
+    Spinner OrarioFine;
+    Spinner Giorno;
+    RadioButton Tipologia;
+
     private static boolean materiaValidator(String materia) {
 
         Pattern pattern;
@@ -84,6 +92,19 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
         matcher = pattern.matcher(materia);
 
         return !matcher.matches();
+
+    }
+
+    protected static boolean aulaValidator(String aula) {
+
+        Pattern pattern;
+        Matcher matcher;
+        final String Name_Pattern =
+                "[A-Za-z0-9'\\s]{2,30}$";
+        pattern = Pattern.compile(Name_Pattern);
+        matcher = pattern.matcher(aula);
+
+        return matcher.matches();
 
     }
 
@@ -105,11 +126,18 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
                     if (validator()) {
 
-                        setupLezioni();
+                        if (checkOverlappingLessons()) {
 
-                        startActivity(new Intent(getApplicationContext(), AddCalendarActivityBucle.class));
+                            setupLezioni();
 
-                        finish();
+                            progressDialog.dismiss();
+                            progressDialog.cancel();
+
+                            startActivity(new Intent(getApplicationContext(), AddCalendarActivityBucle.class));
+
+                            finish();
+
+                        }
 
                     }
 
@@ -167,7 +195,8 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
                                         giorno = (TextView) linearLayout1.getChildAt(4);
                                         tipo.addTextChangedListener(new CustomTextWatcher(tipo, infoLession, mainLayout));
 
-                                        openDialog();
+                                        //openDialog();
+                                        createDialogAddLesson();
 
                                     } else {
 
@@ -198,7 +227,11 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
                     if (validator()) {
 
-                        createDialogSalvaCalendario();
+                        if (checkOverlappingLessons()) {
+
+                            createDialogSalvaCalendario();
+
+                        }
 
                     }
                 } else {
@@ -215,6 +248,131 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
             }
         });
+
+    }
+
+    @SuppressLint({"InflateParams", "SetTextI18n"})
+    public void createDialogAddLesson() {
+
+        builder = new AlertDialog.Builder(this);
+        layoutInflater = getLayoutInflater();
+        view = layoutInflater.inflate(R.layout.add_lesson_dialog_layout, null);
+
+        TextView title = new TextView(this);
+        // You Can Customise your Title here
+        title.setText("Reset Password");
+        title.setPadding(10, 20, 10, 0);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTypeface(Typeface.DEFAULT_BOLD);
+        title.setTextSize(30);
+
+        builder.setView(view)
+                .setCustomTitle(title);
+
+        alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialogInterface) {
+
+                ImageButton conferma = view.findViewById(R.id.yes_AddLessonDialogLayout);
+                ImageButton annulla = view.findViewById(R.id.no_AddLessonDialogLayout);
+                Aula = view.findViewById(R.id.aula_AddLessonDialogLayout);
+                OrarioInizio = view.findViewById(R.id.inizioLezione_AddLessonDialogLayout);
+                OrarioFine = view.findViewById(R.id.fineLezione_AddLessonDialogLayout);
+                Tipologia = view.findViewById(R.id.radioButton_AddLessonDialogLayout);
+                Giorno = view.findViewById(R.id.spinnerGiornoLezione_AddLessonDialogLayout);
+
+                annulla.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        alertDialog.cancel();
+                        alertDialog.dismiss();
+
+                        tipo.append("");
+
+                    }
+                });
+
+                conferma.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+                        if (Aula.getText().toString().trim().isEmpty()) {
+
+                            Aula.setError("Il campo aula non puo' essere vuoto!");
+                            Aula.requestFocus();
+
+                        } else if (!aulaValidator(Aula.getText().toString().trim())) {
+
+                            Aula.setError("Il nome dell'aula non e' ammesso!");
+                            Aula.requestFocus();
+
+                        } else if (OrarioInizio.getSelectedItem().toString().trim().equals(OrarioFine.getSelectedItem().toString().trim())) {
+
+                            Toast.makeText(getApplicationContext(), "Ehi Einstein, chi e' il docente di questa lezione? Speedy Gonzales?", Toast.LENGTH_LONG).show();
+
+                        } else if (fromStringToInt(OrarioInizio.getSelectedItem().toString())
+                                > fromStringToInt(OrarioFine.getSelectedItem().toString())) {
+
+                            Toast.makeText(getApplicationContext(), "Viaggi nel tempo? Una lezione non puo' iniziare dopo essere finita!", Toast.LENGTH_LONG).show();
+
+                        } else {
+
+                            alertDialog.dismiss();
+                            alertDialog.cancel();
+
+                            aula.append(Aula.getText().toString().trim());
+                            orarioDiInizio.append(OrarioInizio.getSelectedItem().toString().trim());
+                            orarioDiFine.append(OrarioFine.getSelectedItem().toString().trim());
+                            if (Tipologia.isChecked())
+                                tipo.append(Tipologia.getText().toString().trim());
+                            else
+                                tipo.append("Laboratorio");
+                            giorno.append(Giorno.getSelectedItem().toString().trim());
+
+                        }
+
+                    }
+                });
+
+
+            }
+        });
+
+        alertDialog.show();
+
+    }
+
+    @SuppressWarnings("all")
+    public int fromStringToInt(String orario) {
+
+        String clear = null;
+
+        int lunghezza = orario.length();
+        System.out.println("Lunghezza = " + orario.length());
+        System.out.println("Orario = " + orario);
+
+        if (lunghezza == 4) {
+            if (Character.getNumericValue(orario.charAt(2)) == 3) {
+                clear = orario.substring(0, 1).concat("5").concat(orario.substring(3, 4));
+            } else {
+                clear = orario.substring(0, 1).concat(orario.substring(2, 4));
+            }
+        } else if (lunghezza == 5) {
+            if (Character.getNumericValue(orario.charAt(3)) == 3) {
+                clear = orario.substring(0, 2).concat("5").concat(orario.substring(4, 5));
+            } else {
+                clear = orario.substring(0, 2).concat(orario.substring(3, 5));
+            }
+        }
+
+        return Integer.parseInt(clear);
 
     }
 
@@ -292,12 +450,69 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
     }
 
-    public void setupLezioni() {
+    public boolean checkOverlappingLessons() {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
+
+        int i = mainLayout.getChildCount();
+
+        for (int c = 2; c < i; c++) {
+
+            LinearLayout alias = (LinearLayout) mainLayout.getChildAt(c);
+            CardView cardView = (CardView) alias.getChildAt(0);
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            LinearLayout linearLayout1 = (LinearLayout) linearLayout.getChildAt(0);
+            deleteLession = (TextView) linearLayout.getChildAt(1);
+            aula = (TextView) linearLayout1.getChildAt(0);
+            orarioDiInizio = (TextView) linearLayout1.getChildAt(1);
+            orarioDiFine = (TextView) linearLayout1.getChildAt(2);
+            tipo = (TextView) linearLayout1.getChildAt(3);
+            giorno = (TextView) linearLayout1.getChildAt(4);
+
+            for (int v = 3; v < i; v++) {
+
+                LinearLayout aliasV = (LinearLayout) mainLayout.getChildAt(v);
+                CardView cardViewV = (CardView) aliasV.getChildAt(0);
+                LinearLayout linearLayoutV = (LinearLayout) cardViewV.getChildAt(0);
+                LinearLayout linearLayout1V = (LinearLayout) linearLayoutV.getChildAt(0);
+
+                TextView orarioDiInizioV = (TextView) linearLayout1V.getChildAt(1);
+                TextView giornoV = (TextView) linearLayout1V.getChildAt(4);
+
+                if (fromStringToInt(orarioDiFine.getText().toString().substring(26)) > fromStringToInt(orarioDiInizioV.getText().toString().substring(27)) &&
+                        giorno.getText().toString().trim().substring(9).equals(giornoV.getText().toString().trim().substring(9))) {
+
+                    Toast.makeText(getApplicationContext(), "Le lezioni numero " + (c - 1) + " e " + (v - 1) + " si sovrappongono.", Toast.LENGTH_LONG).show();
+
+                    progressDialog.dismiss();
+                    progressDialog.cancel();
+
+                    return false;
+
+                } else if (fromStringToInt(orarioDiInizio.getText().toString().substring(27)) == fromStringToInt(orarioDiInizioV.getText().toString().substring(27)) &&
+                        giorno.getText().toString().trim().substring(9).equals(giornoV.getText().toString().trim().substring(9))) {
+
+                    Toast.makeText(getApplicationContext(), "Le lezioni numero " + (c - 1) + " e " + (v - 1) + " si sovrappongono.", Toast.LENGTH_LONG).show();
+
+                    progressDialog.cancel();
+                    progressDialog.dismiss();
+
+                    return false;
+
+                }
+
+            }
+
+        }
+
+        return true;
+
+    }
+
+    public void setupLezioni() {
 
         int i = mainLayout.getChildCount();
 
@@ -369,6 +584,8 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
         return true;
     }
 
+    /*
+
     public void openDialog() {
 
         handler.post(new Runnable() {
@@ -383,6 +600,19 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
         });
 
     }
+
+    @Override
+    public void applyTexts(String aula1, String inizioLezione1, String fineLezione1, String tipoLezione, String giornoLezione) {
+
+        aula.setText(aula.getText().toString().concat(aula1));
+        orarioDiInizio.setText(orarioDiInizio.getText().toString().concat(inizioLezione1));
+        orarioDiFine.setText(orarioDiFine.getText().toString().concat(fineLezione1));
+        tipo.setText(tipo.getText().toString().concat(tipoLezione));
+        giorno.setText(giorno.getText().toString().concat(giornoLezione));
+
+    }
+
+    */
 
     //Save counterLession info and corsi Object
     public void saveData() {
@@ -460,15 +690,6 @@ public class AddCalendarActivity extends AppCompatActivity implements AddLessonD
 
         editor.apply();
 
-    }
-
-    @Override
-    public void applyTexts(String aula1, String inizioLezione1, String fineLezione1, String tipoLezione, String giornoLezione) {
-        aula.setText(aula.getText().toString().concat(aula1));
-        orarioDiInizio.setText(orarioDiInizio.getText().toString().concat(inizioLezione1));
-        orarioDiFine.setText(orarioDiFine.getText().toString().concat(fineLezione1));
-        tipo.setText(tipo.getText().toString().concat(tipoLezione));
-        giorno.setText(giorno.getText().toString().concat(giornoLezione));
     }
 
     public class CustomTextWatcher implements TextWatcher {
