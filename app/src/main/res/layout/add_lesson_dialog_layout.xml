@@ -137,6 +137,37 @@
             android:layout_marginBottom="8dp"
             android:entries="@array/giorniDellaSettimana" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/no_AddLessonDialogLayout"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_launcher_foreground"
+                android:contentDescription="@string/go_back_button"
+                android:gravity="start"
+                android:scaleType="centerCrop"
+                android:src="@drawable/go_back_button" />
+
+            <ImageButton
+                android:id="@+id/yes_AddLessonDialogLayout"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_launcher_foreground"
+                android:contentDescription="@string/sign_up_button"
+                android:gravity="end"
+                android:scaleType="centerCrop"
+                android:src="@drawable/confirm_button"
+                tools:ignore="ButtonStyle,HardcodedText" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
