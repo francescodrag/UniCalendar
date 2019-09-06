@@ -152,6 +152,11 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/go_back_button" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
             <ImageButton
                 android:id="@+id/yes_AddLessonDialogLayout"
                 android:layout_width="50dp"
@@ -163,10 +168,7 @@
                 android:src="@drawable/confirm_button"
                 tools:ignore="ButtonStyle,HardcodedText" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+
         </LinearLayout>
 
     </LinearLayout>

@@ -303,12 +303,10 @@ public class LoginActivity extends AppCompatActivity {
             checkCounter();
             Email.setError("Il campo email non puo' essere vuoto.\nInserisci l'email per favore.");
             Email.requestFocus();
-            Toast.makeText(LoginActivity.this, "Inserisci Email", Toast.LENGTH_LONG).show();
         } else if (userPassword.equals("")) {
             checkCounter();
             Password.setError("Il campo password non puo' essere vuoto.\nInserisci la password per favore.");
             Password.requestFocus();
-            Toast.makeText(LoginActivity.this, "Inserisci Password", Toast.LENGTH_LONG).show();
         } else {
             progressDialog.setMessage("Login in corso...");
             progressDialog.setCancelable(false);
@@ -323,9 +321,9 @@ public class LoginActivity extends AppCompatActivity {
                         checkEmailVerification();
                     } else if (!task.isSuccessful()) {
                         progressDialog.dismiss();
-                        //bisogna specificare il context perchè ci troviamo all'interno di un loop
-                        Toast.makeText(LoginActivity.this, "Login fallito", Toast.LENGTH_LONG).show();
+
                         checkCounter();
+
                     }
                 }
             });
@@ -351,7 +349,15 @@ public class LoginActivity extends AppCompatActivity {
             getUserFromDatabase();
             //startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         } else {
-            Toast.makeText(LoginActivity.this, "Account non verificato.", Toast.LENGTH_SHORT).show();
+
+            Toast toast = Toast.makeText(LoginActivity.this,
+                    "Account non verificato.",
+                    Toast.LENGTH_LONG);
+
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
+            toast.show();
+
             firebaseAuth.signOut();
             checkCounter();
         }

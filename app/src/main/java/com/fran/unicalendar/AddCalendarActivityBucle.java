@@ -30,8 +30,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -48,6 +50,7 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
     List<Corso> corsi;
     Lezione lezione;
     List<Lezione> lezioni;
+    List<Lezione> preLessons;
     Calendario calendario;
     User user;
 
@@ -128,14 +131,20 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
 
                         if (checkOverlappingLessons()) {
 
-                            setupLezioni();
+                            preSetupLesson();
 
-                            progressDialog.dismiss();
-                            progressDialog.cancel();
+                            if (checkOverlappingBetweenCourses()) {
 
-                            startActivity(new Intent(getApplicationContext(), AddCalendarActivity.class));
+                                setupLezioni();
 
-                            finish();
+                                progressDialog.dismiss();
+                                progressDialog.cancel();
+
+                                startActivity(new Intent(getApplicationContext(), AddCalendarActivity.class));
+
+                                finish();
+
+                            }
 
                         }
 
@@ -225,7 +234,14 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
 
                         if (checkOverlappingLessons()) {
 
-                            createDialogSalvaCalendario();
+                            preSetupLesson();
+
+                            if (checkOverlappingBetweenCourses()) {
+
+                                createDialogSalvaCalendario();
+
+                            }
+
 
                         }
 
@@ -311,12 +327,24 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
 
                         } else if (OrarioInizio.getSelectedItem().toString().trim().equals(OrarioFine.getSelectedItem().toString().trim())) {
 
-                            Toast.makeText(getApplicationContext(), "Ehi Einstein, chi e' il docente di questa lezione? Speedy Gonzales?", Toast.LENGTH_LONG).show();
+                            Toast toast = Toast.makeText(AddCalendarActivityBucle.this,
+                                    "Ehi Einstein, chi e' il docente di questa lezione? Speedy Gonzales?",
+                                    Toast.LENGTH_LONG);
+
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
+                            toast.show();
 
                         } else if (fromStringToInt(OrarioInizio.getSelectedItem().toString())
                                 > fromStringToInt(OrarioFine.getSelectedItem().toString())) {
 
-                            Toast.makeText(getApplicationContext(), "Viaggi nel tempo? Una lezione non puo' iniziare dopo essere finita!", Toast.LENGTH_LONG).show();
+                            Toast toast = Toast.makeText(AddCalendarActivityBucle.this,
+                                    "Viaggi nel tempo? Una lezione non puo' iniziare dopo essere finita!",
+                                    Toast.LENGTH_LONG);
+
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
+                            toast.show();
 
                         } else {
 
@@ -397,6 +425,8 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
                         dialogInterface.dismiss();
                         dialogInterface.cancel();
 
+                        progressDialog.dismiss();
+
                     }
                 })
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
@@ -445,6 +475,122 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
 
     }
 
+    public void preSetupLesson() {
+
+        preLessons = new ArrayList<>();
+
+        int i = mainLayout.getChildCount();
+
+        for (int c = 2; c < i; c++) {
+
+            LinearLayout alias = (LinearLayout) mainLayout.getChildAt(c);
+            CardView cardView = (CardView) alias.getChildAt(0);
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            LinearLayout linearLayout1 = (LinearLayout) linearLayout.getChildAt(0);
+            deleteLession = (TextView) linearLayout.getChildAt(1);
+            aula = (TextView) linearLayout1.getChildAt(0);
+            orarioDiInizio = (TextView) linearLayout1.getChildAt(1);
+            orarioDiFine = (TextView) linearLayout1.getChildAt(2);
+            tipo = (TextView) linearLayout1.getChildAt(3);
+            giorno = (TextView) linearLayout1.getChildAt(4);
+
+            lezione = new Lezione(aula.getText().toString().substring(15), orarioDiInizio.getText().toString().substring(27),
+                    orarioDiFine.getText().toString().substring(26), tipo.getText().toString().substring(15), giorno.getText().toString().substring(9));
+
+            System.out.println("Iterazione numero " + c + " del ciclo for per instanziare le lezioni.");
+            System.out.println("L'oggetto lezione contiene i valori: " + lezione.getAula() + "\n" + lezione.getOraDiInizio() + "\n" +
+                    lezione.getOraDiFine() + "\n" + lezione.getTipologia() + "\n" + lezione.getGiornoDellaLezione());
+
+            preLessons.add(lezione);
+
+        }
+    }
+
+    @SuppressWarnings("all")
+    public boolean checkOverlappingBetweenCourses() {
+
+        List<Corso> corsis = new ArrayList<>();
+        sharedPreferences = getSharedPreferences("Counter_Corso", Context.MODE_PRIVATE);
+        //editor = sharedPreferences.edit();
+
+        int count = sharedPreferences.getInt("counter", -1);
+
+        if (count > 1) {
+            counterLezioni = count;
+            gson = new Gson();
+            String json = sharedPreferences.getString("corsi", "");
+
+            Type typeMyType = new TypeToken<ArrayList<Corso>>() {
+            }.getType();
+
+            corsis = gson.fromJson(json, typeMyType);
+        }
+
+        if (corsis == null) {
+            return true;
+        } else {
+
+            for (int i = 0; i < corsis.size(); i++) {
+
+                List<Lezione> lessons = corsis.get(i).getLezioni();
+
+                for (int n = 0; n < lessons.size(); n++) {
+
+                    Lezione lesson = lessons.get(n);
+
+                    for (int v = 0; v < preLessons.size(); v++) {
+
+                        Lezione l = preLessons.get(v);
+
+                        if (fromStringToInt(l.getOraDiFine()) > fromStringToInt(lesson.getOraDiInizio()) &&
+                                l.getGiornoDellaLezione().equals(lesson.getGiornoDellaLezione())) {
+
+                            Toast toast = Toast.makeText(AddCalendarActivityBucle.this,
+                                    "La lezione numero " + (v + 1) + " relativa a questo corso, si sovrappone con la lezione numero " +
+                                            (n + 1) + " del corso " + corsis.get(i).getMateria(),
+                                    Toast.LENGTH_LONG);
+
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
+                            toast.show();
+
+                            progressDialog.dismiss();
+                            progressDialog.cancel();
+
+                            return false;
+
+                        } else if (fromStringToInt(l.getOraDiInizio()) > fromStringToInt(lesson.getOraDiInizio()) &&
+                                l.getGiornoDellaLezione().equals(lesson.getGiornoDellaLezione())) {
+
+                            Toast toast = Toast.makeText(AddCalendarActivityBucle.this,
+                                    "La lezione numero " + (v + 1) + " relativa a questo corso, si sovrappone con la lezione numero " +
+                                            (n + 1) + " del corso " + corsis.get(i).getMateria(),
+                                    Toast.LENGTH_LONG);
+
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
+                            toast.show();
+
+                            progressDialog.dismiss();
+                            progressDialog.cancel();
+
+                            return false;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+
+        }
+
+        return true;
+
+    }
+
     public boolean checkOverlappingLessons() {
 
         progressDialog = new ProgressDialog(this);
@@ -480,7 +626,13 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
                 if (fromStringToInt(orarioDiFine.getText().toString().substring(26)) > fromStringToInt(orarioDiInizioV.getText().toString().substring(27)) &&
                         giorno.getText().toString().trim().substring(9).equals(giornoV.getText().toString().trim().substring(9))) {
 
-                    Toast.makeText(getApplicationContext(), "Le lezioni numero " + (c - 1) + " e " + (v - 1) + " si sovrappongono.", Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(AddCalendarActivityBucle.this,
+                            "Le lezioni numero " + (c - 1) + " e " + (v - 1) + " si sovrappongono.",
+                            Toast.LENGTH_LONG);
+
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
+                    toast.show();
 
                     progressDialog.dismiss();
                     progressDialog.cancel();
@@ -490,7 +642,13 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
                 } else if (fromStringToInt(orarioDiInizio.getText().toString().substring(27)) == fromStringToInt(orarioDiInizioV.getText().toString().substring(27)) &&
                         giorno.getText().toString().trim().substring(9).equals(giornoV.getText().toString().trim().substring(9))) {
 
-                    Toast.makeText(getApplicationContext(), "Le lezioni numero " + (c - 1) + " e " + (v - 1) + " si sovrappongono.", Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(AddCalendarActivityBucle.this,
+                            "Le lezioni numero " + (c - 1) + " e " + (v - 1) + " si sovrappongono.",
+                            Toast.LENGTH_LONG);
+
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
+                    toast.show();
 
                     progressDialog.cancel();
                     progressDialog.dismiss();
@@ -824,6 +982,7 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
 
             alertDialog.cancel();
             alertDialog.dismiss();
+            tipo.append(""); //to activate the text listener
 
         } else if (progressDialog != null && progressDialog.isShowing()) {
 
@@ -842,6 +1001,7 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
 
             alertDialog.cancel();
             alertDialog.dismiss();
+            tipo.append(""); //to activate the text listener
 
         } else if (progressDialog != null && progressDialog.isShowing()) {
 

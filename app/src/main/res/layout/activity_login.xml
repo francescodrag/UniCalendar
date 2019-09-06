@@ -10,10 +10,12 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="50dp"
+        android:foregroundGravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +25,9 @@
             android:id="@+id/email_Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
@@ -32,15 +37,41 @@
             android:id="@+id/password_Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
             tools:ignore="Autofill,HardcodedText" />
 
         <TextView
+            android:id="@+id/textView28"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Password :"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Email :"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
             android:id="@+id/recuperaPassword_Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
             android:text="@string/hai_dimenticato_la_password"
             android:textColor="@color/colorPrimary" />
     </LinearLayout>
@@ -109,6 +140,7 @@
             android:id="@+id/signup_Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sign_up" />
+            android:text="Registrati!"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
