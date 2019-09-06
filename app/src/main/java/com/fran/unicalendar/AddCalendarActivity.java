@@ -275,7 +275,7 @@ public class AddCalendarActivity extends AppCompatActivity {
 
         TextView title = new TextView(this);
         // You Can Customise your Title here
-        title.setText("Reset Password");
+        title.setText("Lezione");
         title.setPadding(10, 20, 10, 0);
         title.setGravity(Gravity.CENTER);
         title.setTextColor(Color.BLACK);
@@ -546,7 +546,7 @@ public class AddCalendarActivity extends AppCompatActivity {
 
                         Lezione l = preLessons.get(v);
 
-                        if (fromStringToInt(l.getOraDiFine()) > fromStringToInt(lesson.getOraDiInizio()) &&
+                        if (fromStringToInt(lesson.getOraDiFine()) > fromStringToInt(l.getOraDiInizio()) &&
                                 l.getGiornoDellaLezione().equals(lesson.getGiornoDellaLezione())) {
 
                             Toast toast = Toast.makeText(AddCalendarActivity.this,
@@ -563,7 +563,7 @@ public class AddCalendarActivity extends AppCompatActivity {
 
                             return false;
 
-                        } else if (fromStringToInt(l.getOraDiInizio()) > fromStringToInt(lesson.getOraDiInizio()) &&
+                        } else if (fromStringToInt(l.getOraDiInizio()) == fromStringToInt(lesson.getOraDiInizio()) &&
                                 l.getGiornoDellaLezione().equals(lesson.getGiornoDellaLezione())) {
 
                             Toast toast = Toast.makeText(AddCalendarActivity.this,
