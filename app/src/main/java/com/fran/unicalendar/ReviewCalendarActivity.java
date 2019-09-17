@@ -35,42 +35,48 @@ import java.util.Objects;
 
 public class ReviewCalendarActivity extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences;
-    Gson gson;
+    private SharedPreferences sharedPreferences;
+    private Gson gson;
 
-    List<Corso> corsi;
-    List<Lezione> lezioni;
-    Calendario calendario;
-    User user;
-    List<Giorno> giorni;
-    List<Evento> eventiLunedi;
-    List<Evento> eventiMartedi;
-    List<Evento> eventiMercoledi;
-    List<Evento> eventiGiovedi;
-    List<Evento> eventiVenerdi;
-    Giorno lunedi;
-    Giorno martedi;
-    Giorno mercoledi;
-    Giorno giovedi;
-    Giorno venerdi;
-    Evento evento;
+    private List<Corso> corsi;
+    private List<Lezione> lezioni;
+    private Calendario calendario;
+    private User user;
+    private List<Giorno> giorni;
+    private List<Evento> eventiLunedi;
+    private List<Evento> eventiMartedi;
+    private List<Evento> eventiMercoledi;
+    private List<Evento> eventiGiovedi;
+    private List<Evento> eventiVenerdi;
+    private Giorno lunedi;
+    private Giorno martedi;
+    private Giorno mercoledi;
+    private Giorno giovedi;
+    private Giorno venerdi;
+    private Evento evento;
 
-    LayoutInflater layoutInflater;
-    LinearLayout corsoLayout;
-    LinearLayout lezioneLayout;
-    LinearLayout options;
-    ViewGroup mainLayout;
+    private LayoutInflater layoutInflater;
+    private LinearLayout corsoLayout;
+    private LinearLayout lezioneLayout;
+    private LinearLayout options;
+    private ViewGroup mainLayout;
 
-    TextView Corso, Materia, Docente;
-    TextView Aula, OrarioInizio, OrarioFine, Tipologia, Giorno;
+    private TextView Corso;
+    private TextView Materia;
+    private TextView Docente;
+    private TextView Aula;
+    private TextView OrarioInizio;
+    private TextView OrarioFine;
+    private TextView Tipologia;
+    private TextView Giorno;
 
-    ImageView Delete;
-    ImageView Save;
+    private ImageView Delete;
+    private ImageView Save;
 
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
-    FirebaseUser firebaseUser;
-    ProgressDialog progressDialog;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseUser firebaseUser;
+    private ProgressDialog progressDialog;
 
     @SuppressLint("InflateParams")
     @Override
@@ -292,7 +298,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
     }
 
-    public void getCalendarFromsharedPreferences() {
+    private void getCalendarFromsharedPreferences() {
 
         sharedPreferences = getSharedPreferences("Calendar", Context.MODE_PRIVATE);
         gson = new Gson();
@@ -303,7 +309,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
     }
 
-    public void getUserFromSharedPreferences() {
+    private void getUserFromSharedPreferences() {
 
         sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
         gson = new Gson();
@@ -312,7 +318,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
     }
 
-    public void initObjects() {
+    private void initObjects() {
 
         lezioni = new ArrayList<>();
         eventiLunedi = new ArrayList<>();
@@ -332,14 +338,14 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
     }
 
-    public void initViews() {
+    private void initViews() {
 
         Delete = findViewById(R.id.delete_ReviewCalendarOptions);
         Save = findViewById(R.id.save_ReviewCalendarOptions);
 
     }
 
-    public void sortEventi() {
+    private void sortEventi() {
 
         for (int count = 0; count < giorni.size(); count++) {
 
@@ -373,7 +379,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
     }
 
-    public int fromStringToInt(String orario) {
+    private int fromStringToInt(String orario) {
 
         String clear = null;
 
@@ -393,11 +399,11 @@ public class ReviewCalendarActivity extends AppCompatActivity {
             }
         }
 
-        return Integer.parseInt(clear);
+        return Integer.parseInt(Objects.requireNonNull(clear));
 
     }
 
-    public void searchIntoDB() {
+    private void searchIntoDB() {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -428,7 +434,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
     }
 
-    public void uploadDatabase() {
+    private void uploadDatabase() {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -455,7 +461,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
         });
     }
 
-    public void uploadTimeTableIntoDatabase() {
+    private void uploadTimeTableIntoDatabase() {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         TimeTable timeTable = new TimeTable(giorni);
@@ -484,7 +490,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
     }
 
-    public void uploadUserIntoDatabase() {
+    private void uploadUserIntoDatabase() {
 
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -508,7 +514,7 @@ public class ReviewCalendarActivity extends AppCompatActivity {
 
     }
 
-    public void setSharedPreferences() {
+    private void setSharedPreferences() {
 
         gson = new Gson();
         @SuppressWarnings("UnstableApiUsage")

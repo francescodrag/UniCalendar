@@ -39,32 +39,32 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText Email;
-    EditText Password;
-    TextView Info;
-    Button Login;
-    Button Signup;
-    TextView PasswordDimenticata;
-    int Contatore = 5;
-    String info = "Tentativi restanti: ";
+    private EditText Email;
+    private EditText Password;
+    private TextView Info;
+    private Button Login;
+    private Button Signup;
+    private TextView PasswordDimenticata;
+    private int Contatore = 5;
+    private String info = "Tentativi restanti: ";
     private FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
-    User user;
-    Intent intent2;
-    FirebaseUser firebaseUser;
+    private FirebaseFirestore firebaseFirestore;
+    private User user;
+    private Intent intent2;
+    private FirebaseUser firebaseUser;
     private ProgressDialog progressDialog;
 
-    SharedPreferences.Editor editor;
-    SharedPreferences sharedPreferences;
-    Gson gson;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
+    private Gson gson;
 
-    AlertDialog alertDialog;
-    AlertDialog.Builder builder;
-    View view;
-    LayoutInflater layoutInflater;
+    private AlertDialog alertDialog;
+    private AlertDialog.Builder builder;
+    private View view;
+    private LayoutInflater layoutInflater;
 
-    EditText email;
-    EditText confermaEmail;
+    private EditText email;
+    private EditText confermaEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @SuppressLint({"InflateParams", "SetTextI18n"})
-    public void createDialogResetPassword() {
+    private void createDialogResetPassword() {
 
         builder = new AlertDialog.Builder(this);
         layoutInflater = getLayoutInflater();
@@ -200,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void inviaEmailReset(String email) {
+    private void inviaEmailReset(String email) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -223,13 +223,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public boolean compareEmail() {
+    private boolean compareEmail() {
 
         return !email.getText().toString().trim().equals(confermaEmail.getText().toString().trim());
 
     }
 
-    public boolean confermaEmailValidator() {
+    private boolean confermaEmailValidator() {
 
         Pattern pattern;
         Matcher matcher;
@@ -241,7 +241,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public boolean emailValidator() {
+    private boolean emailValidator() {
 
         Pattern pattern;
         Matcher matcher;
@@ -253,7 +253,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void initView() {
+    private void initView() {
         Email = findViewById(R.id.email_Login);
         Password = findViewById(R.id.password_Login);
         Info = findViewById(R.id.info_Login);
@@ -331,7 +331,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void checkCounter() {
+    private void checkCounter() {
         if (Contatore > 0) {
             Contatore--;
             Info.setText(info.concat(String.valueOf(Contatore))); //cambia il text view
@@ -377,7 +377,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(a);
     }
 
-    public void getUserFromDatabase() {
+    private void getUserFromDatabase() {
         firebaseUser = firebaseAuth.getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         intent2 = new Intent(LoginActivity.this, HomeActivity.class);

@@ -39,11 +39,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("all")
 public class AddCalendarActivityBucle extends AppCompatActivity {
 
     SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
-    //SharedPreferences userPreferences;
     Gson gson;
 
     Corso corso;
@@ -88,7 +88,20 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
         Pattern pattern;
         Matcher matcher;
         final String Materia_Pattern =
-                "[A-Za-z\\s]{2,70}$";
+                "[A-Za-z0-9'\\s]{2,70}$";
+        pattern = Pattern.compile(Materia_Pattern);
+        matcher = pattern.matcher(materia);
+
+        return !matcher.matches();
+
+    }
+
+    private static boolean professoreValidator(String materia) {
+
+        Pattern pattern;
+        Matcher matcher;
+        final String Materia_Pattern =
+                "[A-Za-z'\\s]{2,70}$";
         pattern = Pattern.compile(Materia_Pattern);
         matcher = pattern.matcher(materia);
 
@@ -541,14 +554,21 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
                     for (int v = 0; v < preLessons.size(); v++) {
 
                         Lezione l = preLessons.get(v);
-
-                        if (fromStringToInt(lesson.getOraDiFine()) > fromStringToInt(l.getOraDiInizio()) &&
+/*
+                        if ((fromStringToInt(l.getOraDiFine()) > fromStringToInt(lesson.getOraDiInizio())) &&
                                 l.getGiornoDellaLezione().equals(lesson.getGiornoDellaLezione())) {
 
                             Toast toast = Toast.makeText(AddCalendarActivityBucle.this,
                                     "La lezione numero " + (v + 1) + " relativa a questo corso, si sovrappone con la lezione numero " +
                                             (n + 1) + " del corso " + corsis.get(i).getMateria(),
                                     Toast.LENGTH_LONG);
+
+                            System.out.println("Le lezioni si sovrappongono nel primo if:");
+                            System.out.println("Altre: ");
+                            System.out.println(lesson.getGiornoDellaLezione() + lesson.getOraDiInizio() + lesson.getOraDiFine());
+                            System.out.println("Attuale: ");
+                            System.out.println(l.getGiornoDellaLezione() + l.getOraDiInizio() + l.getOraDiFine());
+                            System.out.println("Perche' "+fromStringToInt(l.getOraDiFine()) + " > " + fromStringToInt(lesson.getOraDiInizio()));
 
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
@@ -559,7 +579,9 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
 
                             return false;
 
-                        } else if (fromStringToInt(l.getOraDiInizio()) == fromStringToInt(lesson.getOraDiInizio()) &&
+                        } else */
+                        if ((fromStringToInt(l.getOraDiInizio()) < fromStringToInt(lesson.getOraDiFine())) &&
+                                (fromStringToInt(lesson.getOraDiInizio()) < fromStringToInt(l.getOraDiFine())) &&
                                 l.getGiornoDellaLezione().equals(lesson.getGiornoDellaLezione())) {
 
                             Toast toast = Toast.makeText(AddCalendarActivityBucle.this,
@@ -570,6 +592,13 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.getView().setBackgroundColor(Color.parseColor("#B22222"));
                             toast.show();
+
+                            System.out.println("Le lezioni si sovrappongono nel secondo if:");
+                            System.out.println("Altre: ");
+                            System.out.println(lesson.getGiornoDellaLezione() + lesson.getOraDiInizio() + lesson.getOraDiFine());
+                            System.out.println("Attuale: ");
+                            System.out.println(l.getGiornoDellaLezione() + l.getOraDiInizio() + l.getOraDiFine());
+                            System.out.println("Perche' " + fromStringToInt(l.getOraDiFine()) + " = " + fromStringToInt(lesson.getOraDiInizio()));
 
                             progressDialog.dismiss();
                             progressDialog.cancel();
@@ -584,13 +613,13 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
 
             }
 
-
         }
 
         return true;
 
     }
 
+    @SuppressWarnings("all")
     public boolean checkOverlappingLessons() {
 
         progressDialog = new ProgressDialog(this);
@@ -624,7 +653,7 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
                 TextView giornoV = (TextView) linearLayout1V.getChildAt(4);
 
                 if (fromStringToInt(orarioDiFine.getText().toString().substring(26)) > fromStringToInt(orarioDiInizioV.getText().toString().substring(27)) &&
-                        giorno.getText().toString().trim().substring(9).equals(giornoV.getText().toString().trim().substring(9))) {
+                        giorno.getText().toString().trim().substring(9).equals(giornoV.getText().toString().trim().substring(9)) && (c - 1) != (v - 1)) {
 
                     Toast toast = Toast.makeText(AddCalendarActivityBucle.this,
                             "Le lezioni numero " + (c - 1) + " e " + (v - 1) + " si sovrappongono.",
@@ -640,7 +669,7 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
                     return false;
 
                 } else if (fromStringToInt(orarioDiInizio.getText().toString().substring(27)) == fromStringToInt(orarioDiInizioV.getText().toString().substring(27)) &&
-                        giorno.getText().toString().trim().substring(9).equals(giornoV.getText().toString().trim().substring(9))) {
+                        giorno.getText().toString().trim().substring(9).equals(giornoV.getText().toString().trim().substring(9)) && (c - 1) != (v - 1)) {
 
                     Toast toast = Toast.makeText(AddCalendarActivityBucle.this,
                             "Le lezioni numero " + (c - 1) + " e " + (v - 1) + " si sovrappongono.",
@@ -814,7 +843,7 @@ public class AddCalendarActivityBucle extends AppCompatActivity {
             professore.setError("Il campo relativo al docente non puo' essere vuoto!");
             professore.requestFocus();
             return false;
-        } else if (materiaValidator(professore.getText().toString())) {
+        } else if (professoreValidator(professore.getText().toString())) {
             professore.setError("Il nome del docente inserito non e' ammesso!\nLa lunghezza dev'essere minimo di 2 caratteri e massimo 70.");
             professore.requestFocus();
             return false;

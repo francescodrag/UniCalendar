@@ -40,29 +40,29 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-    GridLayout gridLayout;
-    int i;
-    Intent intent;
-    User user;
-    TimeTable timeTable;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private GridLayout gridLayout;
+    private int i;
+    private Intent intent;
+    private User user;
+    private TimeTable timeTable;
 
-    SharedPreferences.Editor editor;
-    SharedPreferences sharedPreferences;
-    Gson gson;
-    List<Giorno> giorni;
-    Calendario calendario;
-    TextView bentornato;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
+    private Gson gson;
+    private List<Giorno> giorni;
+    private Calendario calendario;
+    private TextView bentornato;
 
-    AlertDialog.Builder builder;
-    LayoutInflater layoutInflater;
-    View view;
-    AlertDialog alertDialog;
+    private AlertDialog.Builder builder;
+    private LayoutInflater layoutInflater;
+    private View view;
+    private AlertDialog alertDialog;
 
-    FirebaseFirestore firebaseFirestore;
+    private FirebaseFirestore firebaseFirestore;
 
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    public void RemoveSharedPreferencesForCounterCorso() {
+    private void RemoveSharedPreferencesForCounterCorso() {
 
         sharedPreferences = getSharedPreferences("Counter_Corso", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -217,7 +217,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @SuppressLint({"InflateParams", "SetTextI18n"})
-    public void createDialogCalendario() {
+    private void createDialogCalendario() {
 
         builder = new AlertDialog.Builder(this);
         layoutInflater = getLayoutInflater();
@@ -303,7 +303,7 @@ public class HomeActivity extends AppCompatActivity {
                 .show();
     }
 */
-    public void searchIntoDB() {
+    private void searchIntoDB() {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -332,7 +332,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @SuppressWarnings("Unchecked")
-    public void setTimeTableIntoSharedPreferences() {
+    private void setTimeTableIntoSharedPreferences() {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         timeTable = new TimeTable();
@@ -373,7 +373,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void signOut() {
+    private void signOut() {
 
         AuthUI.getInstance()
                 .signOut(HomeActivity.this)
@@ -389,7 +389,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void removeSharedPreferencesTimeTable() {
+    private void removeSharedPreferencesTimeTable() {
 
         sharedPreferences = getSharedPreferences("TimeTable", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -398,14 +398,14 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void setupProcessDialog(String info) {
+    private void setupProcessDialog(String info) {
 
         progressDialog.setMessage(info);
         progressDialog.show();
 
     }
 
-    public boolean isPresentTimeTable() {
+    private boolean isPresentTimeTable() {
 
         sharedPreferences = getSharedPreferences("TimeTable", Context.MODE_PRIVATE);
         gson = new Gson();
@@ -428,7 +428,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @SuppressLint({"InflateParams", "SetTextI18n"})
-    public void createDialogLogout() {
+    private void createDialogLogout() {
 
         builder = new AlertDialog.Builder(this);
         layoutInflater = getLayoutInflater();

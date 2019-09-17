@@ -36,32 +36,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@SuppressWarnings("deprecation")
 public class CalendarActivity extends AppCompatActivity {
 
-    LayoutInflater layoutInflater;
-    LinearLayout corsoLayout;
-    LinearLayout mainLayout;
-    LinearLayout empty;
+    private LayoutInflater layoutInflater;
+    private LinearLayout corsoLayout;
+    private LinearLayout mainLayout;
+    private LinearLayout empty;
 
-    ImageButton deleteCalendar;
-    TextView dipartimento;
+    private ImageButton deleteCalendar;
+    private TextView dipartimento;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    Gson gson;
-    User user;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private Gson gson;
+    private User user;
 
-    AlertDialog alertDialog;
-    AlertDialog.Builder builder;
-    View view;
-    ProgressDialog progressDialog;
+    private AlertDialog alertDialog;
+    private AlertDialog.Builder builder;
+    private View view;
+    private ProgressDialog progressDialog;
 
-    List<Giorno> giorni;
-    List<String> colori;
+    private List<Giorno> giorni;
+    private List<String> colori;
 
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
-    FirebaseUser firebaseUser;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,7 +215,7 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     @SuppressLint({"InflateParams", "SetTextI18n"})
-    public void createDialogEliminaCalendario() {
+    private void createDialogEliminaCalendario() {
 
         builder = new AlertDialog.Builder(this);
         layoutInflater = getLayoutInflater();
@@ -260,7 +261,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
-    public void uploadUserIntoDatabase() {
+    private void uploadUserIntoDatabase() {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -291,7 +292,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
-    public void getUserFromSharedPreferences() {
+    private void getUserFromSharedPreferences() {
 
         sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
         gson = new Gson();
@@ -300,7 +301,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
-    public void updateSharedPreferences() {
+    private void updateSharedPreferences() {
 
         gson = new Gson();
         String json = gson.toJson(user);
@@ -316,7 +317,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
-    public void removeSharedPreferencesTimeTable() {
+    private void removeSharedPreferencesTimeTable() {
 
         sharedPreferences = getSharedPreferences("TimeTable", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -365,7 +366,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 */
 
-    public boolean isPresent(List<String> colors, String materia) {
+    private boolean isPresent(List<String> colors, String materia) {
         for (String color : colors) {
             if (color.equals(materia))
                 return true;
@@ -374,7 +375,7 @@ public class CalendarActivity extends AppCompatActivity {
         return false;
     }
 
-    public void getTimeTableFromSharedPreferences() {
+    private void getTimeTableFromSharedPreferences() {
 
         sharedPreferences = getSharedPreferences("TimeTable", Context.MODE_PRIVATE);
         gson = new Gson();
@@ -385,7 +386,7 @@ public class CalendarActivity extends AppCompatActivity {
         giorni = gson.fromJson(json, type);
     }
 
-    public int fromStringToInt(String orario) {
+    private int fromStringToInt(String orario) {
 
         String clear = null;
 
@@ -405,7 +406,7 @@ public class CalendarActivity extends AppCompatActivity {
             }
         }
 
-        return Integer.parseInt(clear);
+        return Integer.parseInt(Objects.requireNonNull(clear));
 
     }
 

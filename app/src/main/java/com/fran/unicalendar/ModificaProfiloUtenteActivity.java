@@ -37,53 +37,54 @@ import java.util.Map;
 
 public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
-    ImageView undo, save;
-    EditText email;
+    private ImageView undo;
+    private ImageView save;
+    private EditText email;
 
-    Spinner spinnerTipo;
-    String tipo = "Laurea Triennale";
+    private Spinner spinnerTipo;
+    private String tipo = "Laurea Triennale";
 
-    Spinner spinnerAnno;
-    ArrayAdapter<CharSequence> adapterAnno;
-    String anno = "Primo Anno";
+    private Spinner spinnerAnno;
+    private ArrayAdapter<CharSequence> adapterAnno;
+    private String anno = "Primo Anno";
 
-    Spinner spinnerUniversita;
-    String universita = "Universita' degli Studi di Salerno";
+    private Spinner spinnerUniversita;
+    private String universita = "Universita' degli Studi di Salerno";
 
-    Spinner spinnerDipartimento;
-    ArrayAdapter<CharSequence> adapterDipartimento;
-    String dipartimento = "Chimica";
+    private Spinner spinnerDipartimento;
+    private ArrayAdapter<CharSequence> adapterDipartimento;
+    private String dipartimento = "Chimica";
 
-    Spinner spinnerSemestre;
-    String semestre = "Primo Semestre";
+    private Spinner spinnerSemestre;
+    private String semestre = "Primo Semestre";
 
-    Spinner spinnerTipoSuddivisione;
-    String tipoSuddivisione;
+    private Spinner spinnerTipoSuddivisione;
+    private String tipoSuddivisione;
 
-    Spinner spinnerSuddivisione;
-    ArrayAdapter<CharSequence> adapterSuddivisione;
-    String suddivisione = "Pari";
+    private Spinner spinnerSuddivisione;
+    private ArrayAdapter<CharSequence> adapterSuddivisione;
+    private String suddivisione = "Pari";
 
     Intent intent;
-    TextView nomeCognome;
-    User user;
-    Map<String, Object> hashMapUser;
-    ImageView imageUser;
-    Handler handler;
+    private TextView nomeCognome;
+    private User user;
+    private Map<String, Object> hashMapUser;
+    private ImageView imageUser;
+    private Handler handler;
 
-    FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-    FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private FirebaseFirestore firebaseFirestore;
 
-    SharedPreferences.Editor editor;
-    SharedPreferences sharedPreferences;
-    Gson gson;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
+    private Gson gson;
 
-    AlertDialog alertDialog;
-    AlertDialog.Builder builder;
-    View view;
-    ProgressDialog progressDialog;
-    LayoutInflater layoutInflater;
+    private AlertDialog alertDialog;
+    private AlertDialog.Builder builder;
+    private View view;
+    private ProgressDialog progressDialog;
+    private LayoutInflater layoutInflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,7 +226,8 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     }
 
-    public void updateUser() {
+    @SuppressWarnings("deprecation")
+    private void updateUser() {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -246,7 +248,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     }
 
-    public void updateDataBase() {
+    private void updateDataBase() {
 
         hashMapUser = user.getHashMapUser();
 
@@ -269,7 +271,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
                 });
     }
 
-    public void updateSharedPreferences() {
+    private void updateSharedPreferences() {
 
         gson = new Gson();
         String json = gson.toJson(user);
@@ -285,7 +287,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     }
 
-    public void removeSharedPreferencesTimeTable() {
+    private void removeSharedPreferencesTimeTable() {
 
         sharedPreferences = getSharedPreferences("TimeTable", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -297,7 +299,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     }
 
-    public void getUserFromSharedPreferences() {
+    private void getUserFromSharedPreferences() {
 
         sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
         gson = new Gson();
@@ -306,7 +308,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     }
 
-    public void initFirebase() {
+    private void initFirebase() {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -314,7 +316,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     }
 
-    public void initView() {
+    private void initView() {
 
         setupView();
         settingView();
@@ -323,7 +325,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     }
 
-    public void setupView() {
+    private void setupView() {
 
         nomeCognome = findViewById(R.id.nomeCognomeUtente_ModificaProfiloUtenteActivity);
         save = findViewById(R.id.save_ModificaProfiloUtenteActivity);
@@ -340,14 +342,14 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     }
 
-    public void settingView() {
+    private void settingView() {
 
         nomeCognome.setText(user.getNome().concat(" ").concat(user.getCognome()));
         email.setText(user.getEmail());
 
     }
 
-    public void setupImageUser() {
+    private void setupImageUser() {
 
         handler.post(new Runnable() {
             @Override
@@ -394,13 +396,13 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
         });
     }
 
-    public void disableView() {
+    private void disableView() {
 
         email.setEnabled(false);
 
     }
 
-    public void initTipo(AdapterView<?> adapterView) {
+    private void initTipo(AdapterView<?> adapterView) {
 
         switch (adapterView.getSelectedItem().toString()) {
             case "Laurea Triennale":
@@ -580,7 +582,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     }
 
-    public void initUniversities(AdapterView<?> adapterView) {
+    private void initUniversities(AdapterView<?> adapterView) {
 
         adapterDipartimento.notifyDataSetChanged();
 
@@ -767,7 +769,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
 
     }
 
-    public void initTipoSuddivisione(AdapterView<?> adapterView) {
+    private void initTipoSuddivisione(AdapterView<?> adapterView) {
 
         switch (adapterView.getSelectedItem().toString()) {
             case "Matricola Pari o Dispari":
@@ -798,7 +800,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
     }
 
     @SuppressLint({"InflateParams", "SetTextI18n"})
-    public void createDialogUndoModify() {
+    private void createDialogUndoModify() {
 
         builder = new AlertDialog.Builder(this);
         layoutInflater = getLayoutInflater();
@@ -845,7 +847,7 @@ public class ModificaProfiloUtenteActivity extends AppCompatActivity {
     }
 
     @SuppressLint({"InflateParams", "SetTextI18n"})
-    public void createDialogSaveModify() {
+    private void createDialogSaveModify() {
 
         builder = new AlertDialog.Builder(this);
         layoutInflater = getLayoutInflater();

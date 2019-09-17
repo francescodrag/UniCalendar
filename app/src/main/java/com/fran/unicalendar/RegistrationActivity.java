@@ -18,27 +18,27 @@ import java.util.regex.Pattern;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    User user;
-    EditText Name;
-    String nome;
-    EditText Surname;
-    String cognome;
-    Spinner spinnerTipo;
-    String tipo = "Laurea Triennale";
-    Spinner spinnerAnno;
-    ArrayAdapter<CharSequence> adapterAnno;
-    String anno = "Primo Anno";
-    Spinner spinnerUniversita;
-    String universita = "Universita' degli Studi di Salerno";
-    Spinner spinnerDipartimento;
-    ArrayAdapter<CharSequence> adapterDipartimento;
-    String dipartimento = "Chimica";
-    RadioButton primoSemestre;
-    String semestre = "Primo Semestre";
-    ImageView goToRegistration2;
-    ImageView goBackToLogin;
+    private User user;
+    private EditText Name;
+    private String nome;
+    private EditText Surname;
+    private String cognome;
+    private Spinner spinnerTipo;
+    private String tipo = "Laurea Triennale";
+    private Spinner spinnerAnno;
+    private ArrayAdapter<CharSequence> adapterAnno;
+    private String anno = "Primo Anno";
+    private Spinner spinnerUniversita;
+    private String universita = "Universita' degli Studi di Salerno";
+    private Spinner spinnerDipartimento;
+    private ArrayAdapter<CharSequence> adapterDipartimento;
+    private String dipartimento = "Chimica";
+    private RadioButton primoSemestre;
+    private String semestre = "Primo Semestre";
+    private ImageView goToRegistration2;
+    private ImageView goBackToLogin;
 
-    protected static boolean nameValidator(String nome) {
+    private static boolean nameValidator(String nome) {
 
         Pattern pattern;
         Matcher matcher;
@@ -51,7 +51,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    protected static boolean surnameValidator(String userSurname) {
+    private static boolean surnameValidator(String userSurname) {
 
         Pattern pattern;
         Matcher matcher;
@@ -154,7 +154,7 @@ public class RegistrationActivity extends AppCompatActivity {
     /**
      * Instantiate the element of View
      */
-    public void setupView() {
+    private void setupView() {
         Name = findViewById(R.id.name_RegistrationActivity);
         Surname = findViewById(R.id.surname_RegistrationActivity);
         spinnerTipo = findViewById(R.id.tipologies_RegistrationActivity);
@@ -166,7 +166,7 @@ public class RegistrationActivity extends AppCompatActivity {
         goBackToLogin = findViewById(R.id.goBackToLogin_RegistrationActivity);
     }
 
-    public boolean validator() {
+    private boolean validator() {
 
         if (nome.isEmpty()) {
             Name.setError("Il Nome non puo' essere vuoto!\nInserisci un Nome che inizi con la lettera maiuscola compreso tra i 3 ed i 31 caratteri.");
@@ -199,7 +199,7 @@ public class RegistrationActivity extends AppCompatActivity {
     /**
      * Check the value of Semester, checked by the user
      */
-    public void SemesterValidator() {
+    private void SemesterValidator() {
         if (primoSemestre.isChecked()) {
             semestre = "Primo Semestre";
         } else {
@@ -219,7 +219,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    public void initTipo(AdapterView<?> adapterView) {
+    private void initTipo(AdapterView<?> adapterView) {
 
         switch (adapterView.getSelectedItem().toString()) {
             case "Laurea Triennale":
@@ -399,7 +399,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    public void initUniversities(AdapterView<?> adapterView) {
+    private void initUniversities(AdapterView<?> adapterView) {
 
         adapterDipartimento.notifyDataSetChanged();
 

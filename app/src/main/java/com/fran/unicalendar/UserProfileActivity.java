@@ -20,15 +20,15 @@ import com.google.gson.Gson;
 public class UserProfileActivity extends AppCompatActivity {
 
 
-    ImageView edit;
-    EditText email;
-    EditText tipoUniversita;
-    EditText annoUniversita;
-    EditText universita;
-    EditText dipartimento;
-    EditText semestre;
-    EditText tipoSuddivisione;
-    EditText suddivisione;
+    private ImageView edit;
+    private EditText email;
+    private EditText tipoUniversita;
+    private EditText annoUniversita;
+    private EditText universita;
+    private EditText dipartimento;
+    private EditText semestre;
+    private EditText tipoSuddivisione;
+    private EditText suddivisione;
 
     //ArrayAdapter<CharSequence> adapterTipo;
     //String tipo;
@@ -47,17 +47,17 @@ public class UserProfileActivity extends AppCompatActivity {
     //String changedSemestre;
 
     Intent intent;
-    TextView nomeCognome;
-    User user;
-    ImageView imageUser;
-    Handler handler;
+    private TextView nomeCognome;
+    private User user;
+    private ImageView imageUser;
+    private Handler handler;
 
-    FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-    FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private FirebaseFirestore firebaseFirestore;
 
-    SharedPreferences sharedPreferences;
-    Gson gson;
+    private SharedPreferences sharedPreferences;
+    private Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +157,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    public void getUserFromSharedPreferences() {
+    private void getUserFromSharedPreferences() {
 
         sharedPreferences = getSharedPreferences("User_Preferences", Context.MODE_PRIVATE);
         gson = new Gson();
@@ -166,7 +166,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    public void initFirebase() {
+    private void initFirebase() {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -174,7 +174,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    public void initView() {
+    private void initView() {
 
         setupView();
         settingView();
@@ -183,7 +183,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    public void setupView() {
+    private void setupView() {
 
         nomeCognome = findViewById(R.id.nomeCognomeUtente_UserProfileActivity);
         edit = findViewById(R.id.edit_UserProfileActivity);
@@ -199,7 +199,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    public void settingView() {
+    private void settingView() {
 
         nomeCognome.setText(user.getNome().concat(" ").concat(user.getCognome()));
         email.setText(user.getEmail());
@@ -213,7 +213,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    public void setupImageUser() {
+    private void setupImageUser() {
 
         handler.post(new Runnable() {
             @Override
@@ -260,7 +260,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void disableView() {
+    private void disableView() {
 
         email.setEnabled(false);
         tipoUniversita.setEnabled(false);

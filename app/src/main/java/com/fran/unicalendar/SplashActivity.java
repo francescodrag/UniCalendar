@@ -23,15 +23,16 @@ import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
 
-    FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-    FirebaseFirestore firebaseFirestore;
-    User user;
-    Intent goToLogin, goToHome;
-    Gson gson;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    boolean shouldExecuteOnResume;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private FirebaseFirestore firebaseFirestore;
+    private User user;
+    private Intent goToLogin;
+    private Intent goToHome;
+    private Gson gson;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private boolean shouldExecuteOnResume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +142,7 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    public void initFirebaseReference() {
+    private void initFirebaseReference() {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -149,7 +150,7 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    public void initIntents() {
+    private void initIntents() {
 
         goToHome = new Intent(SplashActivity.this, HomeActivity.class);
         goToLogin = new Intent(SplashActivity.this, LoginActivity.class);

@@ -30,25 +30,25 @@ import java.util.regex.Pattern;
 
 public class Registration2Activity extends AppCompatActivity {
 
-    User user;
-    FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
-    FirebaseFirestore firebaseFirestore;
-    Map<String, Object> hashMapUser;
-    Spinner spinnerTipoSuddivisione;
-    String tipoSuddivisione = "Matricola Pari o Dispari";
-    Spinner spinnerSuddivisione;
-    ArrayAdapter<CharSequence> adapterSuddivisione;
-    String suddivisione = "Pari";
-    EditText Email;
-    String email;
-    EditText Password;
-    String password;
-    EditText RipetiPassword;
-    String ripetiPassword;
-    ImageView signUp;
+    private User user;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private FirebaseFirestore firebaseFirestore;
+    private Map<String, Object> hashMapUser;
+    private Spinner spinnerTipoSuddivisione;
+    private String tipoSuddivisione = "Matricola Pari o Dispari";
+    private Spinner spinnerSuddivisione;
+    private ArrayAdapter<CharSequence> adapterSuddivisione;
+    private String suddivisione = "Pari";
+    private EditText Email;
+    private String email;
+    private EditText Password;
+    private String password;
+    private EditText RipetiPassword;
+    private String ripetiPassword;
+    private ImageView signUp;
 
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +112,7 @@ public class Registration2Activity extends AppCompatActivity {
         });
     }
 
-    public void setupView() {
+    private void setupView() {
 
         spinnerTipoSuddivisione = findViewById(R.id.tipoSuddivisone_Registration2Activity);
         spinnerSuddivisione = findViewById(R.id.suddivisione_Registration2Activity);
@@ -124,7 +124,7 @@ public class Registration2Activity extends AppCompatActivity {
 
     }
 
-    public void initTipoSuddivisione(AdapterView<?> adapterView) {
+    private void initTipoSuddivisione(AdapterView<?> adapterView) {
 
         switch (adapterView.getSelectedItem().toString()) {
             case "Matricola Pari o Dispari":
@@ -147,13 +147,13 @@ public class Registration2Activity extends AppCompatActivity {
 
     }
 
-    public boolean validator() {
+    private boolean validator() {
 
         if (email.isEmpty()) {
             Email.setError("Il Campo email non puo' essere vuoto!");
             Email.requestFocus();
             return false;
-        } else if (!emailValidator()) {
+        } else if (!isEmailValid(email)) {
             Email.setError("L'email inserita non e' valida!");
             Email.requestFocus();
             return false;
@@ -184,6 +184,8 @@ public class Registration2Activity extends AppCompatActivity {
         return true;
     }
 
+    /*
+
     public boolean emailValidator() {
 
         Pattern pattern;
@@ -196,7 +198,13 @@ public class Registration2Activity extends AppCompatActivity {
 
     }
 
-    public boolean passwordValidator() {
+    */
+
+    private boolean isEmailValid(String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean passwordValidator() {
 
         Pattern pattern;
         Matcher matcher;
@@ -209,13 +217,13 @@ public class Registration2Activity extends AppCompatActivity {
 
     }
 
-    public boolean comparePassword() {
+    private boolean comparePassword() {
 
         return !password.equals(ripetiPassword);
 
     }
 
-    public void fillUser() {
+    private void fillUser() {
 
         user.setTipoSuddivisione(tipoSuddivisione);
         user.setSuddivisione(suddivisione);
